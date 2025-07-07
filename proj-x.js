@@ -75,16 +75,20 @@ const ass_content = {
    }
 };
 
+// this helper function accounts for poor text handling abilities in stoyrline and replacees newline with <br><br>
+function replaceNewlines(text) {
+  let textb =  text.replace(/\n/g, '<br><br>');
+  console.log(textb);
+  return textb
+}
+
+// this loads a new assessmetn question and calls various helper functions.
 function loadquest(){
 // determine the number of questions so we can advance to results when all have been asked by setting a SL variable to hold the total num of questions.
 var q_count = player.GetVar("skill_ass_q_count");
 var cur_ass_code = player.GetVar("current_assessment");
-
-   
 const numQuestions = Object.keys(ass_content).length;
 player.SetVar("skill_ass_q_total",numQuestions);
-
-
 function filterQuestion(ass_content, questionKey) {
   if (ass_content.hasOwnProperty(questionKey)) {
     return {
@@ -94,23 +98,10 @@ function filterQuestion(ass_content, questionKey) {
     return {};
   }
 }
-
-// this funciton accounts for poor text handling abilities in stoyrline and replacees newline with <br><br>
-
-function replaceNewlines(text) {
-  let textb =  text.replace(/\n/g, '<br><br>');
-  console.log(textb);
-  return textb
-  
-}
-
 let curr_question = cur_ass_code+"_q"+q_count;
-
 const fq = filterQuestion(ass_content, curr_question);
 const dist_array = [{value: 1, text: fq[curr_question].dist_1},{value: 2, text: fq[curr_question].dist_2},{value: 3, text: fq[curr_question].dist_3},{value: 4, text: fq[curr_question].dist_4},{value: 5, text: fq[curr_question].dist_5}];
-
-
-// optional function to shuffle the distractors. Makes debug or test mroe difficult.
+// optional function to shuffle the distractors. Makes debug or test more difficult.
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -118,17 +109,30 @@ function shuffleArray(array) {
   }
   return array;
 }
-
-
 const random_dist = shuffleArray(dist_array);
-
 player.SetVar("ass_stem",replaceNewlines(ass_content[curr_question].stem));
 player.SetVar("cur_ass_task",ass_content[curr_question].task_code)
-
 random_dist.forEach((item, index) => {
 let count = index + 1;
 player.SetVar("ass_ch_"+count,item.text);
 player.SetVar("ch"+count+"_val",item.value);
 });
-
 };
+
+// handles assessment answer selection processing.
+function handlechoice (q_value) {
+var current_task = player.GetVar("cur_ass_task");
+var ass_code = player.GetVar("current_assessment");
+player.SetVar(current_task+"_sc",q_value);
+let curscore = player.GetVar(ass_code+"_score");
+curscore = q_value + curscore;
+let q_total = player.GetVar("skill_ass_q_total");
+player.SetVar(ass_code+"_score",curscore);
+function calculatePercentageScore(pointsEarned, numberOfQuestions) {
+  const maxPoints = numberOfQuestions * 5;
+  const percentage = (pointsEarned / maxPoints) * 100;
+  return percentage.toFixed(2); // returns percentage with 2 decimal places
+}
+let newpercent = calculatePercentageScore(curscore, q_total);
+player.SetVar(ass_code+"_score_percent",newpercent);
+}
