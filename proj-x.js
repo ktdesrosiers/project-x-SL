@@ -78,7 +78,7 @@ const ass_content = {
 // this helper function accounts for poor text handling abilities in stoyrline and replacees newline with <br><br>
 function replaceNewlines(text) {
   let textb =  text.replace(/\n/g, '<br><br>');
-  console.log(textb);
+  //console.log(textb);
   return textb
 }
 
@@ -137,5 +137,6 @@ function calculatePercentageScore(pointsEarned, numberOfQuestions) {
 }
 
 var newpercent = calculatePercentageScore(curscore, q_total);
+   console.log(newpercent);
 player.SetVar(ass_code+"_score_percent",newpercent);
 }
