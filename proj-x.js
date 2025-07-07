@@ -1,6 +1,4 @@
 var player = GetPlayer();
-var q_count = player.GetVar("skill_ass_q_count");
-var cur_ass_code = player.GetVar("current_assessment");
 
 const ass_content = {
    "st_q1": {
@@ -79,7 +77,10 @@ const ass_content = {
 
 function loadquest(){
 // determine the number of questions so we can advance to results when all have been asked by setting a SL variable to hold the total num of questions.
+var q_count = player.GetVar("skill_ass_q_count");
+var cur_ass_code = player.GetVar("current_assessment");
 
+   
 const numQuestions = Object.keys(ass_content).length;
 player.SetVar("skill_ass_q_total",numQuestions);
 
