@@ -120,13 +120,13 @@ player.SetVar("ch"+count+"_val",item.value);
 };
 
 // handles assessment answer selection processing.
-function handlechoice(q_value) {
+function handlechoice(value) {
 var current_task = player.GetVar("cur_ass_task");
-var q_value = player.GetVar(q_value+"_val");
+var q_value = player.GetVar(value+"_val");
 var ass_code = player.GetVar("current_assessment");
 player.SetVar(current_task+"_sc",q_value);
 var curscore = player.GetVar(ass_code+"_score");
-curscore = player.GetVar(q_value+"_val") + curscore;
+curscore = q_value + curscore;
 var q_total = player.GetVar("skill_ass_q_total");
 player.SetVar(ass_code+"_score",curscore);
 
