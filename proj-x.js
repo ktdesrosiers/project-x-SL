@@ -125,9 +125,9 @@ var current_task = player.GetVar("cur_ass_task");
 var q_value = player.GetVar(q_value+"_val");
 var ass_code = player.GetVar("current_assessment");
 player.SetVar(current_task+"_sc",q_value);
-let curscore = player.GetVar(ass_code+"_score");
+var curscore = player.GetVar(ass_code+"_score");
 curscore = player.GetVar(q_value+"_val") + curscore;
-let q_total = player.GetVar("skill_ass_q_total");
+var q_total = player.GetVar("skill_ass_q_total");
 player.SetVar(ass_code+"_score",curscore);
 
 function calculatePercentageScore(pointsEarned, numberOfQuestions) {
@@ -136,6 +136,6 @@ function calculatePercentageScore(pointsEarned, numberOfQuestions) {
   return percentage.toFixed(2); // returns percentage with 2 decimal places
 }
 
-let newpercent = calculatePercentageScore(curscore, q_total);
+var newpercent = calculatePercentageScore(curscore, q_total);
 player.SetVar(ass_code+"_score_percent",newpercent);
 }
