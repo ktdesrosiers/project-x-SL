@@ -120,7 +120,7 @@ player.SetVar("ch"+count+"_val",item.value);
 };
 
 // handles assessment answer selection processing.
-function handlechoice (q_value) {
+function handlechoice(q_value) {
 var current_task = player.GetVar("cur_ass_task");
 var q_value = player.GetVar(q_value+"_val");
 var ass_code = player.GetVar("current_assessment");
