@@ -1,4 +1,96 @@
 var player = GetPlayer();
+const l_data =[
+ {
+   "code": "st1",
+   "skill": "Market Research",
+   "lesson": "Researching Disease and Therapeutic Landscapes"
+ },
+ {
+   "code": "st2",
+   "skill": "Data Analysis",
+   "lesson": "Identifying Data for Publication"
+ },
+ {
+   "code": "st3",
+   "skill": "Needs Assessment",
+   "lesson": "Assessing Audience Information and Educational Needs"
+ },
+ {
+   "code": "st4",
+   "skill": "Scoping",
+   "lesson": "Defining Publication Plan Scope"
+ },
+ {
+   "code": "st5",
+   "skill": "Committee Management",
+   "lesson": "Managing Steering Committees"
+ },
+ {
+   "code": "st6",
+   "skill": "Strategic Publishing",
+   "lesson": "Applying to Scientific Communcations Platforms"
+ },
+ {
+   "code": "st7",
+   "skill": "Tactical Planning",
+   "lesson": "Developing Tactical Publication Plans"
+ },
+ {
+   "code": "st8",
+   "skill": "Strategic Adaptation",
+   "lesson": "Monitoring Evolving Trends in Publication Planning"
+ },
+ {
+   "code": "im1",
+   "skill": "Outreach",
+   "lesson": "Engaging Authors and Contributors for Publication"
+ },
+ {
+   "code": "im2",
+   "skill": "Workflow Processing",
+   "lesson": "Effective Writing, Review, and Approval Processes"
+ },
+ {
+   "code": "im3",
+   "skill": "Publication Administration",
+   "lesson": "Managing Administrative Aspects of Publication Plans"
+ },
+ {
+   "code": "im4",
+   "skill": "Analytics",
+   "lesson": "Tracking Metrics of Publications and Overall Plans"
+ },
+ {
+   "code": "im5",
+   "skill": "Implementation Adaptation",
+   "lesson": "Monitoring Evolving Trends in Implementation"
+ },
+ {
+   "code": "et1",
+   "skill": "Compliance",
+   "lesson": "Maintaining Knowledge of Standards, Guidelines, and Position Statements"
+ },
+ {
+   "code": "et2",
+   "skill": "Standards Application",
+   "lesson": "Applying Standards of Ethical Conduct "
+ },
+ {
+   "code": "et3",
+   "skill": "Disclosure Processing",
+   "lesson": "Ensuring Proper Disclosures"
+ },
+ {
+   "code": "et4",
+   "skill": "Recognition",
+   "lesson": "Acknowledging Contributors"
+ },
+ {
+   "code": "et5",
+   "skill": "Adaptive Ethics",
+   "lesson": "Monitoring Ethical Trends"
+ }
+];
 const ass_content = {
   // Developing Publication Plans - Strategy
   "st_q1": {
@@ -233,4 +325,27 @@ function calculatePercentageScore(pointsEarned, numberOfQuestions) {
 var newpercent = calculatePercentageScore(curscore, q_total);
    console.log(newpercent);
 player.SetVar(ass_code+"_score_percent",newpercent);
+}
+
+function displayresults(){
+var ass_code = player.GetVar("current_assessment");
+var prior_ar = [];
+const scored_data = l_data.map(item => {
+  var varName = ass_code + item.code.slice(2) + "_sc";
+  var score = player.GetVar(varName);
+  if (typeof score !== "number") score = 0;
+  return { ...item, score: score };
+});
+const needs_development = scored_data
+  .filter(item => item.score >= 1 && item.score <= 3)
+  .sort((a, b) => a.score - b.score);
+let displayString;
+if (needs_development.length > 0) {
+  displayString = needs_development
+    .map(item => `${item.skill}`)
+    .join('\n');
+} else {
+  displayString = "You don't have any pressing development needs right now, but I'm sure you can fine tune some skills.";
+}
+player.SetVar("prior_skills", displayString);
 }
