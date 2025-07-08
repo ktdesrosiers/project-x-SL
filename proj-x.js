@@ -274,7 +274,7 @@ function loadquest(){
 var q_count = player.GetVar("skill_ass_q_count");
 var cur_ass_code = player.GetVar("current_assessment");
 const thisquiz = Object.keys(ass_content)
-  .filter(key => key.startsWith(cur_Ass_Code+"_q"))
+  .filter(key => key.startsWith(cur_ass_code+"_q"))
   .map(key => ass_content[key]);
 const numQuestions = Object.keys(thisquiz).length;
 player.SetVar("skill_ass_q_total",numQuestions);
