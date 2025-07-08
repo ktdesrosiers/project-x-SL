@@ -340,7 +340,7 @@ const scored_data = l_data.map(item => {
   return { ...item, score: score };
 });
 const needs_development = scored_data
-  .filter(item => item.score >= 1 && item.score <= 3)
+  .filter(item => item.score >= 1 && item.score <= 3 && item.code.startsWith(ass_code))
   .sort((a, b) => a.score - b.score);
 let displayString;
 if (needs_development.length > 0) {
