@@ -273,7 +273,9 @@ function loadquest(){
 // determine the number of questions so we can advance to results when all have been asked by setting a SL variable to hold the total num of questions.
 var q_count = player.GetVar("skill_ass_q_count");
 var cur_ass_code = player.GetVar("current_assessment");
- const thisquiz = ass_content.filter((question) => question.includes(cur_ass_code));
+const thisquiz = Object.keys(ass_content)
+  .filter(key => key.startsWith(cur_Ass_Code+"_q"))
+  .map(key => ass_content[key]);
 const numQuestions = Object.keys(thisquiz).length;
 player.SetVar("skill_ass_q_total",numQuestions);
 function filterQuestion(ass_content, questionKey) {
