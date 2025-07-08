@@ -81,6 +81,7 @@ const ass_content = {
     "dist_2": "Send an email to all investigators involved in the Phase III trial asking for volunteers.",
     "dist_3": "Review the publication plan to identify pre-defined criteria for authorship and discuss potential candidates with the medical affairs lead.",
     "dist_4": "Consult with your internal medical writing team to see if they can take on the lead authorship role.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "im1"
   },
   "im_q2": {
@@ -89,6 +90,7 @@ const ass_content = {
     "dist_2": "Focusing solely on grammatical errors and formatting issues.",
     "dist_3": "The need for thorough and constructive feedback based on the agreed-upon publication objectives and data integrity.",
     "dist_4": "That only minor edits are expected at this stage to avoid delays.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "im2"
   },
   "im_q3": {
@@ -97,6 +99,7 @@ const ass_content = {
     "dist_2": "Schedule ad-hoc meetings to discuss progress on each publication.",
     "dist_3": "Implement a centralized tracking system with key milestones, responsibilities, and deadlines for each publication.",
     "dist_4": "Delegate all administrative tasks to an administrative assistant.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "im3"
   },
   "im_q4": {
@@ -105,6 +108,7 @@ const ass_content = {
     "dist_2": "Tracking the number of citations the publications receive.",
     "dist_3": "Primarily focused on whether the publications met the initial submission deadlines.",
     "dist_4": "Tracking a range of metrics, including journal impact factor, citation counts, website/social media engagement, and alignment with the overall communication objectives.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "im4"
   },
   "im_q5": {
@@ -113,6 +117,7 @@ const ass_content = {
     "dist_2": "Immediately switch all planned publications to open access, regardless of budget or journal suitability.",
     "dist_3": "Review the publication plan and budget to assess the feasibility and strategic implications of incorporating open-access options for upcoming publications.",
     "dist_4": "Discuss the trend with the legal department to understand any potential compliance issues.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "im5"
   },
 
@@ -123,6 +128,7 @@ const ass_content = {
     "dist_2": "Quickly skim the guideline to see if it mentions HY-P832 specifically.",
     "dist_3": "Thoroughly review the new guideline and assess its potential impact on the planned post-hoc publication, making necessary adjustments.",
     "dist_4": "Delegate the responsibility of reviewing the guideline to a junior team member.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "et1"
   },
   "et_q2": {
@@ -131,6 +137,7 @@ const ass_content = {
     "dist_2": "Politely explain the authorship criteria (e.g., ICMJE recommendations) and engage in a transparent discussion about their contributions.",
     "dist_3": "Defer the decision to the lead author.",
     "dist_4": "Escalate the issue to your manager without attempting to resolve it directly.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "et2"
   },
   "et_q3": {
@@ -139,6 +146,7 @@ const ass_content = {
     "dist_2": "Simply list the disclosure without providing any context.",
     "dist_3": "Ensure the disclosure is clearly stated in the publication, including the nature of the interest and its relevance to the topic, adhering to journal guidelines.",
     "dist_4": "Ask the author to withdraw from the publication.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "et3"
   },
   "et_q4": {
@@ -147,6 +155,7 @@ const ass_content = {
     "dist_2": "Include a general statement thanking \"all contributors.\"",
     "dist_3": "Include a specific acknowledgement section in the publication detailing the roles and contributions of each non-author contributor, with their permission.",
     "dist_4": "Only acknowledge individuals from within your own company.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "et4"
   },
   "et_q5": {
@@ -155,6 +164,7 @@ const ass_content = {
     "dist_2": "Continue with the current processes as they have been previously approved.",
     "dist_3": "Proactively research the new regulatory expectations and explore opportunities to enhance transparency and incorporate plain language summaries in relevant HY-P832 publications.",
     "dist_4": "Only consider these changes for publications related to new drugs, not existing ones like HY-P832.",
+    "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "et5"
   }
 };
