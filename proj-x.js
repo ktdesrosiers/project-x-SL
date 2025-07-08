@@ -330,6 +330,7 @@ player.SetVar(ass_code+"_score_percent",newpercent);
 }
 
 function displayresults(){
+player.SetVar("skill_ass_q_count",1);
 var ass_code = player.GetVar("current_assessment");
 var prior_ar = [];
 const scored_data = l_data.map(item => {
