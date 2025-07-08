@@ -165,8 +165,6 @@ const ass_content = {
     "dist_5": "Happily implement the guidelines and standards you have developed as lead of a internal and external working group related to developing plain language summaries.",
     "task_code": "st8"
   },
-
-  // Implementing a Publication Plan - Implementation
   "im_q1": {
     "stem": "You are a Publications Manager at Innovate Pharma, and the publication plan for HY-P832 is approved. Your next step is to begin implementing this plan, starting with identifying authors for a key peer-reviewed manuscript.\nAction: You need to identify a lead author for the primary publication reporting the Phase III clinical trial results of HY-P832.\nQuestion: Which of the following would be your most appropriate first step in identifying a lead author?\nChoose a single response:",
     "dist_1": "Immediately reach out to the most senior physician listed on the study protocol.",
@@ -212,8 +210,6 @@ const ass_content = {
     "dist_5": "Content TBD - do we need 4 or 5?",
     "task_code": "im5"
   },
-
-  // Foster Ethical and Compliant Behavior in Publication Plans - Ethics
   "et_q1": {
     "stem": "You are drafting a publication outlining a post-hoc analysis of the HY-P832 clinical trial data. A new guideline from a relevant professional society regarding post-hoc analyses has recently been released.\nWhat is your responsibility regarding this new guideline?",
     "dist_1": "Assume the existing publication plan is sufficient and proceed without reviewing the new guideline.",
@@ -272,13 +268,15 @@ function replaceNewlines(text) {
 function loadquest(){
 // determine the number of questions so we can advance to results when all have been asked by setting a SL variable to hold the total num of questions.
 var q_count = player.GetVar("skill_ass_q_count");
+ console.log(q_count);
 var cur_ass_code = player.GetVar("current_assessment");
 const thisquiz = Object.keys(ass_content)
   .filter(key => key.startsWith(cur_ass_code+"_q"))
   .map(key => ass_content[key]);
 const numQuestions = Object.keys(thisquiz).length;
 player.SetVar("skill_ass_q_total",numQuestions);
-function filterQuestion(ass_content, questionKey) {
+
+ function filterQuestion(ass_content, questionKey) {
   if (ass_content.hasOwnProperty(questionKey)) {
     return {
       [questionKey]: ass_content[questionKey]
@@ -287,6 +285,7 @@ function filterQuestion(ass_content, questionKey) {
     return {};
   }
 }
+ 
 let curr_question = cur_ass_code+"_q"+q_count;
 const fq = filterQuestion(ass_content, curr_question);
 const dist_array = [{value: 1, text: fq[curr_question].dist_1},{value: 2, text: fq[curr_question].dist_2},{value: 3, text: fq[curr_question].dist_3},{value: 4, text: fq[curr_question].dist_4},{value: 5, text: fq[curr_question].dist_5}];
