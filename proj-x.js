@@ -371,12 +371,12 @@ var positions = [];
  }
 
 // onboarding objects
-const ethicsGroup = object('6GOcybBIo54');
-const ethicsRing = object('6WAwXPWcgLu');
-const impGroup = object('6kTK4LXHKfk');
-const iring1 = object('6WXLXeYOLbl');
-const stratGroup = object('5oZ8jY1scCS');
-const stratRing = object('6jMHI0jQuZK');
+const ethicsGroup = player.object('6GOcybBIo54');
+const ethicsRing = player.object('6WAwXPWcgLu');
+const impGroup = player.object('6kTK4LXHKfk');
+const iring1 = player.object('6WXLXeYOLbl');
+const stratGroup = player.object('5oZ8jY1scCS');
+const stratRing = player.object('6jMHI0jQuZK');
 // overview objects TBD 
 
 var st_score_raw = player.GetVar("st_score_percent");
