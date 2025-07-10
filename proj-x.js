@@ -415,7 +415,7 @@ function activatedp() {
         flatpickr(dateInput, {
             onChange: (selectedDates, dateStr) => {
                 dateInput.value = dateStr; // Set the selected date in the input field
-                player.setVar('targ_date', dateStr);
+                player.setVar('dateSelected', dateStr);
             },
             onClose: (selectedDates, dateStr) => {
                 dateInput.disabled = true; 
