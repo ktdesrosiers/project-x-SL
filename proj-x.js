@@ -363,27 +363,32 @@ function displaycoaching_progress(template){
 const ob_pos = [583,840,1100];
 const ov_pos = [458,842,1225];
 var positions = [];
+var etGroup,etRing,stGroup,stRing,impGroup,impRing;
  
  if (template == "onboarding") {
   positions = ob_pos;
+  etGroup = player.object('6GOcybBIo54');
+  etRing = player.object('6WAwXPWcgLu');
+  impGroup = player.object('6kTK4LXHKfk');
+  impRing = player.object('6WXLXeYOLbl');
+  stGroup = player.object('5oZ8jY1scCS');
+  stRing = player.object('6jMHI0jQuZK');
  } else {
   positions = ov_pos;
+  etGroup = player.object('5hSdYw2TV9F');
+  etRing = player.object('5knReKJyuLF');
+  impGroup = player.object('601IiGhuWVK');
+  impRing = player.object('5zKYuNJf4mO');
+  stGroup = player.object('5V3OXYlO9IH');
+  stRing = player.object('5iIP4KefbB6');
  }
 
-// onboarding objects
-const ethicsGroup = player.object('6GOcybBIo54');
-const ethicsRing = player.object('6WAwXPWcgLu');
-const impGroup = player.object('6kTK4LXHKfk');
-const iring1 = player.object('6WXLXeYOLbl');
-const stratGroup = player.object('5oZ8jY1scCS');
-const stratRing = player.object('6jMHI0jQuZK');
-// overview objects TBD 
 
 var st_score_raw = player.GetVar("st_score_percent");
 var im_score_raw = player.GetVar("im_score_percent");
 var et_score_raw = player.GetVar("et_score_percent");
 
-const init_order = [[st_score_raw,stratGroup],[im_score_raw,impGroup],[et_score_raw,ethicsGroup]]
+const init_order = [[st_score_raw,stGroup],[im_score_raw,impGroup],[et_score_raw,etGroup]]
 init_order.sort((a, b) => a[0] - b[0]);
 const adjustedorder = init_order.map(pair => pair[1]);
 
@@ -405,9 +410,9 @@ let st_tenth = rounder(st_score_raw);
 let im_tenth = rounder(im_score_raw);
 let et_tenth = rounder(et_score_raw);
 
-ethicsRing.state="e"+et_tenth;
-iring1.state="i"+im_tenth;
-stratRing.state="s"+st_tenth;
+etRing.state="e"+et_tenth;
+impRing.state="i"+im_tenth;
+stRing.state="s"+st_tenth;
 }
 
 function activatedp() {
