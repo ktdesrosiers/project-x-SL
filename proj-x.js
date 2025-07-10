@@ -1,3 +1,7 @@
+/* This code is intended to run from a Articulate Storyline SCORM conformant learning object. The ultimate SCORM protocol is not important however, using xAPI would be optimal and allow for more nuanced learning analytics. specifci xAPI calls are not on the RM for this inital release so tracking will be limited tot he clients (ISMPP) deplyment environment. This js file is loaded as an external script when the learning object initiates and can either be distributed with the SCORM or xAPI package (more restrictive environments) or remain hosted (less restrictive environments). Embedding this file into the deployable package limits versioning and updates. Assume this hosted file is the most current unless the dev environment is pointing to a local file. A versioning method has not been implemented for the Storyline Development environment given it's not a robust environment that would make sourvce and versioning meaningful. That being said source control will be come an issue if there are several distributables released for mroe restrictive environments. */
+
+/* Storyline creates HTML5 content that uses a proprietary run time player. Keep this in mind when reviewing some of the odd methods in the code below. The player limits true DOM manipulation and handles data persistence across multiple user sessions as part of the SCORM / xAPI interface. Keeping storyline variables up to date rather than session or cookie based data has limitations but allows for simple variable reinstatement. THe core content data is placed at the top of this file. THis could be stored as JSON or retried via an API in the future, again the constraint is that the client has a less restrictive enviornment. More restrictive environments would obviously require appropriate data sharing agreements, whitelisting etc.. if the application were to ever utilize fully dynamic content generation. */
+
 var player = GetPlayer();
 const l_data =[
  {
@@ -257,14 +261,14 @@ const ass_content = {
   }
 };
 
-// this helper function accounts for poor text handling abilities in stoyrline and replacees newline with <br><br>
+// this helper function accounts for poor text handling abilities in storyline and replacees newline with <br><br>
 function replaceNewlines(text) {
   let textb =  text.replace(/\n/g, '<br><br>');
   //console.log(textb);
   return textb
 }
 
-// this loads a new assessmetn question and calls various helper functions.
+// this loads a new assessment question and calls various helper functions.
 function loadquest(){
 // determine the number of questions so we can advance to results when all have been asked by setting a SL variable to hold the total num of questions.
 var q_count = player.GetVar("skill_ass_q_count");
@@ -329,6 +333,7 @@ var newpercent = calculatePercentageScore(curscore, q_total);
 player.SetVar(ass_code+"_score_percent",newpercent);
 }
 
+// Lists current priority focus areas.
 function displayresults(){
 player.SetVar("skill_ass_q_count",1);
 var ass_code = player.GetVar("current_assessment");
@@ -351,4 +356,54 @@ if (needs_development.length > 0) {
   displayString = "You don't have any pressing development needs right now, but I'm sure you can fine tune some skills.";
 }
 player.SetVar("prior_skills", displayString);
+}
+
+// used to display coaches and their rings in appropriate left to right order based on user progress.
+function displaycoaching_progress(template){
+const ob_pos = [583,840,1100];
+const positions = [];
+ 
+ if (template == "onboarding") {
+  positions = ob_pos;
+ } else {
+  //tbd
+ }
+
+
+const ethicsGroup = object('6GOcybBIo54');
+const ethicsRing = object('6WAwXPWcgLu');
+const impGroup = object('6kTK4LXHKfk');
+const iring1 = object('6WXLXeYOLbl');
+const stratGroup = object('5oZ8jY1scCS');
+const stratRing = object('6jMHI0jQuZK');
+var player = GetPlayer();
+var st_score_raw = player.GetVar("st_score_percent");
+var im_score_raw = player.GetVar("im_score_percent");
+var et_score_raw = player.GetVar("et_score_percent");
+
+const init_order = [[st_score_raw,stratGroup],[im_score_raw,impGroup],[et_score_raw,ethicsGroup]]
+init_order.sort((a, b) => a[0] - b[0]);
+const adjustedorder = init_order.map(pair => pair[1]);
+
+positions.forEach((position,index)=>{
+adjustedorder[index].x = position;
+});
+// we may extract this later but it basically rounds user progress percentile score to the nearest tenth. Ideally in a HTML/CSS envionment the rings would be svg and the fill could be animated and controlled differetnly so this is not a long term solution. Other data visualization libraries could be integrated as well to replace or improve the rings.
+function rounder(number) {
+  // Divide by 10 to get the "tens" unit
+  let tensUnit = number / 10;
+  // Round to the nearest whole number
+  let roundedTensUnit = Math.round(tensUnit);
+  // Multiply by 10 to get the final rounded value
+  let roundedNumber = roundedTensUnit * 10;
+  return roundedNumber;
+}
+
+let st_tenth = rounder(st_score_raw);
+let im_tenth = rounder(im_score_raw);
+let et_tenth = rounder(et_score_raw);
+
+ethicsRing.state="e"+et_tenth;
+iring1.state="i"+im_tenth;
+stratRing.state="s"+st_tenth;
 }
