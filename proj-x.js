@@ -361,22 +361,24 @@ player.SetVar("prior_skills", displayString);
 // used to display coaches and their rings in appropriate left to right order based on user progress.
 function displaycoaching_progress(template){
 const ob_pos = [583,840,1100];
+const ov_pos = [458,842,1225];
 const positions = [];
  
  if (template == "onboarding") {
   positions = ob_pos;
  } else {
-  //tbd
+  positions = ov_pos;
  }
 
-
+// onboarding objects
 const ethicsGroup = object('6GOcybBIo54');
 const ethicsRing = object('6WAwXPWcgLu');
 const impGroup = object('6kTK4LXHKfk');
 const iring1 = object('6WXLXeYOLbl');
 const stratGroup = object('5oZ8jY1scCS');
 const stratRing = object('6jMHI0jQuZK');
-var player = GetPlayer();
+// overview objects TBD 
+
 var st_score_raw = player.GetVar("st_score_percent");
 var im_score_raw = player.GetVar("im_score_percent");
 var et_score_raw = player.GetVar("et_score_percent");
