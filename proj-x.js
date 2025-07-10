@@ -407,3 +407,22 @@ ethicsRing.state="e"+et_tenth;
 iring1.state="i"+im_tenth;
 stratRing.state="s"+st_tenth;
 }
+
+function activatedp() {
+     const dateInput = document.querySelector('.acc-textinput');
+    if (dateInput) {
+        // Initialize Flatpickr on the input field
+        flatpickr(dateInput, {
+            onChange: (selectedDates, dateStr) => {
+                dateInput.value = dateStr; // Set the selected date in the input field
+                player.setVar('targ_date', dateStr);
+            },
+            onClose: (selectedDates, dateStr) => {
+                dateInput.disabled = true; 
+                setTimeout(() => {
+                    dateInput.disabled = false;
+                }, 100);
+            }
+        });
+    }
+}
