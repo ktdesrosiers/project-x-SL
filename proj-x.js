@@ -362,7 +362,7 @@ player.SetVar("prior_skills", displayString);
 function displaycoaching_progress(template){
 const ob_pos = [583,840,1100];
 const ov_pos = [458,842,1225];
-const positions = [];
+var positions = [];
  
  if (template == "onboarding") {
   positions = ob_pos;
