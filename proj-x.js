@@ -108,31 +108,31 @@ const l_data =[
    "code": "im1",
    "skill": "Outreach",
    "lesson": "Engaging Authors and Contributors for Publication",
-   "objectID: "6msSQzigFAI"
+   "objectID": "6msSQzigFAI"
  },
  {
    "code": "im2",
    "skill": "Workflow Processing",
    "lesson": "Effective Writing, Review, and Approval Processes",
-   "objectID: "67lzdajo3SJ"
+   "objectID": "67lzdajo3SJ"
  },
  {
    "code": "im3",
    "skill": "Publication Administration",
    "lesson": "Managing Administrative Aspects of Publication Plans",
-   "objectID: "5ZYCqbWNfyh"
+   "objectID": "5ZYCqbWNfyh"
  },
  {
    "code": "im4",
    "skill": "Analytics",
    "lesson": "Tracking Metrics of Publications and Overall Plans",
-   "objectID: "6DOi669q06K"
+   "objectID": "6DOi669q06K"
  },
  {
    "code": "im5",
    "skill": "Implementation Adaptation",
    "lesson": "Monitoring Evolving Trends in Implementation",
-   "objectID: "6RcQeijJmmu"
+   "objectID": "6RcQeijJmmu"
  },
  {
    "code": "et1",
