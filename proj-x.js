@@ -433,7 +433,7 @@ function coach(dutyarea, displayVar) {
       a.skill.localeCompare(b.skill)
     );
     const lesson = incomplete[0];
-    let msg = getCoachMessage(dutyarea, "priority", lesson.lesson);
+    let msg = getCoachMessage(dutyarea, "priority", lesson.skill);
     player.SetVar(displayVar, msg);
     return;
   }
@@ -446,13 +446,13 @@ function coach(dutyarea, displayVar) {
       a.skill.localeCompare(b.skill)
     );
     const lesson = needsBoost[0];
-    let msg = getCoachMessage(dutyarea, "needsBoost", lesson.lesson);
+    let msg = getCoachMessage(dutyarea, "needsBoost", lesson.skill);
     player.SetVar(displayVar, msg);
     return;
   }
 
   // 3. All scores 4 or higher: ready for the challenge
-  let finalMsg = getCoachMessage(dutyarea, "challengeReady", lesson.lesson);
+  let finalMsg = getCoachMessage(dutyarea, "challengeReady", lesson.skill);
   player.SetVar(displayVar, finalMsg);
 }
 
