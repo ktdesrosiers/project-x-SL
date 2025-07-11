@@ -473,6 +473,7 @@ const needs_development = scored_data
 let displayString = "Top skill areas to build:\n";
 if (needs_development.length > 0) {
   displayString += needs_development
+    .slice(0, 3) // <-- Only take the first three
     .map(item => `${item.skill}`)
     .join('\n');
 } else {
