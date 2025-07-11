@@ -496,13 +496,17 @@ var etGroup,etRing,stGroup,stRing,impGroup,impRing;
   impRing = player.object('6WXLXeYOLbl');
   stGroup = player.object('5oZ8jY1scCS');
   stRing = player.object('6jMHI0jQuZK');
- } else {
+ } else if (template == "overview") {
   positions = ov_pos;
   etGroup = player.object('5hSdYw2TV9F');
   etRing = player.object('5knReKJyuLF');
   impGroup = player.object('601IiGhuWVK');
   impRing = player.object('5zKYuNJf4mO');
   stGroup = player.object('5V3OXYlO9IH');
+  stRing = player.object('5iIP4KefbB6');
+ } else {
+  etRing = player.object('5knReKJyuLF');
+  impRing = player.object('6cEzVlubu9B');
   stRing = player.object('5iIP4KefbB6');
  }
 
@@ -511,13 +515,16 @@ var st_score_raw = player.GetVar("st_score_percent");
 var im_score_raw = player.GetVar("im_score_percent");
 var et_score_raw = player.GetVar("et_score_percent");
 
+if (template === "overview" || template = "onbaording" ) {
 const init_order = [[st_score_raw,stGroup],[im_score_raw,impGroup],[et_score_raw,etGroup]]
 init_order.sort((a, b) => a[0] - b[0]);
 const adjustedorder = init_order.map(pair => pair[1]);
-
 positions.forEach((position,index)=>{
 adjustedorder[index].x = position;
 });
+}
+
+
 // we may extract this later but it basically rounds user progress percentile score to the nearest tenth. Ideally in a HTML/CSS envionment the rings would be svg and the fill could be animated and controlled differetnly so this is not a long term solution. Other data visualization libraries could be integrated as well to replace or improve the rings.
 function rounder(number) {
   // Divide by 10 to get the "tens" unit
@@ -533,9 +540,23 @@ let st_tenth = rounder(st_score_raw);
 let im_tenth = rounder(im_score_raw);
 let et_tenth = rounder(et_score_raw);
 
-etRing.state="e"+et_tenth;
-impRing.state="i"+im_tenth;
-stRing.state="s"+st_tenth;
+
+switch (template) {
+  case "im":
+    impRing.state="i"+im_tenth;
+    break;
+  case "st":
+    stRing.state="s"+st_tenth;
+    break;
+  case "et":
+    etRing.state="e"+et_tenth;
+    break;
+  default:
+    etRing.state="e"+et_tenth;
+    impRing.state="i"+im_tenth;
+    stRing.state="s"+st_tenth;
+}  
+
 }
 
 function activatedp() {
