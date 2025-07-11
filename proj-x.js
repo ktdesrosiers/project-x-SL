@@ -407,7 +407,7 @@ function getCoachMessage(domain, type, lesson) {
   return phrase.replace("{lesson}", lesson);
 }
 
-// display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future. These strings should also be extracted from here but will leave that for the future.
+// display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future.
 function coach(dutyarea, displayVar) {
   var player = GetPlayer();
 
@@ -470,9 +470,9 @@ const scored_data = l_data.map(item => {
 const needs_development = scored_data
   .filter(item => item.score >= 1 && item.score <= 3 && item.code.startsWith(ass_code))
   .sort((a, b) => a.score - b.score);
-let displayString;
+let displayString = "Top skill areas to build:\n";
 if (needs_development.length > 0) {
-  displayString = needs_development
+  displayString += needs_development
     .map(item => `${item.skill}`)
     .join('\n');
 } else {
