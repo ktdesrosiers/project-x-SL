@@ -560,25 +560,72 @@ function activatedp() {
 // this is the function that orders and updates the cards in each coaching area.
 
 function orderDomainCards(domain) {
+  const proficiencyLabels = {
+    0: "No Experience",
+    1: "Awareness",
+    2: "Emergent",
+    3: "Proficient",
+    4: "Expert"
+  };
+
   // Filter lessons for the selected domain
   const domainLessons = l_data.filter(item => item.code.startsWith(domain));
 
-  // Build lesson data with current Storyline values
-  const lessons = domainLessons.map(item => ({
-    ...item,
-    status: player.GetVar(item.code + "_status"),
-    initial_score: player.GetVar(item.code + "_initial_comp"),
-    current_score: player.GetVar(item.code + "_cur_comp")
-  }));
+  // Build lesson data and update Storyline display variables
+  const lessons = domainLessons.map(item => {
+    const code = item.code;
+    const sc = player.GetVar(code + "_sc");
+    const cur_score = player.GetVar(code + "_cur_score");
 
-  // Apply prioritization rules
+    // Set lesson title and skill display
+    player.SetVar(code + "_lesson", item.lesson);
+    player.SetVar(code + "_skill", item.skill);
+
+    // Set initial competency display
+    player.SetVar(code + "_initial_comp", proficiencyLabels[sc] || "No Experience");
+
+    // Set current competency display and status
+    let cur_comp, status;
+    if (cur_score === 0) {
+      cur_comp = "Building";
+      status = "Building";
+    } else if (cur_score === 100) {
+      cur_comp = "Building";
+      status = "Accessed";
+    } else if (cur_score >= 1 && cur_score <= 4) {
+      cur_comp = proficiencyLabels[cur_score];
+      status = proficiencyLabels[cur_score];
+    } else {
+      cur_comp = "Not Accessed";
+      status = "Not Accessed";
+    }
+    player.SetVar(code + "_cur_comp", cur_comp);
+    player.SetVar(code + "_status", status);
+
+    return {
+      ...item,
+      sc,
+      cur_score,
+      status,
+      initial_score: sc,
+      current_score: cur_score
+    };
+  });
+
+  // Prioritization logic as before
   lessons.sort((a, b) => {
-    if (a.status !== "Complete" && b.status === "Complete") return -1;
-    if (a.status === "Complete" && b.status !== "Complete") return 1;
-    if (a.status !== "Complete" && b.status !== "Complete") {
+    // 1. Incomplete first (not "Expert" or "Proficient" or "Emergent" or "Awareness")
+    const aComplete = (a.status === "Expert" || a.status === "Proficient" || a.status === "Emergent" || a.status === "Awareness");
+    const bComplete = (b.status === "Expert" || b.status === "Proficient" || b.status === "Emergent" || b.status === "Awareness");
+    if (!aComplete && bComplete) return -1;
+    if (aComplete && !bComplete) return 1;
+
+    // 2. If both incomplete, order by initial_score, then skill
+    if (!aComplete && !bComplete) {
       if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
       return a.skill.localeCompare(b.skill);
     }
+    // 3. If both complete, order by current_score < 4
     const aNeedsBoost = a.current_score < 4;
     const bNeedsBoost = b.current_score < 4;
     if (aNeedsBoost && !bNeedsBoost) return -1;
@@ -587,10 +634,12 @@ function orderDomainCards(domain) {
       if (a.current_score !== b.current_score) return a.current_score - b.current_score;
       return a.skill.localeCompare(b.skill);
     }
+    // 4. Otherwise, alphabetical
     return a.skill.localeCompare(b.skill);
   });
 
   // Move cards to their new Y positions
+  const yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
   lessons.forEach((lesson, idx) => {
     if (lesson.objectID && yPositions[idx] !== undefined) {
       player.object(lesson.objectID).y = yPositions[idx];
