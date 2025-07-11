@@ -515,7 +515,7 @@ var st_score_raw = player.GetVar("st_score_percent");
 var im_score_raw = player.GetVar("im_score_percent");
 var et_score_raw = player.GetVar("et_score_percent");
 
-if (template == "overview" || template == "onbaording" ) {
+if (template == "overview" || template == "onboarding" ) {
 const init_order = [[st_score_raw,stGroup],[im_score_raw,impGroup],[et_score_raw,etGroup]]
 init_order.sort((a, b) => a[0] - b[0]);
 const adjustedorder = init_order.map(pair => pair[1]);
