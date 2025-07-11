@@ -4,6 +4,9 @@
 
 var player = GetPlayer();
 
+// not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
+const yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
+
 const coachPhrases = {
   st: {
     name: "Maia",
@@ -104,27 +107,32 @@ const l_data =[
  {
    "code": "im1",
    "skill": "Outreach",
-   "lesson": "Engaging Authors and Contributors for Publication"
+   "lesson": "Engaging Authors and Contributors for Publication",
+   "objectID: "6msSQzigFAI"
  },
  {
    "code": "im2",
    "skill": "Workflow Processing",
-   "lesson": "Effective Writing, Review, and Approval Processes"
+   "lesson": "Effective Writing, Review, and Approval Processes",
+   "objectID: "67lzdajo3SJ"
  },
  {
    "code": "im3",
    "skill": "Publication Administration",
-   "lesson": "Managing Administrative Aspects of Publication Plans"
+   "lesson": "Managing Administrative Aspects of Publication Plans",
+   "objectID: "5ZYCqbWNfyh"
  },
  {
    "code": "im4",
    "skill": "Analytics",
-   "lesson": "Tracking Metrics of Publications and Overall Plans"
+   "lesson": "Tracking Metrics of Publications and Overall Plans",
+   "objectID: "6DOi669q06K"
  },
  {
    "code": "im5",
    "skill": "Implementation Adaptation",
-   "lesson": "Monitoring Evolving Trends in Implementation"
+   "lesson": "Monitoring Evolving Trends in Implementation",
+   "objectID: "6RcQeijJmmu"
  },
  {
    "code": "et1",
@@ -547,4 +555,45 @@ function activatedp() {
             }
         });
     }
+}
+
+// this is the function that orders and updates the cards in each coaching area.
+
+function orderDomainCards(domain) {
+  // Filter lessons for the selected domain
+  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
+
+  // Build lesson data with current Storyline values
+  const lessons = domainLessons.map(item => ({
+    ...item,
+    status: player.GetVar(item.code + "_status"),
+    initial_score: player.GetVar(item.code + "_initial_comp"),
+    current_score: player.GetVar(item.code + "_cur_comp")
+  }));
+
+  // Apply prioritization rules
+  lessons.sort((a, b) => {
+    if (a.status !== "Complete" && b.status === "Complete") return -1;
+    if (a.status === "Complete" && b.status !== "Complete") return 1;
+    if (a.status !== "Complete" && b.status !== "Complete") {
+      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
+      return a.skill.localeCompare(b.skill);
+    }
+    const aNeedsBoost = a.current_score < 4;
+    const bNeedsBoost = b.current_score < 4;
+    if (aNeedsBoost && !bNeedsBoost) return -1;
+    if (!aNeedsBoost && bNeedsBoost) return 1;
+    if (aNeedsBoost && bNeedsBoost) {
+      if (a.current_score !== b.current_score) return a.current_score - b.current_score;
+      return a.skill.localeCompare(b.skill);
+    }
+    return a.skill.localeCompare(b.skill);
+  });
+
+  // Move cards to their new Y positions
+  lessons.forEach((lesson, idx) => {
+    if (lesson.objectID && yPositions[idx] !== undefined) {
+      player.object(lesson.objectID).y = yPositions[idx];
+    }
+  });
 }
