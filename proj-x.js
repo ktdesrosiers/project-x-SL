@@ -506,7 +506,7 @@ var etGroup,etRing,stGroup,stRing,impGroup,impRing;
   stRing = player.object('5iIP4KefbB6');
  } else {
   // etRing = player.object('5knReKJyuLF');
-  impRing = player.object('6cEzVlubu9B');
+  impRing = player.object('6TddDLVxVwS');
   // stRing = player.object('5iIP4KefbB6');
  }
 
