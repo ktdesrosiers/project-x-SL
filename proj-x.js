@@ -676,7 +676,7 @@ const quizWindow = window.open('https://ktdesrosiers.github.io/project-x-SL/'+le
 window.addEventListener('message', function(event) {
     // For security, check the event.origin matches your Rise lesson's origin
     // Example: if your Rise lesson is hosted at https://your-rise-lesson-url.com
-    if (event.origin !== 'https://ktdesrosiers.github.io') {
+    if (event.origin !== 'https://ktdesrosiers.github.io/project-x-SL/imx/') {
       console.log('bad origin');
       return
     };
