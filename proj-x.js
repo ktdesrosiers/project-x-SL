@@ -3,7 +3,7 @@
 /* Storyline creates HTML5 content that uses a proprietary run time player. Keep this in mind when reviewing some of the odd methods in the code below. The player limits true DOM manipulation and handles data persistence across multiple user sessions as part of the SCORM / xAPI interface. Keeping storyline variables up to date rather than session or cookie based data has limitations but allows for simple variable reinstatement. THe core content data is placed at the top of this file. THis could be stored as JSON or retried via an API in the future, again the constraint is that the client has a less restrictive enviornment. More restrictive environments would obviously require appropriate data sharing agreements, whitelisting etc.. if the application were to ever utilize fully dynamic content generation. */
 
 const debug = true;
-const player = GetPlayer();
+var player = GetPlayer();
 
 // not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
 const yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
@@ -694,6 +694,7 @@ window.addEventListener('message', function(event) {
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
       player.SetVar(event.data.lesson+"_cur_score",score);
+      console.log('After SetVar:', player.GetVar(event.data.lesson+"_cur_score"));
       console.log('set the var to '+ event.data.score+' and got the lesson '+event.data.lesson);;
       orderDomainCards(event.data.lesson.slice(0,2));
     }
