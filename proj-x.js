@@ -679,7 +679,7 @@ function launchlesson(lesson){
 const quizWindow = window.open(lesson_url, '_blank');
 }
 
-// Listen for messages from the quiz window
+// Listen for messages from the Rise project. Rise send messages from an embedded Mightly block (interactive HTML) that incldues a quiz with post message to rise and then rise includes a parent level message handler to pass the data to the window opener.
 window.addEventListener('message', function(event) {
     // For security, check the event.origin matches your Rise lesson's origin
     // Example: if your Rise lesson is hosted at https://your-rise-lesson-url.com
@@ -693,6 +693,7 @@ window.addEventListener('message', function(event) {
         // You can now use event.data.score in your Storyline logic
       player.SetVar(event.data.lesson+"_cur_sc",event.data.score);
       console.log('set the var to '+ event.data.score);
+      orderDomainCards(event.data.lesson.slice(0,2));
     }
 }, false);
   
