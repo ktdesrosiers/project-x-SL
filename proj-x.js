@@ -337,7 +337,6 @@ function replaceNewlines(text) {
 function loadquest(){
 // determine the number of questions so we can advance to results when all have been asked by setting a SL variable to hold the total num of questions.
 var q_count = player.GetVar("skill_ass_q_count");
- console.log(q_count);
 var cur_ass_code = player.GetVar("current_assessment");
 const thisquiz = Object.keys(ass_content)
   .filter(key => key.startsWith(cur_ass_code+"_q"))
@@ -684,7 +683,7 @@ window.addEventListener('message', function(event) {
     if (event.data && event.data.type === 'quizResult') {
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
-      player.SetVar("im1_cur_comp",event.data.score);
+      player.SetVar(event.data.lesson+"_cur_sc",event.data.score);
       console.log('set the var to '+ event.data.score);
     }
 }, false);
