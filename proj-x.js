@@ -582,6 +582,7 @@ function activatedp() {
 // this is the function that orders and updates the cards in each coaching area.
 
 function orderDomainCards(domain) {
+  console.log('ordering with '+ domain);
   const proficiencyLabels = {
     0: "No Experience",
     1: "Awareness",
