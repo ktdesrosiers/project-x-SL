@@ -671,7 +671,7 @@ function orderDomainCards(domain) {
 
 function launchlesson(lesson){
 
-const quizWindow = window.open('https://ktdesrosiers.github.io/project-x-SL/'+lesson+'/index.html', '_blank');
+const quizWindow = window.open('./project-x-SL/'+lesson+'/index.html', '_blank');
 // Listen for messages from the quiz window
 window.addEventListener('message', function(event) {
     // For security, check the event.origin matches your Rise lesson's origin
