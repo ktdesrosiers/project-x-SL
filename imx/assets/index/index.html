@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fun Quiz</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    .question { font-size: 1.2em; margin-bottom: 1em; }
+    .answers label { display: block; margin-bottom: 0.5em; }
+    button { margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <div class="question">
+    What is the best way to debug a JavaScript program?
+  </div>
+  <form id="quizForm" class="answers">
+    <label><input type="radio" name="score" value="25"> Yell at the screen until it works</label>
+    <label><input type="radio" name="score" value="50"> Sacrifice a rubber duck to the code gods</label>
+    <label><input type="radio" name="score" value="70"> Blame the intern (even if you don't have one)</label>
+    <label><input type="radio" name="score" value="100"> Console.log everything and hope for the best</label>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="result"></div>
+  <script>
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const score = document.querySelector('input[name="score"]:checked');
+      if (!score) {
+        document.getElementById('result').textContent = 'Please select an answer!';
+        return;
+      }
+      // Send the score to the parent window (Storyline)
+      if (window.parent) {
+        console.log('posting');
+        window.parent.postMessage({
+          type: 'quizResult',
+          score: score.value
+        }, '*'); // For production, replace '*' with your parent window's origin
+      }
+      document.getElementById('result').textContent = 'Thanks for playing! Your score: ' + score.value + '%';
+    });
+  </script>
+
+                                    <script>
+                                        var injectMightyInteractiveJavascript = (options) => {
+    var _a;
+    options.document = (_a = options.document) !== null && _a !== void 0 ? _a : window.document;
+    const { key, document, postIsReadyMessage } = options;
+    if (document.getElementById('mighty-interactive-core-js')) {
+        return;
+    }
+    const script = document.createElement('script');
+    script.id = 'mighty-interactive-core-js';
+    // Once legacy blocks are removed, we can remove the following legacy messages:
+    //      MIGHTY_INTERACTIVE_LOAD
+    //  MIGHTY_INTERACTIVE
+    script.innerHTML = `
+        window.parent.postMessage({ type: 'MIGHTY_INTERACTIVE_LOAD', data: {key: '${key}'} }, '*');
+        window.parent.postMessage({type: 'MIGHTY_INTERACTIVE_LOADED'}, '*');
+
+        function postMightyInteractiveHeightReport(){
+            const height = document.documentElement.offsetHeight;
+
+            window.parent.postMessage(
+                {
+                    type: 'MIGHTY_INTERACTIVE_HEIGHT_REPORT',
+                    data: {
+                        height: height,
+                    },
+                },
+                '*'
+            );
+
+            window.parent.postMessage(
+                {
+                    type: 'MIGHTY_INTERACTIVE',
+                    data: {
+                        key: '${key}',
+                        height: height,
+                    },
+                },
+                '*'
+            );            
+        }
+
+        function initResizeObserver() {
+            postMightyInteractiveHeightReport();
+
+            new ResizeObserver(() => {
+                postMightyInteractiveHeightReport();
+            }).observe(document.documentElement);
+        }
+        if (document.readyState === 'complete') {
+            initResizeObserver();
+        } else {
+            document.onreadystatechange = () => {
+                if (document.readyState === 'complete') {
+                    initResizeObserver();
+                }
+            };
+        }
+
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'MIGHTY_INTERACTIVE_SCREENCAP') {
+                const html = event.data.data.html;
+                const domParser = new window.DOMParser();
+                const snapshot = domParser.parseFromString(html, 'text/html');
+                document.replaceChild(snapshot.documentElement, document.documentElement);
+            }
+        });
+    `;
+    if (postIsReadyMessage) {
+        script.innerHTML += `
+            window.parent.postMessage({type: 'MIGHTY_INTERACTIVE_READY'}, '*');
+        `;
+    }
+    document.body.appendChild(script);
+};
+
+                                        injectMightyInteractiveJavascript({
+                                            key: '147d0311-a3c9-4b77-9c36-0d8c695c321c',
+                                            postIsReadyMessage: true
+                                        })
+                                    </script>
+                                    <script>
+                                        window.addEventListener('message', function (event) {
+    if (event.data && event.data.type === 'quizResult') {
+        // Relay to parent (Storyline) window
+        if (window.parent !== window) {
+            window.parent.postMessage(event.data, '*');
+        } else if (window.opener) {
+            window.opener.postMessage(event.data, '*');
+        }
+    }
+});
+                                    </script>
+                                    <style>
+                                        
+                                    </style>
+                                    </body>
+</html>
