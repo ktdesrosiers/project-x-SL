@@ -662,7 +662,7 @@ function orderDomainCards(domain) {
   });
 
   // Move cards to their new Y positions
-  const yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
+
   lessons.forEach((lesson, idx) => {
     if (lesson.objectID && yPositions[idx] !== undefined) {
       player.object(lesson.objectID).y = yPositions[idx];
