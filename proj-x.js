@@ -676,13 +676,16 @@ const quizWindow = window.open('https://ktdesrosiers.github.io/project-x-SL/'+le
 window.addEventListener('message', function(event) {
     // For security, check the event.origin matches your Rise lesson's origin
     // Example: if your Rise lesson is hosted at https://your-rise-lesson-url.com
-    if (event.origin !== 'https://ktdesrosiers.github.io') return;
-
+    if (event.origin !== 'https://ktdesrosiers.github.io') {
+      console.log('bad origin');
+      return
+    };
     // Process the quiz result
     if (event.data && event.data.type === 'quizResult') {
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
       player.SetVar("im1_cur_comp",event.data.score);
+      console.log('set the var to '+ event.data.score;
     }
 }, false);
   
