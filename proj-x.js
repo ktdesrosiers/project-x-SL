@@ -671,17 +671,18 @@ function orderDomainCards(domain) {
 
 function launchlesson(lesson){
 
-const quizWindow = window.open('https://ktdesrosiers.github.io/project-x-SL/', '_blank');
+const quizWindow = window.open('https://ktdesrosiers.github.io/project-x-SL/'+lesson+'/index.html', '_blank');
 // Listen for messages from the quiz window
 window.addEventListener('message', function(event) {
     // For security, check the event.origin matches your Rise lesson's origin
     // Example: if your Rise lesson is hosted at https://your-rise-lesson-url.com
-    if (event.origin !== 'https://your-rise-lesson-url.com') return;
+    if (event.origin !== 'https://ktdesrosiers.github.io') return;
 
     // Process the quiz result
     if (event.data && event.data.type === 'quizResult') {
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
+      player.SetVar("im1_cur_comp",event.data.score);
     }
 }, false);
   
