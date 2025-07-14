@@ -693,7 +693,7 @@ window.addEventListener('message', function(event) {
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
       player.SetVar(event.data.lesson+"_cur_score",event.data.score);
-      console.log('set the var to '+ event.data.score);
+      console.log('set the var to '+ event.data.score+' and got the lesson '+event.data.lesson);;
       orderDomainCards(event.data.lesson.slice(0,2));
     }
 }, false);
