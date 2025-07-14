@@ -680,6 +680,19 @@ function launchlesson(lesson){
 const quizWindow = window.open(lesson_url, '_blank');
 }
 
+function coerceScoreToRange(score) {
+  if (score <= 25) {
+    return 1;
+  } else if (score <= 50) {
+    return 2;
+  } else if (score <= 75) {
+    return 3;
+  } else {
+    // Covers 76–100 (and any value above 75)
+    return 4;
+  }
+}
+
 // Listen for messages from the Rise project. Rise send messages from an embedded Mightly block (interactive HTML) that incldues a quiz with post message to rise and then rise includes a parent level message handler to pass the data to the window opener.
 window.addEventListener('message', function(event) {
     // For security, check the event.origin matches your Rise lesson's origin
@@ -693,7 +706,8 @@ window.addEventListener('message', function(event) {
       const score = Number(event.data.score);
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
-      player.SetVar(event.data.lesson+"_cur_score",score);
+      const coercedScore = coerceScoreToRange(Number(event.data.score));
+      player.SetVar(event.data.lesson + "_cur_score", coercedScore);
       console.log('After SetVar:', player.GetVar(event.data.lesson+"_cur_score"));
       console.log('set the var to '+ event.data.score+' and got the lesson '+event.data.lesson);;
       orderDomainCards(event.data.lesson.slice(0,2));
