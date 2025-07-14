@@ -685,7 +685,7 @@ window.addEventListener('message', function(event) {
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
       player.SetVar("im1_cur_comp",event.data.score);
-      console.log('set the var to '+ event.data.score;
+      console.log('set the var to '+ event.data.score);
     }
 }, false);
   
