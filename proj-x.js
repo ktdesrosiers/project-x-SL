@@ -691,7 +691,7 @@ window.addEventListener('message', function(event) {
     if (event.data && event.data.type === 'quizResult') {
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
-      player.SetVar(event.data.lesson+"_cur_sc",event.data.score);
+      player.SetVar(event.data.lesson+"_cur_score",event.data.score);
       console.log('set the var to '+ event.data.score);
       orderDomainCards(event.data.lesson.slice(0,2));
     }
