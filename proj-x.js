@@ -648,7 +648,7 @@ function orderDomainCards(domain) {
 // need to revisit this for final deployment structure.
 
 function launchlesson(lesson){
-  let lesson_url = '/'+lesson+'/index.html'
+  let lesson_url = lesson+'/index.html'
   if (debug) {
   lesson_url = 'https://ktdesrosiers.github.io/project-x-SL/sltest/'+lesson+'/index.html';
   } 
