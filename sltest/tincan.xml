@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tincan xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://projecttincan.com/tincan.xsd">
+	<activities>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax" type="http://adlnet.gov/expapi/activities/course">
+			<name lang="und">ProjectX</name>
+			<description lang="und" />
+			<launch lang="und">index_lms.html</launch>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/61kG2K0E3J4" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Intro Slide</name>
+			<description lang="und">Intro Slide</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6hRJgvtL1Bm" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Start Page</name>
+			<description lang="und">Start Page</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6npqHCOvOrd" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">part 1 animation</name>
+			<description lang="und">part 1 animation</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6UTpotRL73Q" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Part 2 animation</name>
+			<description lang="und">Part 2 animation</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/5wuQmQx9Iai" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Part 2 B</name>
+			<description lang="und">Part 2 B</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/5YwuWxanIHT" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Part 2 animation</name>
+			<description lang="und">Part 2 animation</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/5nNRSPYvHVM" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Strat Intro 1</name>
+			<description lang="und">Strat Intro 1</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6nm3Z2ca6ie" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Imp Intro 1</name>
+			<description lang="und">Imp Intro 1</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6q2Lwu052eS" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Eth Intro</name>
+			<description lang="und">Eth Intro</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/5bG83D6T9I0" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Assessment Engine</name>
+			<description lang="und">Assessment Engine</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6KB8oG3gXhv" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Skill Results</name>
+			<description lang="und">Skill Results</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6CNbU1VFZw5" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Combined Results</name>
+			<description lang="und">Combined Results</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6mfRn6oTlsW" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Coach Landing</name>
+			<description lang="und">Coach Landing</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/6FjwKlj1WPj" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Coaching Pat</name>
+			<description lang="und">Coaching Pat</description>
+		</activity>
+		<activity id="urn:articulate:storyline:5wtnoB8o4Ax/60QZuEzhYUn" type="http://adlnet.gov/expapi/activities/module">
+			<name lang="und">Untitled Slide</name>
+			<description lang="und">Untitled Slide</description>
+		</activity>
+	</activities>
+</tincan>

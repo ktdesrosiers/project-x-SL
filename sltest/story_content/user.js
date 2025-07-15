@@ -172,27 +172,6 @@ window.Script17 = function()
 {
   handlechoice("ch1");
 
-/*
-var player = GetPlayer();
-var current_task = player.GetVar("cur_ass_task");
-var q_value = player.GetVar("ch1_val");
-var ass_code = player.GetVar("current_assessment");
-player.SetVar(current_task+"_sc",q_value);
-let curscore = player.GetVar(ass_code+"_score");
-curscore = player.GetVar("ch1_val") + curscore;
-let q_total = player.GetVar("skill_ass_q_total");
-player.SetVar(ass_code+"_score",curscore);
-
-function calculatePercentageScore(pointsEarned, numberOfQuestions) {
-  const maxPoints = numberOfQuestions * 5;
-  const percentage = (pointsEarned / maxPoints) * 100;
-  return percentage.toFixed(2); // returns percentage with 2 decimal places
-}
-
-let newpercent = calculatePercentageScore(curscore, q_total);
-player.SetVar(ass_code+"_score_percent",newpercent);
-*/
-
 
 }
 
@@ -234,48 +213,13 @@ window.Script22 = function()
 
 window.Script23 = function()
 {
-  function loadScript(src, callback) {
-        const script = document.createElement('script');
-        script.src = src;
-        script.onload = () => {
-            if (callback) callback();
-        };
-        script.onerror = () => {
-            console.error(`Error loading script: ${src}`);
-        };
-        document.head.appendChild(script);
-    }
-
-    // note the URL param here in the path (e.g. ?876087690). This forces the browser to update the chache so change the number each time you preview if you have changed the external JS.
-loadScript('https://ktdesrosiers.github.io/project-x-SL/proj-x.js?256548', () => {
-        // for unit testing a slide you can place a funciton here that you want to execture right away on the slide timeline. Make sure to replicate your funcitoncall in a seperate trigger so that when you remove this later on you don;t lose your function call.
-        console.log('Project Script loaded successfully!');
-        orderDomainCards("im");
-        //displaycoaching_progress("im");
-    });    
-
-// Load css
-const loadCSS = (url) => {
-    let link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = url;
-    document.head.appendChild(link);
-};
-
-loadCSS('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
-loadCSS('https://npmcdn.com/flatpickr/dist/themes/material_green.css');
-// Available themes: dark, material_blue, material_green, material_red, material_orange, airbnb, confetti
-
-loadScript('https://cdn.jsdelivr.net/npm/flatpickr', () => {
-console.log('Date picker loaded');
-
-});
-
+  displaycoaching_progress("im");
+orderDomainCards("im");
 }
 
 window.Script24 = function()
 {
-  launchlesson("imx");
+  launchlesson("im1");
 }
 
 window.Script25 = function()
