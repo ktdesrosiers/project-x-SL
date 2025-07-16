@@ -713,10 +713,19 @@ function coerceScoreToRange(score) {
 // Listen for messages from the Rise project. Rise send messages from an embedded Mightly block (interactive HTML) that incldues a quiz with post message to rise and then rise includes a parent level message handler to pass the data to the window opener.
 window.addEventListener('message', function(event) {
 
+  if (debug) {
+    if (event.origin !== 'https://ktdesrosiers.github.io') {
+      console.log('bad origin');
+      return
+    };
+  }
+  else {
     if (event.origin !== window.location.origin) {
       console.log('bad origin');
       return
     };
+  }
+    
     // Process the quiz result
     if (event.data && event.data.type === 'quizResult') {
       const score = Number(event.data.score);
