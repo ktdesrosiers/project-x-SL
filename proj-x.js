@@ -353,6 +353,12 @@ function loadquest() {
   });
 }
 
+/* Used when the learner makes a choice in the initial assessment. Assigns a value from 0 to 4
+to the SL variable related to the initial user score for the task (e.g im1_sc) then addes the value related to the choice
+to the numeric SL variable related to the initial score for the domain (e.g. st_score).
+Finally the routine determines a percentage score of the domain based on the number of assessment questions for the domain and 
+assignes it to the SL variable that holds the percent score for the domin (e.g. et_score_percent). */
+
 function handlechoice(value) {
   var current_task = player.GetVar("cur_ass_task");
   var q_value = player.GetVar(value + "_val");
@@ -535,6 +541,8 @@ switch (template) {
 
 }
 
+// The date picker is an external .js library. 
+
 function activatedp() {
      const dateInput = document.querySelector('.acc-textinput');
     if (dateInput) {
@@ -670,8 +678,7 @@ function coerceScoreToRange(score) {
 
 // Listen for messages from the Rise project. Rise send messages from an embedded Mightly block (interactive HTML) that incldues a quiz with post message to rise and then rise includes a parent level message handler to pass the data to the window opener.
 window.addEventListener('message', function(event) {
-    // For security, check the event.origin matches your Rise lesson's origin
-    // Example: if your Rise lesson is hosted at https://your-rise-lesson-url.com
+
     if (event.origin !== window.location.origin) {
       console.log('bad origin');
       return
@@ -683,8 +690,6 @@ window.addEventListener('message', function(event) {
         // You can now use event.data.score in your Storyline logic
       const coercedScore = coerceScoreToRange(Number(event.data.score));
       player.SetVar(event.data.lesson + "_cur_score", coercedScore);
-      console.log('After SetVar:', player.GetVar(event.data.lesson+"_cur_score"));
-      console.log('set the var to '+ event.data.score+' and got the lesson '+event.data.lesson);;
       orderDomainCards(event.data.lesson.slice(0,2));
     }
 }, false);
