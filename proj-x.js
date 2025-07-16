@@ -12,59 +12,174 @@ const yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
 const coachPhrases = {
   st: {
     name: "Maia",
-    persona: "British, fast-talking, sometimes makes threats",
+    persona: "Strategic, supportive, a touch mysterious",
     messages: {
-      priority: [
-        "Oi! Drop everything and get on with \"{lesson}\"—or else I’ll have words with you.",
-        "No dawdling! \"{lesson}\" is your next stop. Don’t make me come over there."
-      ],
-      needsBoost: [
-        "You’re not done yet! Give \"{lesson}\" another go, or I’ll be forced to send a strongly worded email.",
-        "Pick up the pace! \"{lesson}\" still needs your attention."
-      ],
-      challengeReady: [
-        "Impressive! You’ve earned a shot at my challenge. Don’t mess it up now.",
-        "All right, superstar—let’s see if you can handle the real test."
-      ]
+      CL: {
+        priority: [
+          "Let’s see how you approach \"{lesson}\"—sometimes the first step is the most revealing.",
+          "\"{lesson}\" is a good place to start—let’s look at it together.",
+          "Curiosity is your best asset. \"{lesson}\" will set the tone for your journey.",
+          "Every strategist starts somewhere. \"{lesson}\" is your opening move."
+        ],
+        needsBoost: [
+          "If \"{lesson}\" needs another look, I’m here to help you find a new angle.",
+          "Let’s take another look at \"{lesson}\" when you’re ready. Strategy sometimes means revisiting old ground.",
+          "A second glance at \"{lesson}\" could reveal something new. I’m here to guide you.",
+          "Progress isn’t always linear—let’s revisit \"{lesson}\" together."
+        ],
+        challengeReady: [
+          "You’re making progress. When you’re ready, we can explore a more strategic challenge together.",
+          "Nice progress so far. Let me know if you’d like to move on to the next step.",
+          "Ready for a challenge? I have something special lined up for you.",
+          "Your preparation shows. Let’s see how you handle the next level."
+        ]
+      },
+      CH: {
+        neverAccessed: [
+          "It’s just us here—time to focus on your strategic skills. This page is tailored to help you build a strong foundation, with lessons ordered to match your growth. As you work through them, I’ll be here to guide and adjust your path.",
+          "Welcome to your strategy hub. Each lesson is chosen to help you see the bigger picture. I’ll be tracking your progress and offering insights as you go.",
+          "We have the perfect opportunity to build your strategic mindset from the ground up. Let’s make each lesson count."
+        ],
+        oneAccessed: [
+          "Good work. As you progress with the lessons, keep in mind that your progress ring may sometimes move backward. This is perfectly normal—learning isn’t a straight line. As you approach expert level in each lesson, your ring will close and reflect your growth.",
+          "You’ve made a strong start. Remember, progress can ebb and flow—what matters is your commitment to growth.",
+          "First steps are always the most important. Stay curious and keep moving forward."
+        ],
+        inProgress: [
+          "Your strategic journey continues. The next lesson, \"{lesson}\", will help you see the bigger picture and anticipate challenges. Strategy is about asking the right questions—let’s keep sharpening that skill together.",
+          "Focus on \"{lesson}\" next. Every lesson adds a new layer to your strategic thinking.",
+          "Let’s tackle \"{lesson}\"—sometimes the best insights come from unexpected places.",
+          "Keep your mind open as you approach \"{lesson}\". Strategy rewards those who look beyond the obvious."
+        ],
+        needsBoost: [
+          "You’re progressing well, but \"{lesson}\" might benefit from another look. Sometimes, revisiting a topic reveals new insights. I’m here to help you connect the dots.",
+          "A little more time with \"{lesson}\" could make all the difference. Let’s see what you discover.",
+          "Don’t hesitate to revisit \"{lesson}\"—even experts review the basics.",
+          "Mastery is built on repetition. Give \"{lesson}\" another go when you’re ready."
+        ],
+        challengeReady: [
+          "Congratulations, you’ve reached the strategic challenge. This adaptive quiz draws from a wide range of scenarios, so each attempt will be unique. Use it to test your thinking, and remember: strategy is about learning from every outcome. Take the challenge regularly to keep your skills sharp.",
+          "You’re ready for the next level. The challenge will stretch your abilities and offer new perspectives each time.",
+          "The strategic challenge is designed to keep you on your toes. Try it often—each attempt brings new insights.",
+          "Now’s your chance to put your strategy skills to the test. The challenge adapts, so every round is a fresh opportunity."
+        ]
+      }
     }
   },
   im: {
-    name: "Patrician",
-    persona: "Older, mature, very kind, a bit of a softy",
+    name: "Pat",
+    persona: "Straightforward, experienced, quietly encouraging",
     messages: {
-      priority: [
-        "Let’s gently focus on \"{lesson}\" together. I know you can do it.",
-        "Take your time with \"{lesson}\"—I’m here to help every step of the way."
-      ],
-      needsBoost: [
-        "Wonderful progress! A little more practice with \"{lesson}\" will make you shine.",
-        "You’re doing so well. Let’s revisit \"{lesson}\" for even more confidence."
-      ],
-      challengeReady: [
-        "I’m so proud of you! You’re ready for the challenge whenever you feel comfortable.",
-        "You’ve come so far—let’s see what you can do on the challenge!"
-      ]
+      CL: {
+        priority: [
+          "\"{lesson}\" is next on the plan. Let’s take it step by step.",
+          "Let’s get started with \"{lesson}\"—steady progress is what counts.",
+          "Every good plan starts with a first action. \"{lesson}\" is yours.",
+          "Ready to roll up your sleeves? \"{lesson}\" is waiting."
+        ],
+        needsBoost: [
+          "If \"{lesson}\" feels tough, that’s normal. We’ll work through it, one piece at a time.",
+          "Let’s give \"{lesson}\" another try when you’re set. Every bit of practice helps.",
+          "No shame in a second attempt at \"{lesson}\"—that’s how we get better.",
+          "Persistence pays off. Let’s revisit \"{lesson}\" together."
+        ],
+        challengeReady: [
+          "Solid start. If you’re ready, let’s see how you handle the next task.",
+          "Good work so far. We can move ahead whenever you feel prepared.",
+          "You’ve built a strong foundation. Time to put it to the test.",
+          "Ready for a challenge? Let’s see your skills in action."
+        ]
+      },
+      CH: {
+        neverAccessed: [
+          "I’ve got you all to myself now. Let’s dive into developing your implementation skills. I’ve set this page up to provide lessons prioritized to your development needs. As you engage with the lessons, I’ll update your progress and keep you on track.",
+          "Welcome! This is our space for building real-world project skills. Each lesson has a purpose—let’s get started at your own pace.",
+          "I set this page up to match the way you learn best. As you engage, I’ll update your progress so you always know where you stand."
+        ],
+        oneAccessed: [
+          "Good work making a start! As you move through more lessons, remember that your progress ring may move back or forth—this is normal. Stick with it, and progress will follow.",
+          "Solid first steps. Some fluctuation in your ring is expected early on—learning isn’t linear, so keep at it.",
+          "You’ve tackled your first lesson. Progress rings shift over time, and that’s perfectly fine. Let’s see what else you can do."
+        ],
+        inProgress: [
+          "You’re making steady progress. Next up: \"{lesson}\". A strong plan is the backbone of every project—take your time and review when needed.",
+          "\"{lesson}\" is now in focus. Remember, learning is as much about reflection as action. If you hit a snag, I’m just a click away.",
+          "Keep an eye on \"{lesson}\"—focusing here will pay off across the rest of your work.",
+          "Every lesson, like \"{lesson}\", is a building block. Let’s keep stacking them up."
+        ],
+        needsBoost: [
+          "Take a moment with \"{lesson}\"—sometimes a little more practice gives that edge. No need to rush to the finish.",
+          "\"{lesson}\" could use a bit more attention. Diligence here will make things easier down the road.",
+          "Some lessons, like \"{lesson}\", are worth a second pass. Mastery comes from repetition.",
+          "Let’s circle back to \"{lesson}\"—steady effort leads to real results."
+        ],
+        challengeReady: [
+          "You’re ready for the implementation challenge! Every attempt brings fresh scenarios and questions. Try it several times to strengthen your skills.",
+          "Excellent work—now’s the time to take on the challenge. Its adaptive questions make each round unique. Regular attempts build your mastery.",
+          "You’ve made it! The challenge quiz is designed to keep surprising you, so give it a go whenever you want to test yourself.",
+          "The challenge is your chance to put everything into practice. Each try is a new opportunity to improve."
+        ]
+      }
     }
   },
   et: {
     name: "Thomas",
-    persona: "Southern US, law professor, intimidating but wise",
+    persona: "Calm, wise, quietly authoritative",
     messages: {
-      priority: [
-        "Now listen here, partner. \"{lesson}\" is your next case—don’t make me call you to the stand.",
-        "You best get to \"{lesson}\" before I start quoting statutes at you."
-      ],
-      needsBoost: [
-        "You’re on the right track, but \"{lesson}\" still needs your attention. Don’t let it slip.",
-        "I expect nothing less than excellence. Give \"{lesson}\" another look."
-      ],
-      challengeReady: [
-        "Well, I’ll be. You’re ready for my challenge—let’s see if you can pass muster.",
-        "You’ve shown wisdom and grit. Time for the final test, counselor."
-      ]
+      CL: {
+        priority: [
+          "\"{lesson}\" is a good place to begin—let’s see how you reason through it.",
+          "Let’s start with \"{lesson}\" and explore your approach.",
+          "Every ethical journey starts with a single step. \"{lesson}\" is yours.",
+          "Let’s see what you make of \"{lesson}\"—I’ll be here to guide you."
+        ],
+        needsBoost: [
+          "If \"{lesson}\" needs another review, I’m here to help clarify any details.",
+          "Let’s revisit \"{lesson}\" together if you think it would help sharpen your understanding.",
+          "Sometimes a second look at \"{lesson}\" brings clarity. I’m happy to help.",
+          "Ethics is about reflection. Let’s take another look at \"{lesson}\"."
+        ],
+        challengeReady: [
+          "You’ve shown good judgment so far. Ready to test your skills further?",
+          "Nice work so far. Let me know if you’d like to try the next challenge.",
+          "You’re ready for the ethics challenge. Let’s see how you apply your knowledge.",
+          "The next challenge awaits—let’s see your ethical reasoning in action."
+        ]
+      },
+      CH: {
+        neverAccessed: [
+          "Welcome to your ethics journey. I’m here to help you navigate the complexities of ethical publishing. The lessons ahead are set up to build your understanding step by step, and I’ll be tracking your progress to offer guidance along the way.",
+          "This is your space to explore the foundations of ethical practice. Each lesson is a step toward greater clarity and confidence.",
+          "We’ll start from the beginning and build your ethical skills together. I’ll be here to support you at every turn."
+        ],
+        oneAccessed: [
+          "Good work. As you progress with the lessons, keep in mind that your progress ring may sometimes move backward. This is perfectly normal—learning isn’t a straight line. As you approach expert level in each lesson, your ring will close and reflect your growth.",
+          "You’ve made a promising start. Remember, ethical understanding deepens with each lesson—don’t worry if progress isn’t always forward.",
+          "First lessons are just the beginning. Stay thoughtful and keep building your knowledge."
+        ],
+        inProgress: [
+          "Ethics is a journey, not a destination. Your next focus, \"{lesson}\", will deepen your understanding of best practices. If something feels unclear, remember that asking questions is a sign of wisdom, not weakness.",
+          "Let’s turn our attention to \"{lesson}\". Every lesson adds to your ability to make sound decisions.",
+          "Focus on \"{lesson}\"—it’s an important part of your ethical toolkit.",
+          "Each lesson, like \"{lesson}\", brings you closer to mastering the nuances of ethical publishing."
+        ],
+        needsBoost: [
+          "Almost there! \"{lesson}\" is worth a second review to ensure you’re confident in your understanding. Ethics often requires a second look—let’s make sure you’re ready for any challenge.",
+          "A bit more time with \"{lesson}\" will serve you well. Ethics rewards careful thought.",
+          "Let’s revisit \"{lesson}\"—sometimes the best answers come after a pause.",
+          "Don’t hesitate to review \"{lesson}\" again. True understanding comes with reflection."
+        ],
+        challengeReady: [
+          "You’re prepared for the ethics challenge. The questions will change each time, giving you a chance to deepen your understanding with every attempt. Take the challenge regularly to keep your ethical skills sharp and ready for real-world situations.",
+          "The ethics challenge is designed to stretch your thinking. Each attempt brings new scenarios—try it often to keep your skills sharp.",
+          "Ready for the next step? The challenge adapts to your progress, so every round is a new opportunity.",
+          "Now’s your chance to put your ethical reasoning to the test. The challenge will keep you learning with every try."
+        ]
+      }
     }
   }
 };
+
 const l_data =[
  {
    "code": "st1",
@@ -390,8 +505,8 @@ function getCoachMessage(domain, type, lesson) {
 }
 
 // display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future.
+/*
 function coach(dutyarea, displayVar) {
-  var player = GetPlayer();
 
   // Filter l_data for the selected duty area
   const domainSkills = l_data.filter(item => item.code.startsWith(dutyarea));
@@ -437,6 +552,90 @@ function coach(dutyarea, displayVar) {
   let finalMsg = getCoachMessage(dutyarea, "challengeReady", lesson.skill);
   player.SetVar(displayVar, finalMsg);
 }
+*/
+
+function coach(domain, displayVar, template) {
+  const coachData = coachPhrases[domain];
+  const messagesByTemplate = coachData.messages[template];
+
+  // Gather up-to-date lesson states
+  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
+  const updatedSkills = domainLessons.map(item => ({
+    ...item,
+    initial_score: player.GetVar(item.code + "_sc"),
+    current_score: player.GetVar(item.code + "_cur_score"),
+    status: player.GetVar(item.code + "_status"),
+    skill: item.skill
+  }));
+
+  // Evaluate learner progress states
+  const neverAccessed = updatedSkills.every(s => s.status === "Not Accessed");
+  const oneAccessed = updatedSkills.filter(s => s.current_score === 100).length === 1 && updatedSkills.some(s => s.current_score === 100);
+  const allComplete = updatedSkills.every(s => s.current_score >= 4);
+  const incomplete = updatedSkills.filter(s => s.status !== "Complete");
+  const needsBoost = updatedSkills.filter(s => s.current_score < 4 && s.status === "Complete");
+
+  let messageList = [];
+  let chosenMsg = "";
+  let primaryLesson = null;
+
+  // Coach Home (CH) detailed progress logic
+  if (template === "CH") {
+    if (neverAccessed && Array.isArray(messagesByTemplate.neverAccessed)) {
+      messageList = messagesByTemplate.neverAccessed;
+    } else if (oneAccessed && Array.isArray(messagesByTemplate.oneAccessed)) {
+      messageList = messagesByTemplate.oneAccessed;
+    } else if (allComplete && Array.isArray(messagesByTemplate.challengeReady)) {
+      messageList = messagesByTemplate.challengeReady;
+    } else if (needsBoost.length > 0 && Array.isArray(messagesByTemplate.needsBoost)) {
+      primaryLesson = needsBoost[0].skill;
+      messageList = messagesByTemplate.needsBoost;
+    } else if (incomplete.length > 0 && Array.isArray(messagesByTemplate.inProgress)) {
+      primaryLesson = incomplete[0].skill;
+      messageList = messagesByTemplate.inProgress;
+    }
+    // If for some reason no state matched, fallback
+    if (!messageList.length && Array.isArray(messagesByTemplate.inProgress)) {
+      messageList = messagesByTemplate.inProgress;
+    }
+    // Fill lesson placeholder if required
+    if (messageList.length) {
+      const msgTemplate = messageList[Math.floor(Math.random() * messageList.length)];
+      chosenMsg = msgTemplate.replace("{lesson}", primaryLesson || "the next lesson");
+    }
+  }
+
+  // Coach Landing (CL) state logic (parallels your prior function with randomization)
+  if (template === "CL" && messagesByTemplate) {
+    // Complete logic parity: incomplete = priority; at least one complete but not all at level 4 = needsBoost; all at 4 = challengeReady
+    if (incomplete.length > 0 && Array.isArray(messagesByTemplate.priority)) {
+      primaryLesson = incomplete[0].skill;
+      messageList = messagesByTemplate.priority;
+    } else if (needsBoost.length > 0 && Array.isArray(messagesByTemplate.needsBoost)) {
+      primaryLesson = needsBoost[0].skill;
+      messageList = messagesByTemplate.needsBoost;
+    } else if (allComplete && Array.isArray(messagesByTemplate.challengeReady)) {
+      primaryLesson = updatedSkills[0]?.skill; // any lesson for positive reference
+      messageList = messagesByTemplate.challengeReady;
+    }
+    if (!messageList.length && Array.isArray(messagesByTemplate.priority)) {
+      messageList = messagesByTemplate.priority;
+    }
+    if (messageList.length) {
+      const msgTemplate = messageList[Math.floor(Math.random() * messageList.length)];
+      chosenMsg = msgTemplate.replace("{lesson}", primaryLesson || "the next lesson");
+    }
+  }
+
+  // If none matched, fallback generic
+  if (!chosenMsg) {
+    chosenMsg = "Keep going—I'm here to guide you as you progress!";
+  }
+
+  // Set to Storyline var
+  player.SetVar(displayVar, chosenMsg);
+}
+
 
 // Lists current priority focus areas during onboarding only.
 function displayresults(){
@@ -742,6 +941,7 @@ window.addEventListener('message', function(event) {
       orderDomainCards(domain);
       displaycoaching_progress(domain)
       orderDomainCards(event.data.lesson.slice(0,2));
+      coach(domain,domain+"_coach_message","CH");
     }
 }, false);
   
