@@ -1,8 +1,9 @@
 /* This code is intended to run from a Articulate Storyline SCORM conformant learning object. The ultimate SCORM protocol is not important however, using xAPI would be optimal and allow for more nuanced learning analytics. specifci xAPI calls are not on the RM for this inital release so tracking will be limited tot he clients (ISMPP) deplyment environment. This js file is loaded as an external script when the learning object initiates and can either be distributed with the SCORM or xAPI package (more restrictive environments) or remain hosted (less restrictive environments). Embedding this file into the deployable package limits versioning and updates. Assume this hosted file is the most current unless the dev environment is pointing to a local file. A versioning method has not been implemented for the Storyline Development environment given it's not a robust environment that would make sourvce and versioning meaningful. That being said source control will be come an issue if there are several distributables released for mroe restrictive environments. */
 
 /* Storyline creates HTML5 content that uses a proprietary run time player. Keep this in mind when reviewing some of the odd methods in the code below. The player limits true DOM manipulation and handles data persistence across multiple user sessions as part of the SCORM / xAPI interface. Keeping storyline variables up to date rather than session or cookie based data has limitations but allows for simple variable reinstatement. THe core content data is placed at the top of this file. THis could be stored as JSON or retried via an API in the future, again the constraint is that the client has a less restrictive enviornment. More restrictive environments would obviously require appropriate data sharing agreements, whitelisting etc.. if the application were to ever utilize fully dynamic content generation. */
+// debug value switches the reletaive path of the storyline lesson so that we can test versus when its in a scorm package.
 
-const debug = false;
+const debug = true;
 var player = GetPlayer();
 
 // not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
@@ -663,6 +664,39 @@ function launchlesson(lesson){
 const quizWindow = window.open(lesson_url, '_blank');
 }
 
+function updateDomainScore(domain) {
+  // Define variable name endings
+  const initialSuffix = '_sc';
+  const currentSuffix = '_cur_score';
+
+  // Find all lessons for the specified domain (e.g., "im")
+  const lessons = l_data.filter(item => item.code.startsWith(domain));
+
+  let domainScore = 0;
+
+  lessons.forEach(item => {
+    const code = item.code;
+    // Try to get the current score first
+    let curScore = player.GetVar(code + currentSuffix);
+    // Use initial score if current not set or zero
+    if (typeof curScore !== 'number' || curScore === 0) {
+      curScore = player.GetVar(code + initialSuffix);
+    }
+    // Coerce non-numeric or blank to 0
+    if (typeof curScore !== 'number' || isNaN(curScore)) curScore = 0;
+    domainScore += curScore;
+  });
+
+  // Set the sum to e.g. im_score (for domain = "im")
+  player.SetVar(domain + '_score', domainScore);
+
+  // Calculate percent based on max possible (number of lessons x 4)
+  const maxPossible = lessons.length * 4;
+  const percent = maxPossible > 0 ? ((domainScore / maxPossible) * 100).toFixed(2) : 0;
+
+  player.SetVar(domain + '_score_percent', percent);
+}
+
 function coerceScoreToRange(score) {
   if (score <= 25) {
     return 1;
@@ -690,6 +724,14 @@ window.addEventListener('message', function(event) {
         // You can now use event.data.score in your Storyline logic
       const coercedScore = coerceScoreToRange(Number(event.data.score));
       player.SetVar(event.data.lesson + "_cur_score", coercedScore);
+
+            // Call the new update function here!
+      const domain = event.data.lesson.slice(0,2);
+      updateDomainScore(domain);
+
+      // Now update the display with latest calculations
+      orderDomainCards(domain);
+      displaycoaching_progress(domain)
       orderDomainCards(event.data.lesson.slice(0,2));
     }
 }, false);
