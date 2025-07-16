@@ -569,7 +569,7 @@ function coach(domain, displayVar, template) {
   }));
 
   // Evaluate learner progress states
-  const neverAccessed = updatedSkills.every(s => s.status === "Not Accessed");
+  const neverAccessed = updatedSkills.every(s => s.status === "Building");
   const oneAccessed = updatedSkills.filter(s => s.current_score === 100).length === 1 && updatedSkills.some(s => s.current_score === 100);
   const allComplete = updatedSkills.every(s => s.current_score >= 4);
   const incomplete = updatedSkills.filter(s => s.status !== "Complete");
