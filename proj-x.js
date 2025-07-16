@@ -505,137 +505,76 @@ function getCoachMessage(domain, type, lesson) {
 }
 
 // display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future.
-/*
-function coach(dutyarea, displayVar) {
-
-  // Filter l_data for the selected duty area
-  const domainSkills = l_data.filter(item => item.code.startsWith(dutyarea));
-
-  // Build an updated array with current Storyline values
-  const updatedSkills = domainSkills.map(item => {
-    const code = item.code;
-    return {
-      ...item,
-      initial_score: player.GetVar(code + "_sc"),
-      current_score: player.GetVar(code + "_cur_score"),
-      status: player.GetVar(code + "_status")
-    };
-  });
-
-  // 1. Incomplete lessons (Not started or In Progress)
-  const incomplete = updatedSkills.filter(s => s.status !== "Complete");
-  if (incomplete.length > 0) {
-    incomplete.sort((a, b) =>
-      a.initial_score - b.initial_score ||
-      a.skill.localeCompare(b.skill)
-    );
-    const lesson = incomplete[0];
-    let msg = getCoachMessage(dutyarea, "priority", lesson.skill);
-    player.SetVar(displayVar, msg);
-    return;
-  }
-
-  // 2. All lessons complete, but some current scores < 4
-  const needsBoost = updatedSkills.filter(s => s.current_score < 4);
-  if (needsBoost.length > 0) {
-    needsBoost.sort((a, b) =>
-      a.current_score - b.current_score ||
-      a.skill.localeCompare(b.skill)
-    );
-    const lesson = needsBoost[0];
-    let msg = getCoachMessage(dutyarea, "needsBoost", lesson.skill);
-    player.SetVar(displayVar, msg);
-    return;
-  }
-
-  // 3. All scores 4 or higher: ready for the challenge
-  let finalMsg = getCoachMessage(dutyarea, "challengeReady", lesson.skill);
-  player.SetVar(displayVar, finalMsg);
-}
-*/
-
 function coach(domain, displayVar, template) {
+  const player = GetPlayer();
   const coachData = coachPhrases[domain];
   const messagesByTemplate = coachData.messages[template];
 
-  // Gather up-to-date lesson states
+  // Generate fresh lesson state for this domain
   const domainLessons = l_data.filter(item => item.code.startsWith(domain));
-  const updatedSkills = domainLessons.map(item => ({
+  const lessons = domainLessons.map(item => ({
     ...item,
-    initial_score: player.GetVar(item.code + "_sc"),
-    current_score: player.GetVar(item.code + "_cur_score"),
+    cur_score: player.GetVar(item.code + "_cur_score"),
     status: player.GetVar(item.code + "_status"),
+    lesson: item.lesson,
     skill: item.skill
   }));
 
-  // Evaluate learner progress states
-  const neverAccessed = updatedSkills.every(s => s.status === "Building");
-  const oneAccessed = updatedSkills.filter(s => s.current_score === 100).length === 1 && updatedSkills.some(s => s.current_score === 100);
-  const allComplete = updatedSkills.every(s => s.current_score >= 4);
-  const incomplete = updatedSkills.filter(s => s.status !== "Complete");
-  const needsBoost = updatedSkills.filter(s => s.current_score < 4 && s.status === "Complete");
+  // Use the same sorting rules as orderDomainCards for consistency
+  lessons.sort((a, b) => {
+    const aComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(a.status);
+    const bComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(b.status);
+    if (!aComplete && bComplete) return -1;
+    if (aComplete && !bComplete) return 1;
+    if (!aComplete && !bComplete) {
+      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
+      return a.skill.localeCompare(b.skill);
+    }
+    const aNeedsBoost = (a.cur_score < 4 && aComplete);
+    const bNeedsBoost = (b.cur_score < 4 && bComplete);
+    if (aNeedsBoost && !bNeedsBoost) return -1;
+    if (!aNeedsBoost && bNeedsBoost) return 1;
+    if (aNeedsBoost && bNeedsBoost) {
+      if (a.cur_score !== b.cur_score) return a.cur_score - b.cur_score;
+      return a.skill.localeCompare(b.skill);
+    }
+    return a.skill.localeCompare(b.skill);
+  });
 
-  let messageList = [];
-  let chosenMsg = "";
-  let primaryLesson = null;
+  // Find most relevant lesson for display
+  const topLesson = lessons[0];
+  const lessonPlaceholder = (template === "CH" && topLesson) ? topLesson.lesson : (topLesson ? topLesson.skill : "the next lesson");
 
-  // Coach Home (CH) detailed progress logic
+  // Determine overall progress state for messaging selection
+  const neverAccessed = lessons.every(s => s.status === "Not Started");
+  const oneAccessed = lessons.filter(s => s.status === "Accessed").length === 1;
+  const allComplete = lessons.every(s => s.status === "Expert");
+  const needsBoost = lessons.some(s => s.cur_score < 4 && s.status !== "Not Started" && s.status !== "Expert");
+
+  let msgList = [];
   if (template === "CH") {
-    if (neverAccessed && Array.isArray(messagesByTemplate.neverAccessed)) {
-      messageList = messagesByTemplate.neverAccessed;
-    } else if (oneAccessed && Array.isArray(messagesByTemplate.oneAccessed)) {
-      messageList = messagesByTemplate.oneAccessed;
-    } else if (allComplete && Array.isArray(messagesByTemplate.challengeReady)) {
-      messageList = messagesByTemplate.challengeReady;
-    } else if (needsBoost.length > 0 && Array.isArray(messagesByTemplate.needsBoost)) {
-      primaryLesson = needsBoost[0].skill;
-      messageList = messagesByTemplate.needsBoost;
-    } else if (incomplete.length > 0 && Array.isArray(messagesByTemplate.inProgress)) {
-      primaryLesson = incomplete[0].skill;
-      messageList = messagesByTemplate.inProgress;
-    }
-    // If for some reason no state matched, fallback
-    if (!messageList.length && Array.isArray(messagesByTemplate.inProgress)) {
-      messageList = messagesByTemplate.inProgress;
-    }
-    // Fill lesson placeholder if required
-    if (messageList.length) {
-      const msgTemplate = messageList[Math.floor(Math.random() * messageList.length)];
-      chosenMsg = msgTemplate.replace("{lesson}", primaryLesson || "the next lesson");
+    if (neverAccessed) msgList = messagesByTemplate.neverAccessed;
+    else if (oneAccessed) msgList = messagesByTemplate.oneAccessed;
+    else if (allComplete) msgList = messagesByTemplate.challengeReady;
+    else if (needsBoost) msgList = messagesByTemplate.needsBoost;
+    else msgList = messagesByTemplate.inProgress;
+  } else if (template === "CL") {
+    if (!allComplete && lessons.some(s => s.status !== "Expert")) {
+      if (lessons.some(s => s.status !== "Proficient" && s.status !== "Emergent" && s.status !== "Awareness" && s.status !== "Expert"))
+        msgList = messagesByTemplate.priority;
+      else
+        msgList = messagesByTemplate.needsBoost;
+    } else if (allComplete) {
+      msgList = messagesByTemplate.challengeReady;
     }
   }
 
-  // Coach Landing (CL) state logic (parallels your prior function with randomization)
-  if (template === "CL" && messagesByTemplate) {
-    // Complete logic parity: incomplete = priority; at least one complete but not all at level 4 = needsBoost; all at 4 = challengeReady
-    if (incomplete.length > 0 && Array.isArray(messagesByTemplate.priority)) {
-      primaryLesson = incomplete[0].skill;
-      messageList = messagesByTemplate.priority;
-    } else if (needsBoost.length > 0 && Array.isArray(messagesByTemplate.needsBoost)) {
-      primaryLesson = needsBoost[0].skill;
-      messageList = messagesByTemplate.needsBoost;
-    } else if (allComplete && Array.isArray(messagesByTemplate.challengeReady)) {
-      primaryLesson = updatedSkills[0]?.skill; // any lesson for positive reference
-      messageList = messagesByTemplate.challengeReady;
-    }
-    if (!messageList.length && Array.isArray(messagesByTemplate.priority)) {
-      messageList = messagesByTemplate.priority;
-    }
-    if (messageList.length) {
-      const msgTemplate = messageList[Math.floor(Math.random() * messageList.length)];
-      chosenMsg = msgTemplate.replace("{lesson}", primaryLesson || "the next lesson");
-    }
-  }
+  const msg = msgList && msgList.length
+    ? msgList[Math.floor(Math.random() * msgList.length)].replace("{lesson}", lessonPlaceholder)
+    : "Keep going—I'm here to guide you as you progress!";
 
-  // If none matched, fallback generic
-  if (!chosenMsg) {
-    chosenMsg = "Keep going—I'm here to guide you as you progress!";
-  }
-
-  // Set to Storyline var
-  player.SetVar(displayVar, chosenMsg);
+  player.SetVar(displayVar, msg);
 }
-
 
 // Lists current priority focus areas during onboarding only.
 function displayresults(){
@@ -765,7 +704,6 @@ function activatedp() {
 // this is the function that orders and updates the cards in each coaching area.
 
 function orderDomainCards(domain) {
-  console.log('ordering with '+ domain);
   const proficiencyLabels = {
     0: "No Experience",
     1: "Awareness",
@@ -774,18 +712,18 @@ function orderDomainCards(domain) {
     4: "Expert"
   };
 
-  // Filter lessons for the selected domain
+  // Retrieve all lessons for the selected domain
   const domainLessons = l_data.filter(item => item.code.startsWith(domain));
 
-  // Build lesson data and update Storyline display variables
   const lessons = domainLessons.map(item => {
     const code = item.code;
     const sc = player.GetVar(code + "_sc");
     const cur_score = player.GetVar(code + "_cur_score");
+    const lessonTitle = item.lesson;
+    const skill = item.skill;
 
-    // Set lesson title and skill display
-    player.SetVar(code + "_lesson", item.lesson);
-    player.SetVar(code + "_skill", item.skill);
+    player.SetVar(code + "_lesson", lessonTitle);
+    player.SetVar(code + "_skill", skill);
 
     // Set initial competency display
     player.SetVar(code + "_initial_comp", proficiencyLabels[sc] || "No Experience");
@@ -794,7 +732,7 @@ function orderDomainCards(domain) {
     let cur_comp, status;
     if (cur_score === 0) {
       cur_comp = "Building";
-      status = "Building";
+      status = "Not Started";
     } else if (cur_score === 100) {
       cur_comp = "Building";
       status = "Accessed";
@@ -803,7 +741,7 @@ function orderDomainCards(domain) {
       status = proficiencyLabels[cur_score];
     } else {
       cur_comp = "Not Accessed";
-      status = "Not Accessed";
+      status = "Not Started";
     }
     player.SetVar(code + "_cur_comp", cur_comp);
     player.SetVar(code + "_status", status);
@@ -814,26 +752,28 @@ function orderDomainCards(domain) {
       cur_score,
       status,
       initial_score: sc,
-      current_score: cur_score
+      current_score: cur_score,
+      lesson: lessonTitle,
+      skill
     };
   });
 
-  // Prioritization logic as before
+  // Sort lessons to determine display order/priorities
   lessons.sort((a, b) => {
-    // 1. Incomplete first (not "Expert" or "Proficient" or "Emergent" or "Awareness")
-    const aComplete = (a.status === "Expert" || a.status === "Proficient" || a.status === "Emergent" || a.status === "Awareness");
-    const bComplete = (b.status === "Expert" || b.status === "Proficient" || b.status === "Emergent" || b.status === "Awareness");
+    // 1. Put incomplete first (not a proficiency status)
+    const aComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(a.status);
+    const bComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(b.status);
     if (!aComplete && bComplete) return -1;
     if (aComplete && !bComplete) return 1;
 
-    // 2. If both incomplete, order by initial_score, then skill
+    // 2. Among incomplete, by initial_score, then skill
     if (!aComplete && !bComplete) {
       if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
       return a.skill.localeCompare(b.skill);
     }
-    // 3. If both complete, order by current_score < 4
-    const aNeedsBoost = a.current_score < 4;
-    const bNeedsBoost = b.current_score < 4;
+    // 3. Among complete, those needing a boost (score < 4), order by current_score then skill
+    const aNeedsBoost = (a.current_score < 4);
+    const bNeedsBoost = (b.current_score < 4);
     if (aNeedsBoost && !bNeedsBoost) return -1;
     if (!aNeedsBoost && bNeedsBoost) return 1;
     if (aNeedsBoost && bNeedsBoost) {
@@ -844,14 +784,14 @@ function orderDomainCards(domain) {
     return a.skill.localeCompare(b.skill);
   });
 
-  // Move cards to their new Y positions
-
+  // Move cards to their new Y positions if needed (Storyline specific)
   lessons.forEach((lesson, idx) => {
     if (lesson.objectID && yPositions[idx] !== undefined) {
       player.object(lesson.objectID).y = yPositions[idx];
     }
   });
 }
+
 
 // need to revisit this for final deployment structure.
 
