@@ -592,30 +592,44 @@ function coach(domain, displayVar, template) {
 }
 
 // Lists current priority focus areas during onboarding only.
-function displayresults(){
-player.SetVar("skill_ass_q_count",1);
-var ass_code = player.GetVar("current_assessment");
-var prior_ar = [];
-const scored_data = l_data.map(item => {
-  var varName = ass_code + item.code.slice(2) + "_sc";
-  var score = player.GetVar(varName);
-  if (typeof score !== "number") score = 0;
-  return { ...item, score: score };
-});
-const needs_development = scored_data
-  .filter(item => item.score >= 1 && item.score <= 3 && item.code.startsWith(ass_code))
-  .sort((a, b) => a.score - b.score);
-let displayString = "Top skill areas to build:\n";
-if (needs_development.length > 0) {
-  displayString += needs_development
-    .slice(0, 3) // <-- Only take the first three
-    .map(item => `${item.skill}`)
-    .join('\n');
-} else {
-  displayString = "You don't have any pressing development needs right now, but I'm sure you can fine tune some skills.";
+function displayresults() {
+  player.SetVar("skill_ass_q_count", 1);
+  var ass_code = player.GetVar("current_assessment");
+  const scored_data = l_data.map(item => {
+    var varName = ass_code + item.code.slice(2) + "_sc";
+    var score = player.GetVar(varName);
+    if (typeof score !== "number") score = 0;
+    return { ...item, score: score };
+  });
+
+  // Filter: only skills in the current assessment and score = 0
+  const domain_skills = scored_data.filter(item => item.code.startsWith(ass_code));
+  const all_zeros = domain_skills.every(item => item.score === 0);
+
+  let displayString = "";
+
+  if (all_zeros) {
+    // Case: all scores are zero
+    displayString = "You've assessed yourself at a foundational level so we will prioritize all the skills equally.";
+  } else {
+    // Case: display top 1-3 low skills, if any
+    const needs_development = domain_skills
+      .filter(item => item.score >= 1 && item.score <= 3)
+      .sort((a, b) => a.score - b.score);
+    if (needs_development.length > 0) {
+      displayString = "Top skill areas to build:\n" +
+        needs_development
+          .slice(0, 3)
+          .map(item => `${item.skill}`)
+          .join('\n');
+    } else {
+      displayString = "You've assessed yourself at an expert level so the skills will be prioritized equally. You should be able to quickly check your expertise.";
+    }
+  }
+
+  player.SetVar("prior_skills", displayString);
 }
-player.SetVar("prior_skills", displayString);
-}
+
 
 // used to display coaches and their rings in appropriate left to right order based on user progress.
 function displaycoaching_progress(template){
@@ -871,7 +885,7 @@ function coerceScoreToRange(score) {
 
 // Listen for messages from the Rise project. Rise send messages from an embedded Mightly block (interactive HTML) that incldues a quiz with post message to rise and then rise includes a parent level message handler to pass the data to the window opener.
 window.addEventListener('message', function(event) {
-
+// in debug mode we can test lessons that have been deplyed to a server to make things quick. In normal mode the exported Rise file (HTML5) needs to be in the scorms package director structure at the root level with teh folder name matching the lesosn code.
   if (debug) {
     if (event.origin !== 'https://ktdesrosiers.github.io') {
       console.log('bad origin');
