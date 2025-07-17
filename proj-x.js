@@ -557,7 +557,6 @@ function getCoachMessage(domain, type, lesson) {
 // display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future.
 function coach(domain, displayVar, template) {
   if (debug) {console.log("coach " + domain +" "+ displayVar +" "+ template)};
-  const player = GetPlayer();
   const coachData = coachPhrases[domain];
   const messagesByTemplate = coachData.messages[template];
 
@@ -955,13 +954,14 @@ window.addEventListener('message', function(event) {
     if (event.data && event.data.type === 'quizResult') {
 
       const score = Number(event.data.score);
-        alert('Quiz completed! Score: ' + event.data.score + '%');
-        // You can now use event.data.score in your Storyline logic
+        if (debug) {alert('Quiz completed! Score: ' + event.data.score + '%');}
+      var lesson_holder = "";
+
       const coercedScore = coerceScoreToRange(Number(event.data.score));
       // in debug mode we use the lesson cdoe that was passed to the lauch function as a retrun value so we can map scores to a bunch of lessons and test things.
       if (debug) { 
-        const lesson_holder = test_return_lesson;
-      } else {const lesson_holder = event.data.lesson;}
+        lesson_holder = test_return_lesson;
+      } else {lesson_holder = event.data.lesson;}
       player.SetVar(lesson_holder + "_cur_score", coercedScore);
 
             // Call the new update function here!
@@ -975,5 +975,3 @@ window.addEventListener('message', function(event) {
       coach(domain,domain+"_coach_message","CH");
     }
 }, false);
-  
-
