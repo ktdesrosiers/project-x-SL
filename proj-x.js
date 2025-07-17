@@ -556,6 +556,7 @@ function getCoachMessage(domain, type, lesson) {
 
 // display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future.
 function coach(domain, displayVar, template) {
+  if (debug) {console.log("coach " + domain +" "+ displayVar +" "+ template)};
   const player = GetPlayer();
   const coachData = coachPhrases[domain];
   const messagesByTemplate = coachData.messages[template];
@@ -628,6 +629,7 @@ function coach(domain, displayVar, template) {
 
 // Lists current priority focus areas during onboarding only.
 function displayresults() {
+  if (debug) {console.log("dispalyresults")};
   player.SetVar("skill_ass_q_count", 1);
   var ass_code = player.GetVar("current_assessment");
   const scored_data = l_data.map(item => {
@@ -668,6 +670,7 @@ function displayresults() {
 
 // used to display coaches and their rings in appropriate left to right order based on user progress.
 function displaycoaching_progress(template){
+  if (debug) {console.log("dispaly_coachingprogress" + template)};
 const ob_pos = [583,840,1100];
 const ov_pos = [458,842,1225];
 var positions = [];
@@ -780,6 +783,7 @@ function activatedp() {
 // this is the function that orders and updates the cards in each coaching area.
 
 function orderDomainCards(domain) {
+    if (debug) {console.log("orderDomainCards" + domain)};
   const proficiencyLabels = {
     0: "No Experience",
     1: "Awareness",
@@ -885,6 +889,7 @@ const quizWindow = window.open(lesson_url, '_blank');
 }
 
 function updateDomainScore(domain) {
+  if (debug) {console.log("updatedomainscore" + domain)};
   // Define variable name endings
   const initialSuffix = '_sc';
   const currentSuffix = '_cur_score';
@@ -948,15 +953,15 @@ window.addEventListener('message', function(event) {
     
     // Process the quiz result
     if (event.data && event.data.type === 'quizResult') {
-      const lesson_holder = "";
+
       const score = Number(event.data.score);
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
       const coercedScore = coerceScoreToRange(Number(event.data.score));
       // in debug mode we use the lesson cdoe that was passed to the lauch function as a retrun value so we can map scores to a bunch of lessons and test things.
       if (debug) { 
-        lesson_holder = test_return_lesson;
-      } else {lesson_holder = event.data.lesson;}
+        const lesson_holder = test_return_lesson;
+      } else {const lesson_holder = event.data.lesson;}
       player.SetVar(lesson_holder + "_cur_score", coercedScore);
 
             // Call the new update function here!
