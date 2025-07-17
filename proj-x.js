@@ -4,6 +4,8 @@
 // debug value switches the reletaive path of the storyline lesson so that we can test versus when its in a scorm package.
 
 const debug = true;
+var testlesson = "im1";
+var test_return_lesson = "";
 var player = GetPlayer();
 
 // not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
@@ -184,42 +186,50 @@ const l_data =[
  {
    "code": "st1",
    "skill": "Market Research",
-   "lesson": "Researching Disease and Therapeutic Landscapes"
+   "lesson": "Researching Disease and Therapeutic Landscapes",
+   "objectID": "6ZCtsQibvDg"
  },
  {
    "code": "st2",
    "skill": "Data Analysis",
-   "lesson": "Identifying Data for Publication"
+   "lesson": "Identifying Data for Publication",
+   "objectID": "5YuEw96YjJL"
  },
  {
    "code": "st3",
    "skill": "Needs Assessment",
-   "lesson": "Assessing Audience Information and Educational Needs"
+   "lesson": "Assessing Audience Information and Educational Needs",
+   "objectID": "62KvqIVJbsP"
  },
  {
    "code": "st4",
    "skill": "Scoping",
-   "lesson": "Defining Publication Plan Scope"
+   "lesson": "Defining Publication Plan Scope",
+   "objectID": "5xigDPxXlmr"
  },
  {
    "code": "st5",
    "skill": "Committee Management",
-   "lesson": "Managing Steering Committees"
+   "lesson": "Managing Steering Committees",
+   "objectID": "5cnEMoni6c9"
  },
  {
    "code": "st6",
    "skill": "Strategic Publishing",
-   "lesson": "Applying to Scientific Communcations Platforms"
+   "lesson": "Applying to Scientific Communcations Platforms",
+   "objectID": "5z97JS9ULpA"
  },
  {
    "code": "st7",
    "skill": "Tactical Planning",
-   "lesson": "Developing Tactical Publication Plans"
+   "lesson": "Developing Tactical Publication Plans",
+    "objectID": "5vxstZX3Vcg"
  },
  {
    "code": "st8",
    "skill": "Strategic Adaptation",
-   "lesson": "Monitoring Evolving Trends in Publication Planning"
+   "lesson": "Monitoring Evolving Trends in Publication Planning",
+   "objectID": "5YqH7FqNrnV"
  },
  {
    "code": "im1",
@@ -254,27 +264,32 @@ const l_data =[
  {
    "code": "et1",
    "skill": "Compliance",
-   "lesson": "Maintaining Knowledge of Standards, Guidelines, and Position Statements"
+   "lesson": "Maintaining Knowledge of Standards, Guidelines, and Position Statements",
+   "objectID": "6jex6g1PTmX"
  },
  {
    "code": "et2",
    "skill": "Standards Application",
-   "lesson": "Applying Standards of Ethical Conduct "
+   "lesson": "Applying Standards of Ethical Conduct ",
+    "objectID": "6iaVmSo8VbE"
  },
  {
    "code": "et3",
    "skill": "Disclosure Processing",
-   "lesson": "Ensuring Proper Disclosures"
+   "lesson": "Ensuring Proper Disclosures",
+    "objectID": "6KBnjuS2HZy"
  },
  {
    "code": "et4",
    "skill": "Recognition",
-   "lesson": "Acknowledging Contributors"
+   "lesson": "Acknowledging Contributors",
+"objectID": "5ZRhA48No0K"
  },
  {
    "code": "et5",
    "skill": "Adaptive Ethics",
-   "lesson": "Monitoring Ethical Trends"
+   "lesson": "Monitoring Ethical Trends",
+    "objectID": "5VpotCFBsI8"
  }
 ];
 const ass_content = {
@@ -626,11 +641,11 @@ var etGroup,etRing,stGroup,stRing,impGroup,impRing;
   stGroup = player.object('5V3OXYlO9IH');
   stRing = player.object('5iIP4KefbB6');
  } else {
-  // etRing = player.object('5knReKJyuLF');
-  impRing = player.object('6TddDLVxVwS');
-  // stRing = player.object('5iIP4KefbB6');
- }
 
+  etRing = player.object('621UcBuEavF');
+  impRing = player.object('6TddDLVxVwS');
+  stRing = player.object('6JXefp8mhF3');
+ }
 
 var st_score_raw = player.GetVar("st_score_percent");
 var im_score_raw = player.GetVar("im_score_percent");
@@ -796,6 +811,11 @@ function orderDomainCards(domain) {
 // need to revisit this for final deployment structure.
 
 function launchlesson(lesson){
+  // in debug mode we use the l1 lesson all the time. and set teh test_return_lesson to whatever the lesson was so we can then have a debug option in teh message handler.
+  if (debug) {
+    lesson = testlesson;
+    test_return_lesson = lesson;
+  }
   let lesson_url = lesson+'/index.html'
   if (debug) {
   lesson_url = 'https://ktdesrosiers.github.io/project-x-SL/sltest/'+lesson+'/index.html';
@@ -867,20 +887,25 @@ window.addEventListener('message', function(event) {
     
     // Process the quiz result
     if (event.data && event.data.type === 'quizResult') {
+      var lesson_holder;
       const score = Number(event.data.score);
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
       const coercedScore = coerceScoreToRange(Number(event.data.score));
-      player.SetVar(event.data.lesson + "_cur_score", coercedScore);
+      // in debug mode we use the lesson cdoe that was passed to the lauch function as a retrun value so we can map scores to a bunch of lessons and test things.
+      if (debug) { 
+        lesson_holder = test_return_lesson;
+      } else {lesson_holder = event.data.lesson;}
+      player.SetVar(lesson_holder + "_cur_score", coercedScore);
 
             // Call the new update function here!
-      const domain = event.data.lesson.slice(0,2);
+      const domain = lesson_holder.slice(0,2);
       updateDomainScore(domain);
 
       // Now update the display with latest calculations
       orderDomainCards(domain);
       displaycoaching_progress(domain)
-      orderDomainCards(event.data.lesson.slice(0,2));
+      orderDomainCards(lesson_holder.slice(0,2));
       coach(domain,domain+"_coach_message","CH");
     }
 }, false);
