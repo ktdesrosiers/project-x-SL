@@ -574,8 +574,8 @@ function coach(domain, displayVar, template) {
 
   // Use the same sorting rules as orderDomainCards for consistency
   lessons.sort((a, b) => {
-    const aComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(a.status);
-    const bComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(b.status);
+    const aComplete = ["Accessed", "Completed", "Not Started"].includes(a.status);
+    const bComplete = ["Accessed", "Completed", "Not Started"].includes(b.status);
     if (!aComplete && bComplete) return -1;
     if (aComplete && !bComplete) return 1;
     if (!aComplete && !bComplete) {
@@ -599,9 +599,9 @@ function coach(domain, displayVar, template) {
 
   // Determine overall progress state for messaging selection
   const neverAccessed = lessons.every(s => s.status === "Not Started");
-  const oneAccessed = lessons.filter(s => s.status === "Accessed").length === 1;
-  const allComplete = lessons.every(s => s.status === "Expert");
-  const needsBoost = lessons.some(s => s.cur_score < 4 && s.status !== "Not Started" && s.status !== "Expert");
+  const oneAccessed = lessons.filter(s => s.status === "Completed").length === 1;
+  const allComplete = lessons.every(s => s.status === "Completed");
+  const needsBoost = lessons.some(s => s.cur_score < 4 && s.status !== "Not Started" && s.status !== "Accessed");
 
    if (debug) {console.log("set state mess to " + neverAccessed + " " + oneAccessed + " " + allComplete + " " + needsBoost)};
 
@@ -614,7 +614,7 @@ function coach(domain, displayVar, template) {
     else msgList = messagesByTemplate.inProgress;
   } else if (template === "CL") {
     if (!allComplete && lessons.some(s => s.status !== "Expert")) {
-      if (lessons.some(s => s.status !== "Proficient" && s.status !== "Emergent" && s.status !== "Awareness" && s.status !== "Expert"))
+      if (lessons.some(s => s.status !== "Completed"))
         msgList = messagesByTemplate.priority;
       else
         msgList = messagesByTemplate.needsBoost;
@@ -825,7 +825,7 @@ function orderDomainCards(domain) {
       status = "Accessed";
     } else if (cur_score >= 1 && cur_score <= 4) {
       cur_comp = proficiencyLabels[cur_score];
-      status = proficiencyLabels[cur_score];
+      status = "Completed";
     } else {
       cur_comp = "Not Accessed";
       status = "Not Started";
@@ -848,8 +848,8 @@ function orderDomainCards(domain) {
   // Sort lessons to determine display order/priorities
   lessons.sort((a, b) => {
     // 1. Put incomplete first (not a proficiency status)
-    const aComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(a.status);
-    const bComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(b.status);
+    const aComplete = ["Accessed", "Completed", "Not Started"].includes(a.status);
+    const bComplete = ["Accessed", "Completed", "Not Started"].includes(b.status);
     if (!aComplete && bComplete) return -1;
     if (aComplete && !bComplete) return 1;
 
