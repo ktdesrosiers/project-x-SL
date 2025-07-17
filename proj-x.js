@@ -672,8 +672,9 @@ const ob_pos = [583,840,1100];
 const ov_pos = [458,842,1225];
 var positions = [];
 var etGroup,etRing,stGroup,stRing,impGroup,impRing;
- 
- if (template == "onboarding") {
+
+switch (template) {
+  case "onboarding":
   positions = ob_pos;
   etGroup = player.object('6GOcybBIo54');
   etRing = player.object('6WAwXPWcgLu');
@@ -681,7 +682,8 @@ var etGroup,etRing,stGroup,stRing,impGroup,impRing;
   impRing = player.object('6WXLXeYOLbl');
   stGroup = player.object('5oZ8jY1scCS');
   stRing = player.object('6jMHI0jQuZK');
- } else if (template == "overview") {
+    break;
+  case "overview":
   positions = ov_pos;
   etGroup = player.object('5hSdYw2TV9F');
   etRing = player.object('5knReKJyuLF');
@@ -689,12 +691,20 @@ var etGroup,etRing,stGroup,stRing,impGroup,impRing;
   impRing = player.object('5zKYuNJf4mO');
   stGroup = player.object('5V3OXYlO9IH');
   stRing = player.object('5iIP4KefbB6');
- } else {
-
-  etRing = player.object('621UcBuEavF');
-  impRing = player.object('6TddDLVxVwS');
-  stRing = player.object('6JXefp8mhF3');
- }
+  break;
+  case "st":
+    stRing = player.object('6JXefp8mhF3');
+    break;
+    case "im":
+    impRing = player.object('6TddDLVxVwS');
+    break;
+    case "et":
+    etRing = player.object('621UcBuEavF');
+    break;
+  default:
+    // Code to execute if no case matches the expression
+}
+ 
 
 var st_score_raw = player.GetVar("st_score_percent");
 var im_score_raw = player.GetVar("im_score_percent");
@@ -736,10 +746,12 @@ switch (template) {
   case "et":
     etRing.state="e"+et_tenth;
     break;
-  default:
+  case "overview":
+  case "onboarding": 
     etRing.state="e"+et_tenth;
     impRing.state="i"+im_tenth;
     stRing.state="s"+st_tenth;
+    break;
 }  
 
 }
