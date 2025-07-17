@@ -441,6 +441,40 @@ const ass_content = {
 };
 
 
+// this is called when we want to debug and set random values for the initial assessment to save time.
+
+function debugSkippAss() {
+  // Group lessons by domain prefix (e.g., 'im', 'st', 'et')
+  const domainMap = {};
+
+  l_data.forEach(item => {
+    const code = item.code;
+    // Extract domain prefix (first 2 letters), e.g., 'im'
+    const domain = code.slice(0, 2);
+    if (!domainMap[domain]) domainMap[domain] = [];
+    // Random integer between 0 and 4
+    const randomScore = Math.floor(Math.random() * 5);
+    // Set Storyline variable, e.g., 'im1_sc'
+    player.SetVar(code + "_sc", randomScore);
+    domainMap[domain].push(randomScore);
+  });
+
+  // For each domain, compute and set the percent score
+  Object.keys(domainMap).forEach(domain => {
+    const scores = domainMap[domain];
+    const total = scores.reduce((sum, val) => sum + val, 0);
+    const max = scores.length * 4;
+    let percent = 0;
+    if (max > 0) {
+      percent = (total / max) * 100;
+    }
+    // Format to two decimal points
+    const percentStr = percent.toFixed(2);
+    player.SetVar(domain + "_score_percent", percentStr);
+  });
+}
+
+
 // this helper function accounts for poor text handling abilities in storyline and replacees newline with <br><br>
 function replaceNewlines(text) {
   return text.replace(/\n/g, '<br><br>');
