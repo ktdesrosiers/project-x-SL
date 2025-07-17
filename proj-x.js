@@ -877,9 +877,9 @@ function orderDomainCards(domain) {
 function launchlesson(lesson){
   // in debug mode we use the l1 lesson all the time. and set teh test_return_lesson to whatever the lesson was so we can then have a debug option in teh message handler.
   if (debug) {
-    lesson = testlesson;
     test_return_lesson = lesson;
-  }
+    lesson = testlesson;
+    }
   let lesson_url = lesson+'/index.html'
   if (debug) {
   lesson_url = 'https://ktdesrosiers.github.io/project-x-SL/sltest/'+lesson+'/index.html';
