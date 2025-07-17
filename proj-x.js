@@ -598,7 +598,7 @@ function coach(domain, displayVar, template) {
   const lessonPlaceholder = (template === "CH" && topLesson) ? topLesson.lesson : (topLesson ? topLesson.skill : "the next lesson");
 
   // Determine overall progress state for messaging selection
-  const neverAccessed = lessons.every(s => s.status === "Not Started");
+  const neverAccessed = lessons.some(s => s.status === "Not Started");
   const oneAccessed = lessons.filter(s => s.status === "Completed").length === 1;
   const allComplete = lessons.every(s => s.status === "Completed");
   const needsBoost = lessons.some(s => s.cur_score < 4 && s.status !== "Not Started" && s.status !== "Accessed");
