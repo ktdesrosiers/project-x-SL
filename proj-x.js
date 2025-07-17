@@ -570,6 +570,8 @@ function coach(domain, displayVar, template) {
     skill: item.skill
   }));
 
+  if (debug) {console.log("set lessons to " + JSON.stringify(lessons))};
+
   // Use the same sorting rules as orderDomainCards for consistency
   lessons.sort((a, b) => {
     const aComplete = ["Expert", "Proficient", "Emergent", "Awareness"].includes(a.status);
@@ -601,6 +603,8 @@ function coach(domain, displayVar, template) {
   const allComplete = lessons.every(s => s.status === "Expert");
   const needsBoost = lessons.some(s => s.cur_score < 4 && s.status !== "Not Started" && s.status !== "Expert");
 
+   if (debug) {console.log("set state mess to " + neverAccessed + " " + oneAccessed + " " + allComplete + " " + needsBoost)};
+
   let msgList = [];
   if (template === "CH") {
     if (neverAccessed) msgList = messagesByTemplate.neverAccessed;
@@ -619,10 +623,14 @@ function coach(domain, displayVar, template) {
     }
   }
 
+   if (debug) {console.log("set message list to " + JSON.stringify(msgList))};
+
   const msg = msgList && msgList.length
     ? msgList[Math.floor(Math.random() * msgList.length)].replace("{lesson}", lessonPlaceholder)
     : "Keep going—I'm here to guide you as you progress!";
-
+if (typeof msg !== "string") {
+  console.log("Coach function: msg is not a string!", msg);
+}
   player.SetVar(displayVar, msg);
 }
 
