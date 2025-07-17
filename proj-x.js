@@ -948,7 +948,7 @@ window.addEventListener('message', function(event) {
     
     // Process the quiz result
     if (event.data && event.data.type === 'quizResult') {
-      var lesson_holder;
+      const lesson_holder = "";
       const score = Number(event.data.score);
         alert('Quiz completed! Score: ' + event.data.score + '%');
         // You can now use event.data.score in your Storyline logic
