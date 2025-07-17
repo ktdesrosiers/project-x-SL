@@ -977,7 +977,6 @@ window.addEventListener('message', function(event) {
       updateDomainScore(domain);
 
       // Now update the display with latest calculations
-      orderDomainCards(domain);
       displaycoaching_progress(domain)
       orderDomainCards(lesson_holder.slice(0,2));
       coach(domain,domain+"_coach_message","CH");
