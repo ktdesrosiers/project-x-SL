@@ -598,23 +598,31 @@ function coach(domain, displayVar, template) {
   const lessonPlaceholder = (template === "CH" && topLesson) ? topLesson.lesson : (topLesson ? topLesson.skill : "the next lesson");
 
   // Determine overall progress state for messaging selection
-  const neverAccessed = lessons.some(s => s.status === "Not Started");
-  const oneAccessed = lessons.filter(s => s.status === "Completed").length === 1;
-  const inProgress = lessons.some(s => s.status === "Accessed" || s.status === "In Progress");
-  const allComplete = lessons.every(s => s.status === "Completed");
-  const needsBoost = lessons.some(s => s.cur_score < 4 && s.status !== "Not Started" && s.status !== "Accessed");
+const neverAccessed = lessons.every(s => s.status === "Not Started");
+const oneAccessed = lessons.filter(s => s.status === "Completed").length === 1;
+const allComplete = lessons.every(s => s.status === "Completed");
+const needsBoost = allComplete && lessons.some(s => s.cur_score < 3);
+const inProgress = lessons.some(s => s.status === "Accessed" || s.status === "Not Started");
+const challengeReady = lessons.every(s => s.status === "Completed" && s.cur_score > 2);
 
    if (debug) {console.log("set state mess to " + neverAccessed + " " + oneAccessed + " " + allComplete + " " + needsBoost)};
 
   let msgList = [];
-  if (template === "CH") {
-    if (neverAccessed) msgList = messagesByTemplate.neverAccessed;
-    else if (oneAccessed) msgList = messagesByTemplate.oneAccessed;
-    else if (inProgress) msgList = messagesByTemplate.inProgress;
-    else if (allComplete) msgList = messagesByTemplate.challengeReady;
-    else if (needsBoost) msgList = messagesByTemplate.needsBoost;
-    else msgList = messagesByTemplate.inProgress;
-  } else if (template === "CL") {
+  if (template === "CH"){
+    if (neverAccessed) {
+        msgList = messagesByTemplate.neverAccessed;
+    } else if (oneAccessed) {
+        msgList = messagesByTemplate.oneAccessed;
+    } else if (needsBoost) {
+        msgList = messagesByTemplate.needsBoost;
+    } else if (challengeReady) {
+        msgList = messagesByTemplate.challengeReady;
+    } else if (inProgress) {
+        msgList = messagesByTemplate.inProgress;
+    } else {
+        msgList = messagesByTemplate.inProgress; // fallback to inProgress
+    }
+} else if (template === "CL") {
     if (!allComplete && lessons.some(s => s.status !== "Expert")) {
       if (lessons.some(s => s.status !== "Completed"))
         msgList = messagesByTemplate.priority;
@@ -822,7 +830,7 @@ function orderDomainCards(domain) {
     if (cur_score === 0) {
       cur_comp = "Building";
       status = "Not Started";
-    } else if (cur_score === 100) {
+    } else if (cur_score === 999) {
       cur_comp = "Building";
       status = "Accessed";
     } else if (cur_score >= 1 && cur_score <= 4) {
@@ -861,8 +869,8 @@ function orderDomainCards(domain) {
       return a.skill.localeCompare(b.skill);
     }
     // 3. Among complete, those needing a boost (score < 4), order by current_score then skill
-    const aNeedsBoost = (a.current_score < 4);
-    const bNeedsBoost = (b.current_score < 4);
+    const aNeedsBoost = (a.current_score < 3);
+    const bNeedsBoost = (b.current_score < 3);
     if (aNeedsBoost && !bNeedsBoost) return -1;
     if (!aNeedsBoost && bNeedsBoost) return 1;
     if (aNeedsBoost && bNeedsBoost) {
