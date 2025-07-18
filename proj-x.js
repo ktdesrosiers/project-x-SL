@@ -600,6 +600,7 @@ function coach(domain, displayVar, template) {
   // Determine overall progress state for messaging selection
   const neverAccessed = lessons.some(s => s.status === "Not Started");
   const oneAccessed = lessons.filter(s => s.status === "Completed").length === 1;
+  const inProgress = lessons.some(s => s.status === "Accessed" || s.status === "In Progress");
   const allComplete = lessons.every(s => s.status === "Completed");
   const needsBoost = lessons.some(s => s.cur_score < 4 && s.status !== "Not Started" && s.status !== "Accessed");
 
@@ -609,6 +610,7 @@ function coach(domain, displayVar, template) {
   if (template === "CH") {
     if (neverAccessed) msgList = messagesByTemplate.neverAccessed;
     else if (oneAccessed) msgList = messagesByTemplate.oneAccessed;
+    else if (inProgress) msgList = messagesByTemplate.inProgress;
     else if (allComplete) msgList = messagesByTemplate.challengeReady;
     else if (needsBoost) msgList = messagesByTemplate.needsBoost;
     else msgList = messagesByTemplate.inProgress;
