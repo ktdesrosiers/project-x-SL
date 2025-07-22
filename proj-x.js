@@ -35,6 +35,27 @@ const coachPhrases = {
           "Nice progress so far. Let me know if you’d like to move on to the next step.",
           "Ready for a challenge? I have something special lined up for you.",
           "Your preparation shows. Let’s see how you handle the next level."
+        ],
+        // New states for challenge results on CL
+        challengeZero: [
+          "You attempted the challenge, but didn’t get anything right. Let's regroup and go again soon.",
+          "We all start somewhere—even a strategist can miss every question the first time! Try the challenge again, and I’ll help you climb from here.",
+          "No correct answers, but that means there’s nowhere to go but up. Let's analyze your answers and try again."
+        ],
+        challengeNeedsHighlight: [
+          "Doing well, but a few lessons need your strategic attention. I’ve highlighted them for you—let’s work on those together.",
+          "Some lessons stand out for a review. Focus there and you’ll see your strategy sharpen.",
+          "You’re making good progress. The highlighted lessons are your best next steps."
+        ],
+        challengeLessThan100: [
+          "Great progress—no major gaps. Keep putting theory into practice and you’ll master this soon.",
+          "Solid showing! No key lessons flagged, but more practice will turn you into a top strategist.",
+          "You’re on the right path—review, retry, and you’ll ace it."
+        ],
+        challengePerfect: [
+          "Perfect score! You’re doing extremely well—let’s continue exploring together whenever you like.",
+          "You’ve set the strategic standard! I’m excited to keep learning with you—challenge me to keep sharp.",
+          "Excellent achievement—full marks! Now’s your chance to explore new skills."
         ]
       },
       CH: {
@@ -65,6 +86,27 @@ const coachPhrases = {
           "You’re ready for the next level. The challenge will stretch your abilities and offer new perspectives each time.",
           "The strategic challenge is designed to keep you on your toes. Try it often—each attempt brings new insights.",
           "Now’s your chance to put your strategy skills to the test. The challenge adapts, so every round is a fresh opportunity."
+        ],
+        // New states for challenge results on CH
+        challengeZero: [
+          "It was great that you took the challenge, but I have to tell you some bad news: none correct. Can you try again?",
+          "First attempt didn’t land, but strategic minds always rise again. Ready for round two?",
+          "No points this time—analyze, adapt, and let’s try the challenge again!"
+        ],
+        challengeNeedsHighlight: [
+          "Nice attempt! I’ve highlighted lessons worth a deeper dive based on your results. Ready to tackle them and try again?",
+          "Good work, strategist. Let’s review the highlighted lessons and build your mastery.",
+          "Progress made, but a few lessons deserve another go. See your highlights and take the challenge again."
+        ],
+        challengeLessThan100: [
+          "Great work! A few soft spots, but nothing major. Keep sharpening your skills and try again any time.",
+          "You’re close—refine your approach and you’ll master this challenge soon.",
+          "Impressive progress! Retake the challenge whenever you want to aim for perfection."
+        ],
+        challengePerfect: [
+          "Perfect! You aced the strategic challenge. Shift your focus to new territory and keep growing.",
+          "You’ve reached the summit! Take on new skills or mentor others while you maintain your edge.",
+          "Excellent—flawless results! Let’s keep building your strategic power."
         ]
       }
     }
@@ -91,6 +133,26 @@ const coachPhrases = {
           "Good work so far. We can move ahead whenever you feel prepared.",
           "You’ve built a strong foundation. Time to put it to the test.",
           "Ready for a challenge? Let’s see your skills in action."
+        ],
+        challengeZero: [
+          "You finished the challenge, but didn’t hit any answers. That's just a starting point—try one more time.",
+          "No correct answers this time, but things will click with another attempt.",
+          "Zero for now, but no worries. Let’s give it another go together."
+        ],
+        challengeNeedsHighlight: [
+          "Not bad—some lessons flagged for another look. Practice will bring results!",
+          "A few bumps in the road—focus on the highlighted lessons to improve.",
+          "Some areas could use a second pass. Tackle the highlighted lessons, then retake the challenge!"
+        ],
+        challengeLessThan100: [
+          "I like your progress—keep it up and retake the challenge to hone your approach!",
+          "Good effort—no big gaps. Practice and persistence make perfect.",
+          "Solid results. More attempts will build your confidence even further."
+        ],
+        challengePerfect: [
+          "Impressive! You’ve set the standard. Keep exploring, I’ll be here every step.",
+          "Perfect run! Take the momentum into other skills.",
+          "Excellent—a flawless challenge. Help others, or stretch yourself with a new area."
         ]
       },
       CH: {
@@ -121,6 +183,26 @@ const coachPhrases = {
           "Excellent work—now’s the time to take on the challenge. Its adaptive questions make each round unique. Regular attempts build your mastery.",
           "You’ve made it! The challenge quiz is designed to keep surprising you, so give it a go whenever you want to test yourself.",
           "The challenge is your chance to put everything into practice. Each try is a new opportunity to improve."
+        ],
+        challengeZero: [
+          "Tough break! No correct answers this time, but it’s just the start. Try again—I know you can do it.",
+          "Zero this time, but persistence will win out. Give it another go, and let’s get those points up!",
+          "No luck this round—take a breath and try the challenge again!"
+        ],
+        challengeNeedsHighlight: [
+          "You did well—check out the lessons I’ve highlighted for a bit more work. Practice makes perfect!",
+          "Good effort, but some lessons need another look. See the highlights and return to the challenge soon.",
+          "I’ve flagged some lessons for you to focus on—let’s make the next attempt your best."
+        ],
+        challengeLessThan100: [
+          "You’re on the right track—no lessons need extra attention, just a bit more polish next time.",
+          "Just a small gap to close. Try again to reach the top!",
+          "Very solid work! You’re closing in on perfection—keep it going."
+        ],
+        challengePerfect: [
+          "Outstanding! 100% correct—you’re implementation royalty. Keep your momentum going in other areas.",
+          "Perfect result! Take a moment to appreciate your hard work.",
+          "Excellent—flawless execution. You can help others, or raise the bar higher for yourself!"
         ]
       }
     }
@@ -147,6 +229,26 @@ const coachPhrases = {
           "Nice work so far. Let me know if you’d like to try the next challenge.",
           "You’re ready for the ethics challenge. Let’s see how you apply your knowledge.",
           "The next challenge awaits—let’s see your ethical reasoning in action."
+        ],
+        challengeZero: [
+          "Challenge was completed but zero correct. This is an invitation to try again. You can do it.",
+          "Zero correct answers isn’t the end—just a step in the ethical journey. Try once more, and I’ll help you along.",
+          "It happens—no correct responses. Take time to review and attempt the challenge again."
+        ],
+        challengeNeedsHighlight: [
+          "Progress noted—let’s focus on highlighted lessons to strengthen your foundation.",
+          "Highlighted lessons need additional focus—work there, and you’ll see improvement.",
+          "You’re doing well, but some concepts need reinforcing. Check the highlights."
+        ],
+        challengeLessThan100: [
+          "Solid progress overall—nothing flagged this time. Keep developing your expertise.",
+          "You’re gaining ground—review, retry, and you’ll soon be at the top.",
+          "Good progress—one or two points away from mastery!"
+        ],
+        challengePerfect: [
+          "Excellent achievement—100% complete. Let’s push your ethical thinking even further as you see fit.",
+          "You’ve done outstanding work—now keep asking tough questions!",
+          "Perfect score—inspiring. Continue, and keep setting the bar high."
         ]
       },
       CH: {
@@ -177,11 +279,32 @@ const coachPhrases = {
           "The ethics challenge is designed to stretch your thinking. Each attempt brings new scenarios—try it often to keep your skills sharp.",
           "Ready for the next step? The challenge adapts to your progress, so every round is a new opportunity.",
           "Now’s your chance to put your ethical reasoning to the test. The challenge will keep you learning with every try."
+        ],
+        challengeZero: [
+          "Not every challenge goes well. Zero correct, but every attempt builds wisdom. Ready to try again with me?",
+          "You gave it a try, but no correct answers yet. Persevere, and you'll soon see results.",
+          "No points this round, but that’s where learning begins. Let’s try again and dig deeper."
+        ],
+        challengeNeedsHighlight: [
+          "Some lessons are highlighted for further review—let’s focus there. You’re making progress, keep it up.",
+          "A few areas need deeper exploration. Let’s commit time to the highlighted lessons.",
+          "Consider the highlighted lessons for a stronger ethical core—another challenge run will show your growth."
+        ],
+        challengeLessThan100: [
+          "Excellent showing. No lessons flagged for review—just a few details to polish. Come back and test your ethical mettle anytime.",
+          "No major gaps—just a few things left to perfect. I’m always here to discuss and review.",
+          "Great job overall—just a little more work to achieve a perfect result."
+        ],
+        challengePerfect: [
+          "Flawless completion. Ethics are clearly your strong suit—keep challenging yourself as you progress in new ways.",
+          "No mistakes—exemplary work! Seek new challenges to continue your growth.",
+          "Couldn’t ask for better—your ethical guidance is top notch. Keep going strong."
         ]
       }
     }
   }
 };
+
 
 const l_data =[
  {
@@ -446,260 +569,302 @@ const ass_content = {
 
 const challenge_content = {
   st: {
-    // st1: Market Research
+    // Market Research (Maia - Strategy)
     "st1_1": {
-      "stem": "What is the first step in market research?",
-      "dist_1": "Internet search.",
-      "dist_2": "Review publications.",
-      "dist_3": "Consult experts.",
-      "dist_4": "Comprehensive review.",
-      "dist_5": "Wait for instructions.",
-      "correct": [4]
+      "stem": "Maia here! What's the *least* reliable market research technique? Be honest, we all have that one friend who guesses.",
+      "dist_1": "Ask your neighbor’s cat.",
+      "dist_2": "Review professional publications.",
+      "dist_3": "Conduct structured interviews.",
+      "dist_4": "Launch an internet search.",
+      "dist_5": "Consult field experts.",
+      "correct": [1]
     },
     "st1_2": {
-      "stem": "Select all effective market research methods.",
-      "dist_1": "Surveys.",
-      "dist_2": "Focus groups.",
-      "dist_3": "Ignore data.",
-      "dist_4": "Literature review.",
-      "dist_5": "Stakeholder interviews.",
-      "correct": [1,2,4,5]
+      "stem": "What market research tactic would I, Maia, use only if I lost a bet?",
+      "dist_1": "Stakeholder interviews.",
+      "dist_2": "Ignore all data.",
+      "dist_3": "Literature review.",
+      "dist_4": "Focus groups.",
+      "dist_5": "Send surveys.",
+      "correct": [2]
     },
     "st1_3": {
-      "stem": "Why is market research important?",
-      "dist_1": "Identifies needs.",
-      "dist_2": "Supports planning.",
-      "dist_3": "Improves relevance.",
-      "dist_4": "All of the above.",
-      "dist_5": "Not important.",
-      "correct": [4]
+      "stem": "Which research method belongs on a reality show instead of a boardroom?",
+      "dist_1": "Poll people at a fashion show.",
+      "dist_2": "Analyze competitor data.",
+      "dist_3": "Ask your hairdresser for medical insights.",
+      "dist_4": "Synthesize clinical trial results.",
+      "dist_5": "Organize expert panels.",
+      "correct": [1,3]
     },
-    // st2: Data Analysis
+
+    // Data Analysis (Maia - Strategy)
     "st2_1": {
-      "stem": "What data should be prioritized?",
-      "dist_1": "Safety only.",
-      "dist_2": "Efficacy and safety.",
-      "dist_3": "Primary and secondary endpoints.",
-      "dist_4": "Testimonials.",
-      "dist_5": "Minimal results.",
-      "correct": [3]
+      "stem": "When analyzing clinical data, what makes Maia roll her eyes the hardest?",
+      "dist_1": "Base everything on a single YouTube comment.",
+      "dist_2": "Analyze efficacy and safety endpoints.",
+      "dist_3": "Include primary and secondary endpoints.",
+      "dist_4": "Prioritize testimonials over data.",
+      "dist_5": "Trust results from an online quiz.",
+      "correct": [1,4,5]
     },
     "st2_2": {
-      "stem": "Select all important aspects of data analysis.",
-      "dist_1": "Accuracy.",
-      "dist_2": "Relevance.",
-      "dist_3": "Transparency.",
-      "dist_4": "Ignore outliers.",
+      "stem": "Maia says, 'If your data analysis includes THIS, I’m calling the scriptwriters.' What is it?",
+      "dist_1": "Ignore outliers because they're 'weird.'",
+      "dist_2": "Ensure data accuracy.",
+      "dist_3": "Consider relevance.",
+      "dist_4": "Transparent reporting.",
       "dist_5": "Comprehensive review.",
-      "correct": [1,2,3,5]
+      "correct": [1]
     },
     "st2_3": {
-      "stem": "Why is data analysis critical?",
-      "dist_1": "Valid conclusions.",
-      "dist_2": "Publication integrity.",
-      "dist_3": "Key findings.",
-      "dist_4": "All of the above.",
-      "dist_5": "Not important.",
-      "correct": [4]
+      "stem": "Maia challenges: Which combo helps ensure proper data analysis?",
+      "dist_1": "Accuracy.",
+      "dist_2": "Guesswork.",
+      "dist_3": "Transparency.",
+      "dist_4": "Cookie-cutter answers.",
+      "dist_5": "Comprehensive review.",
+      "correct": [1,3,5]
     },
-    // st3: Needs Assessment
+
+    // Needs Assessment (Maia - Strategy)
     "st3_1": {
-      "stem": "Best way to assess audience needs?",
-      "dist_1": "Use past strategies.",
-      "dist_2": "Informal interviews.",
-      "dist_3": "Surveys and focus groups.",
-      "dist_4": "Ignore feedback.",
-      "dist_5": "Guess needs.",
-      "correct": [3]
+      "stem": "Best way to understand your audience’s needs, according to Maia (hint: not tarot cards)?",
+      "dist_1": "Guess based on trending hashtags.",
+      "dist_2": "Surveys and focus groups.",
+      "dist_3": "Read tea leaves.",
+      "dist_4": "Check patient feedback.",
+      "dist_5": "Informal interviews.",
+      "correct": [2,4,5]
     },
     "st3_2": {
-      "stem": "Select all effective needs assessment methods.",
-      "dist_1": "Surveys.",
-      "dist_2": "Focus groups.",
-      "dist_3": "Ignore stakeholders.",
-      "dist_4": "Interviews.",
+      "stem": "Which approach would Maia never recommend for needs assessment?",
+      "dist_1": "Ignore stakeholders.",
+      "dist_2": "Conduct interviews.",
+      "dist_3": "Distribute surveys.",
+      "dist_4": "Host focus groups.",
       "dist_5": "Review publications.",
-      "correct": [1,2,4,5]
+      "correct": [1]
     },
     "st3_3": {
-      "stem": "Why is needs assessment important?",
-      "dist_1": "Aligns content.",
-      "dist_2": "Improves engagement.",
-      "dist_3": "Supports goals.",
-      "dist_4": "All of the above.",
-      "dist_5": "Not important.",
-      "correct": [4]
+      "stem": "A surefire way to misread an audience (Maia’s pet peeve):",
+      "dist_1": "Use only last year’s tactics.",
+      "dist_2": "Gather new input from the audience.",
+      "dist_3": "Guess and go with gut feeling.",
+      "dist_4": "Ignore feedback loops.",
+      "dist_5": "Collect comprehensive needs data.",
+      "correct": [1,3,4]
     },
-    // st4: Scoping
+
+    // Scoping (Maia - Strategy)
     "st4_1": {
-      "stem": "How should scope be defined?",
-      "dist_1": "Ease of completion.",
-      "dist_2": "Align with needs.",
-      "dist_3": "Report minimal data.",
-      "dist_4": "Commercial messaging.",
-      "dist_5": "Ignore scope.",
-      "correct": [2]
+      "stem": "Maia’s #1 rule for defining project scope?",
+      "dist_1": "Align with audience needs.",
+      "dist_2": "Choose the shortest path.",
+      "dist_3": "Base it on lunar phases.",
+      "dist_4": "Report only minimal data.",
+      "dist_5": "Copy competitor scope.",
+      "correct": [1]
     },
     "st4_2": {
-      "stem": "Select all factors in scoping.",
-      "dist_1": "Audience needs.",
-      "dist_2": "Clinical relevance.",
-      "dist_3": "Regulatory requirements.",
-      "dist_4": "Ignore guidelines.",
-      "dist_5": "Strategic objectives.",
-      "correct": [1,2,3,5]
+      "stem": "Which scoping mistake lands you on Maia's 'Must Try Harder' list?",
+      "dist_1": "Ignore guidelines as they’re 'optional.'",
+      "dist_2": "Consider strategic objectives.",
+      "dist_3": "Account for regulatory requirements.",
+      "dist_4": "Address clinical relevance.",
+      "dist_5": "Include audience needs.",
+      "correct": [1]
     },
     "st4_3": {
-      "stem": "Why is proper scoping important?",
-      "dist_1": "Ensures relevance.",
-      "dist_2": "Supports compliance.",
-      "dist_3": "Improves outcomes.",
-      "dist_4": "All of the above.",
-      "dist_5": "Not important.",
-      "correct": [4]
-    },
-    // st5: Committee Management
-    "st5_1": {
-      "stem": "Key to effective committee management?",
-      "dist_1": "Regular meetings and diversity.",
-      "dist_2": "Infrequent meetings.",
-      "dist_3": "Ignore teams.",
-      "dist_4": "Only clinical team.",
-      "dist_5": "No meetings.",
-      "correct": [1]
-    },
-    "st5_2": {
-      "stem": "Select all best practices for committee management.",
-      "dist_1": "Diverse representation.",
-      "dist_2": "Regular updates.",
-      "dist_3": "Ignore feedback.",
-      "dist_4": "Clear communication.",
-      "dist_5": "Defined roles.",
-      "correct": [1,2,4,5]
-    },
-    "st5_3": {
-      "stem": "Why is committee management important?",
-      "dist_1": "Smooth execution.",
-      "dist_2": "Collaboration.",
-      "dist_3": "Decision-making.",
-      "dist_4": "All of the above.",
-      "dist_5": "Not important.",
-      "correct": [4]
-    },
-    // st6: Strategic Publishing
-    "st6_1": {
-      "stem": "Best approach to platform setup?",
-      "dist_1": "Basic info.",
-      "dist_2": "Standard fields and workflow.",
-      "dist_3": "Detailed record and adapt.",
-      "dist_4": "Use all features.",
-      "dist_5": "Ignore documentation.",
-      "correct": [4]
-    },
-    "st6_2": {
-      "stem": "Select all important steps in strategic publishing.",
-      "dist_1": "Structured review.",
-      "dist_2": "Version control.",
-      "dist_3": "Ignore compliance.",
-      "dist_4": "Cross-link projects.",
-      "dist_5": "Automate checks.",
-      "correct": [1,2,4,5]
-    },
-    "st6_3": {
-      "stem": "Why is strategic publishing important?",
-      "dist_1": "Ensures compliance.",
-      "dist_2": "Improves efficiency.",
-      "dist_3": "Supports best practices.",
-      "dist_4": "All of the above.",
-      "dist_5": "It is not important.",
-      "correct": [1,2,3,4]
-    },
-    // st7: Tactical Planning
-    "st7_1": {
-      "stem": "How should plain language summaries be integrated?",
-      "dist_1": "Scheduled after manuscript.",
-      "dist_2": "Separate deliverable.",
-      "dist_3": "Develop in parallel.",
-      "dist_4": "Fully integrated with advocates.",
-      "dist_5": "Ignore PLS.",
-      "correct": [4]
-    },
-    "st7_2": {
-      "stem": "Select all best practices for tactical planning.",
-      "dist_1": "Concurrent development.",
-      "dist_2": "Involve patient advocates.",
-      "dist_3": "Check journal requirements.",
-      "dist_4": "Ignore guidelines.",
-      "dist_5": "Customize approvals.",
-      "correct": [1,2,3,5]
-    },
-    "st7_3": {
-      "stem": "Why is tactical planning important?",
-      "dist_1": "Aligns with audience needs.",
-      "dist_2": "Improves communication.",
-      "dist_3": "Supports rapid publication.",
-      "dist_4": "All of the above.",
-      "dist_5": "It is not important.",
-      "correct": [1,2,3,4]
-    },
-    // st8: Strategic Adaptation
-    "st8_1": {
-      "stem": "How should evolving trends be monitored?",
-      "dist_1": "Quick review occasionally.",
-      "dist_2": "Regular review and meetings.",
-      "dist_3": "Ignore trends.",
-      "dist_4": "Lead working groups.",
-      "dist_5": "Wait for memos.",
-      "correct": [2,4]
-    },
-    "st8_2": {
-      "stem": "Select all best practices for adaptation.",
-      "dist_1": "Review industry trends.",
-      "dist_2": "Collaborate with peers.",
-      "dist_3": "Implement guidelines.",
-      "dist_4": "Ignore changes.",
-      "dist_5": "Document standards.",
-      "correct": [1,2,3,5]
-    },
-    "st8_3": {
-      "stem": "Why is strategic adaptation important?",
-      "dist_1": "Ensures relevance.",
-      "dist_2": "Supports innovation.",
-      "dist_3": "Improves outcomes.",
-      "dist_4": "All of the above.",
-      "dist_5": "It is not important.",
-      "correct": [1,2,3,4]
+      "stem": "Essentials Maia always includes in thorough scoping:",
+      "dist_1": "Audience needs.",
+      "dist_2": "Strategic objectives.",
+      "dist_3": "Favorite snack food.",
+      "dist_4": "Regulatory requirements.",
+      "dist_5": "Random Twitter polls.",
+      "correct": [1,2,4]
     }
   },
+
   im: {
-    // ... (existing im questions)
-    // [existing content unchanged]
+    // Outreach (Pat - Implementation)
     "im1_1": {
-      "stem": "What is the first step in engaging authors for a publication?",
-      "dist_1": "Send a generic email to all contributors.",
-      "dist_2": "Identify lead author based on expertise.",
-      "dist_3": "Assign authors randomly.",
-      "dist_4": "Ignore author selection.",
-      "dist_5": "Wait for volunteers.",
+      "stem": "Pat here! Which author outreach approach is least likely to succeed (even with jazz hands)?",
+      "dist_1": "Personalized emails with context.",
+      "dist_2": "Smoke signals.",
+      "dist_3": "A well-timed phone call.",
+      "dist_4": "Inviting to a brainstorm lunch.",
+      "dist_5": "Post-it note on the breakroom fridge.",
+      "correct": [2,5]
+    },
+    "im1_2": {
+      "stem": "Pat asks: which silly method won’t help you recruit contributors?",
+      "dist_1": "Milk-carton announcement.",
+      "dist_2": "Tailored feedback for expertise.",
+      "dist_3": "Busking outside conferences.",
+      "dist_4": "Inviting to an elite workshop.",
+      "dist_5": "Random assignment.",
+      "correct": [1,3,5]
+    },
+    "im1_3": {
+      "stem": "Pat wonders: If you accidentally assign authorship to your pet goldfish, what might go wrong?",
+      "dist_1": "Your goldfish forgets to disclose conflicts.",
+      "dist_2": "Authors claim the manuscript is 'too wet.'",
+      "dist_3": "Someone never checks their inbox.",
+      "dist_4": "No one volunteers.",
+      "dist_5": "An author uses jazz puns in response.",
+      "correct": [1,2,3]
+    },
+
+    // Workflow Processing (Pat - Implementation)
+    "im2_1": {
+      "stem": "Pat: What’s missing from a smooth workflow process?",
+      "dist_1": "Clear steps for review.",
+      "dist_2": "A time machine.",
+      "dist_3": "Transparent feedback.",
+      "dist_4": "Automated reminders.",
+      "dist_5": "Strategy sessions.",
       "correct": [2]
     },
-    // ... rest of im questions ...
-  },
-  et: {
-    // ... (existing et questions)
-    // [existing content unchanged]
-    "et1_1": {
-      "stem": "What is the first step in maintaining compliance?",
-      "dist_1": "Review current guidelines.",
-      "dist_2": "Ignore updates.",
-      "dist_3": "Delegate responsibility.",
-      "dist_4": "Rely on past experience.",
-      "dist_5": "Wait for audits.",
-      "correct": [1]
+    "im2_2": {
+      "stem": "Pat says, 'If you want chaos, include THIS in workflow!'",
+      "dist_1": "Complete disregard for version control.",
+      "dist_2": "Shared checklists.",
+      "dist_3": "Clearly defined timelines.",
+      "dist_4": "Surprise karaoke sessions.",
+      "dist_5": "Forget to update the status board.",
+      "correct": [1,4,5]
     },
-    // ... rest of et questions ...
+    "im2_3": {
+      "stem": "For efficient processing, Pat steers clear of:",
+      "dist_1": "Randomly assigning deadlines.",
+      "dist_2": "Tracking manuscript progress.",
+      "dist_3": "Regular team huddles.",
+      "dist_4": "Post-it notes only system.",
+      "dist_5": "Cloud-based platforms.",
+      "correct": [1,4]
+    },
+
+    // Publication Administration (Pat - Implementation)
+    "im3_1": {
+      "stem": "Pat: In admin work, what’s an unlikely best practice?",
+      "dist_1": "Documenting every step.",
+      "dist_2": "Trusting your memory alone.",
+      "dist_3": "Setting calendar reminders.",
+      "dist_4": "Daily inbox cleanups.",
+      "dist_5": "Using a Journal as a pillow.",
+      "correct": [2,5]
+    },
+    "im3_2": {
+      "stem": "You want admin mayhem? Pat says do this:",
+      "dist_1": "Lose track of submission deadlines.",
+      "dist_2": "Misplace manuscript files regularly.",
+      "dist_3": "Color-code all files by the mood of the day.",
+      "dist_4": "Share a single USB stick for all backups.",
+      "dist_5": "Reserve meeting rooms for imaginary friends.",
+      "correct": [1,2,3,4,5]
+    },
+    "im3_3": {
+      "stem": "Pat: What would get a laugh (and maybe a warning) in a real admin meeting?",
+      "dist_1": "Submit all documents in Comic Sans.",
+      "dist_2": "Name files things like 'final_final_FINAL.docx'.",
+      "dist_3": "Keep everything organized from day one.",
+      "dist_4": "Deliver coffee in a boardroom.",
+      "dist_5": "Choreographing workflows as a dance.",
+      "correct": [1,2,5]
+    }
+  },
+
+  et: {
+    // Compliance (Thomas - Ethics)
+    "et1_1": {
+      "stem": "Thomas here. What is *absolutely* not a compliance best practice?",
+      "dist_1": "Delegate responsibility to your goldfish.",
+      "dist_2": "Review current guidelines.",
+      "dist_3": "Ignore updates until the audit.",
+      "dist_4": "Craft policies with invisible ink.",
+      "dist_5": "Ask the office turtle for legal advice.",
+      "correct": [1,3,4,5]
+    },
+    "et1_2": {
+      "stem": "Thomas: What tells you someone might not respect a compliance audit?",
+      "dist_1": "Double-checking confidential files.",
+      "dist_2": "Ad-libbing your disclosures.",
+      "dist_3": "Completing the required compliance training.",
+      "dist_4": "Only following the rules on Tuesdays.",
+      "dist_5": "Shredding documents marked 'very confidential.'",
+      "correct": [2,4,5]
+    },
+    "et1_3": {
+      "stem": "Thomas: What *sacrilege* do people still commit in compliance?",
+      "dist_1": "Leaving passwords on sticky notes.",
+      "dist_2": "Encrypting even their pizza order.",
+      "dist_3": "Using password123 for everything.",
+      "dist_4": "Forgetting to log out before lunch.",
+      "dist_5": "Respond to audits using limericks.",
+      "correct": [1,3,4,5]
+    },
+
+    // Standards Application (Thomas - Ethics)
+    "et2_1": {
+      "stem": "Thomas asks: Which standard should NOT be applied in ethical publishing?",
+      "dist_1": "Transfer ownership via rock-paper-scissors.",
+      "dist_2": "Cite all sources correctly.",
+      "dist_3": "Ensure disclosures are complete.",
+      "dist_4": "Allow kangaroo court reviews.",
+      "dist_5": "Uphold authorship criteria.",
+      "correct": [1,4]
+    },
+    "et2_2": {
+      "stem": "Thomas: Select the most dubious approach to standards:",
+      "dist_1": "Ignore all conflicts of interest.",
+      "dist_2": "Ask for legal advice from the office potted plant.",
+      "dist_3": "Apply consistent citation formats.",
+      "dist_4": "Welcome feedback from journal editors.",
+      "dist_5": "Use invisible ink for conflict statements.",
+      "correct": [1,2,5]
+    },
+    "et2_3": {
+      "stem": "Spot Thomas’s favorite 'bad example' in ethical standards:",
+      "dist_1": "Conduct a peer review in interpretive dance.",
+      "dist_2": "Provide detailed, honest attributions.",
+      "dist_3": "Keep standards documentation in a locked drawer labeled 'secret.'",
+      "dist_4": "Ignore updates to policies.",
+      "dist_5": "Hold training at karaoke night.",
+      "correct": [1,3,4,5]
+    },
+
+    // Disclosure Processing (Thomas - Ethics)
+    "et3_1": {
+      "stem": "Thomas: What’s the *weirdest* way to disclose conflicts?",
+      "dist_1": "Confess only during full moons.",
+      "dist_2": "Provide complete written disclosures.",
+      "dist_3": "Whisper conflicts to the office plant.",
+      "dist_4": "List them in limerick form.",
+      "dist_5": "Rely on psychic readings.",
+      "correct": [1,3,4,5]
+    },
+    "et3_2": {
+      "stem": "Select the appropriate disclosure action (and avoid comedy gold):",
+      "dist_1": "Disclose all relevant relationships.",
+      "dist_2": "Hide conflicts under 'miscellaneous.'",
+      "dist_3": "Update disclosures every leap year.",
+      "dist_4": "Double-check all declarations.",
+      "dist_5": "Forget disclosures entirely.",
+      "correct": [2,3,5]
+    },
+    "et3_3": {
+      "stem": "Thomas: What’s a sign your disclosure process may need... improvement?",
+      "dist_1": "Disclosures are written in emoji.",
+      "dist_2": "They are reviewed annually.",
+      "dist_3": "No one knows where to find the form.",
+      "dist_4": "Policy says 'Do your best.'",
+      "dist_5": "You outsource disclosures to the company dog.",
+      "correct": [1,3,4,5]
+    }
   }
 };
+
 
 // this is called when we want to debug and set random values for the initial assessment to save time.
 
@@ -921,21 +1086,21 @@ function submitchallanswer() {
   // For lesson highlight logic:
   var skillCode = qCode.match(/^[a-z]+\d+/)[0]; // e.g., 'st3'
   // Retrieve or initialize per-skill tracking
-  var incorrectBySkill = player.GetVar("chall_incorrect_by_skill"); // ideally, a JSON string or pipe-delimited
+  var incorrectBySkill = player.GetVar(domain+"_chall_incorrect_by_skill"); // ideally, a JSON string or pipe-delimited
   var obj = incorrectBySkill ? JSON.parse(incorrectBySkill) : {};
   obj[skillCode] = (obj[skillCode] || 0) + (!isAllCorrect ? 1 : 0);
   if(debug) {console.log(JSON.stringify(obj))}
-  player.SetVar("chall_incorrect_by_skill", JSON.stringify(obj));
+  player.SetVar(domain+"_chall_incorrect_by_skill", JSON.stringify(obj));
 
   // Only if both questions in skill are missed, update highlight string
   if (obj[skillCode] === 2) {
     let l_data_entry = l_data.find(el => el.code === skillCode);
     if (l_data_entry) {
-      var currHighlight = player.GetVar("chall_lessons_to_highlight") || "";
+      var currHighlight = player.GetVar(domain+"_chall_less_hls") || "";
       var highlightArr = currHighlight.split('|').filter(Boolean);
       if (!highlightArr.includes(l_data_entry.objectID)) {
         highlightArr.push(l_data_entry.objectID);
-        player.SetVar("chall_lessons_to_highlight", highlightArr.join('|'));
+        player.SetVar(domain+"_chall_less_hls", highlightArr.join('|'));
       }
     }
   }
@@ -964,14 +1129,14 @@ function resetChallenge() {
     player.SetVar("chall_ans_" + i, false);
   }
   player.SetVar("chall_stem", "");
-  player.SetVar("FeedbackText", "");
-  player.SetVar("IsCorrect", false);
+
+
   // You may also want to reset domain scores as appropriate (optional):
   player.SetVar("st_challenge_score", 0);
   player.SetVar("im_challenge_score", 0);
   player.SetVar("et_challenge_score", 0);
   // And any lesson highlight variables:
-  player.SetVar("chall_lessons_to_highlight", "");
+  player.SetVar("st_chall_less_hls", "");
 }
 
 // this lets us abstract the coaching messages and set up for randomization. A larger object of messages can be generated by AI as we build this out.
@@ -983,7 +1148,7 @@ function getCoachMessage(domain, type, lesson) {
   return phrase.replace("{lesson}", lesson);
 }
 
-// display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future.
+/* display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future.
 function coach(domain, displayVar, template) {
   if (debug) {console.log("coach " + domain +" "+ displayVar +" "+ template)};
   const coachData = coachPhrases[domain];
@@ -1072,6 +1237,112 @@ if (typeof msg !== "string") {
 }
   player.SetVar(displayVar, msg);
 }
+
+*/
+
+function coach(domain, displayVar, template) {
+  if (debug) {console.log("coach " + domain + " " + displayVar + " " + template);}
+  const coachData = coachPhrases[domain];
+  const messagesByTemplate = coachData.messages[template];
+  const player = GetPlayer();
+
+  // Support domain-specific lesson highlights and scores
+  const scoreVar = domain + "_challenge_score";
+  const highlightVar = domain + "_chall_less_hls";
+  const score = player.GetVar(scoreVar);
+  const highlights = (player.GetVar(highlightVar) || "").split('|').filter(Boolean);
+
+  // Lessons data
+  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
+  const lessons = domainLessons.map(item => ({
+    ...item,
+    cur_score: player.GetVar(item.code + "_cur_score"),
+    status: player.GetVar(item.code + "_status"),
+    lesson: item.lesson,
+    skill: item.skill
+  }));
+
+  if (debug) {console.log("set lessons to " + JSON.stringify(lessons));}
+
+  // Sorting rules as before
+  lessons.sort((a, b) => {
+    const aComplete = ["Accessed", "Completed", "Not Started"].includes(a.status);
+    const bComplete = ["Accessed", "Completed", "Not Started"].includes(b.status);
+    if (!aComplete && bComplete) return -1;
+    if (aComplete && !bComplete) return 1;
+    if (!aComplete && !bComplete) {
+      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
+      return a.skill.localeCompare(b.skill);
+    }
+    const aNeedsBoost = (a.cur_score < 4 && aComplete);
+    const bNeedsBoost = (b.cur_score < 4 && bComplete);
+    if (aNeedsBoost && !bNeedsBoost) return -1;
+    if (!aNeedsBoost && bNeedsBoost) return 1;
+    if (aNeedsBoost && bNeedsBoost) {
+      if (a.cur_score !== b.cur_score) return a.cur_score - b.cur_score;
+      return a.skill.localeCompare(b.skill);
+    }
+    return a.skill.localeCompare(b.skill);
+  });
+
+  // Top lesson/skill for interpolation
+  const topLesson = lessons[0];
+  const lessonPlaceholder = (template === "CH" && topLesson) ? topLesson.lesson : (topLesson ? topLesson.skill : "the next lesson");
+
+  // Determine overall progress state for messaging selection
+  const neverAccessed = lessons.every(s => s.status === "Not Started");
+  const oneAccessed = lessons.filter(s => s.status === "Completed").length === 1;
+  const allComplete = lessons.every(s => s.status === "Completed");
+  const needsBoost = allComplete && lessons.some(s => s.cur_score < 3);
+  const inProgress = lessons.some(s => s.status === "Accessed" || s.status === "Not Started");
+  const challengeReady = lessons.every(s => s.status === "Completed" && s.cur_score > 2);
+
+  if (debug) {console.log("set state mess to " + neverAccessed + " " + oneAccessed + " " + allComplete + " " + needsBoost);}
+
+  // NEW: Incorporate challenge-specific states if score is set
+  let state;
+  if (template === "CH" || template === "CL") {
+    if (template === "CH" ? (score === 999 || typeof score === "undefined" || score === null) : false) {
+      state = "neverAccessed";
+    } else if (score === 0) {
+      state = "challengeZero";
+    } else if (score < 100 && highlights.length > 0) {
+      state = "challengeNeedsHighlight";
+    } else if (score < 100) {
+      state = "challengeLessThan100";
+    } else if (score === 100) {
+      state = "challengePerfect";
+    }
+  }
+  // Fallback to lesson progress logic for other templates or no challenge taken
+  if (!state) {
+    if (neverAccessed) {
+      state = "neverAccessed";
+    } else if (oneAccessed) {
+      state = "oneAccessed";
+    } else if (needsBoost) {
+      state = "needsBoost";
+    } else if (challengeReady) {
+      state = "challengeReady";
+    } else if (inProgress) {
+      state = "inProgress";
+    } else {
+      state = "inProgress";
+    }
+  }
+
+  // Lookup and randomly pick from message list for this state
+  let msgList = messagesByTemplate[state] || messagesByTemplate.inProgress;
+  if (debug) {console.log("set message list to " + JSON.stringify(msgList));}
+  const msg = msgList && msgList.length
+    ? msgList[Math.floor(Math.random() * msgList.length)].replace("{lesson}", lessonPlaceholder)
+    : "Keep going—I'm here to guide you as you progress!";
+  if (typeof msg !== "string") {
+    console.log("Coach function: msg is not a string!", msg);
+  }
+  player.SetVar(displayVar, msg);
+}
+
 
 // Lists current priority focus areas during onboarding only.
 function displayresults() {
