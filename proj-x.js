@@ -1324,6 +1324,7 @@ function coach(domain, displayVar, template) {
       state = "needsBoost";
     } else if (challengeReady) {
       state = "challengeReady";
+      player.SetVar(domain+"_chall_enabled", true); // Set a flag for challenge readiness
     } else if (inProgress) {
       state = "inProgress";
     } else {
