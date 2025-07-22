@@ -293,6 +293,8 @@ const l_data =[
     "objectID": "5VpotCFBsI8"
  }
 ];
+
+// This object is set up to allow for a flexible number of questions per domain but is tied to the number of skills in a domain so it needs to match. If a skill is removed from the learning experience it will need to be removed from this assessment as well as the l_data above to make sure that domain totals, scoring, prioritization of lessons and coach prompts are aligned.
 const ass_content = {
   "st_q1": {
     "stem": "You are an editor working at Dynamica Health Communications and have been given the opportunity to strategize a new publication about \"HY-P832,\" a drug aimed at treating chronic migraines. Your journey begins in the bustling office of Dynamica, where you're tasked with developing a comprehensive publication plan.\nIt's Monday morning, and you're in the conference room with your team. Your manager, Alex, outlines the importance of understanding the disease landscape.\nAlex asks, \"How do you plan to gather insights on chronic migraines?\"\nChoose a single response to Alex.",
@@ -440,6 +442,264 @@ const ass_content = {
   }
 };
 
+// this object is set up to allow for a flexible number of skills per domain but at least one question per skill. If a skill area is removed form the _data table the assocaited questiosn need to be removed here. THe challenge assessment randomizes and draws from a pool but uses at least 1 question for each skill.
+
+const challenge_content = {
+  st: {
+    // st1: Market Research
+    "st1_1": {
+      "stem": "What is the first step in market research?",
+      "dist_1": "Internet search.",
+      "dist_2": "Review publications.",
+      "dist_3": "Consult experts.",
+      "dist_4": "Comprehensive review.",
+      "dist_5": "Wait for instructions.",
+      "correct": [4]
+    },
+    "st1_2": {
+      "stem": "Select all effective market research methods.",
+      "dist_1": "Surveys.",
+      "dist_2": "Focus groups.",
+      "dist_3": "Ignore data.",
+      "dist_4": "Literature review.",
+      "dist_5": "Stakeholder interviews.",
+      "correct": [1,2,4,5]
+    },
+    "st1_3": {
+      "stem": "Why is market research important?",
+      "dist_1": "Identifies needs.",
+      "dist_2": "Supports planning.",
+      "dist_3": "Improves relevance.",
+      "dist_4": "All of the above.",
+      "dist_5": "Not important.",
+      "correct": [4]
+    },
+    // st2: Data Analysis
+    "st2_1": {
+      "stem": "What data should be prioritized?",
+      "dist_1": "Safety only.",
+      "dist_2": "Efficacy and safety.",
+      "dist_3": "Primary and secondary endpoints.",
+      "dist_4": "Testimonials.",
+      "dist_5": "Minimal results.",
+      "correct": [3]
+    },
+    "st2_2": {
+      "stem": "Select all important aspects of data analysis.",
+      "dist_1": "Accuracy.",
+      "dist_2": "Relevance.",
+      "dist_3": "Transparency.",
+      "dist_4": "Ignore outliers.",
+      "dist_5": "Comprehensive review.",
+      "correct": [1,2,3,5]
+    },
+    "st2_3": {
+      "stem": "Why is data analysis critical?",
+      "dist_1": "Valid conclusions.",
+      "dist_2": "Publication integrity.",
+      "dist_3": "Key findings.",
+      "dist_4": "All of the above.",
+      "dist_5": "Not important.",
+      "correct": [4]
+    },
+    // st3: Needs Assessment
+    "st3_1": {
+      "stem": "Best way to assess audience needs?",
+      "dist_1": "Use past strategies.",
+      "dist_2": "Informal interviews.",
+      "dist_3": "Surveys and focus groups.",
+      "dist_4": "Ignore feedback.",
+      "dist_5": "Guess needs.",
+      "correct": [3]
+    },
+    "st3_2": {
+      "stem": "Select all effective needs assessment methods.",
+      "dist_1": "Surveys.",
+      "dist_2": "Focus groups.",
+      "dist_3": "Ignore stakeholders.",
+      "dist_4": "Interviews.",
+      "dist_5": "Review publications.",
+      "correct": [1,2,4,5]
+    },
+    "st3_3": {
+      "stem": "Why is needs assessment important?",
+      "dist_1": "Aligns content.",
+      "dist_2": "Improves engagement.",
+      "dist_3": "Supports goals.",
+      "dist_4": "All of the above.",
+      "dist_5": "Not important.",
+      "correct": [4]
+    },
+    // st4: Scoping
+    "st4_1": {
+      "stem": "How should scope be defined?",
+      "dist_1": "Ease of completion.",
+      "dist_2": "Align with needs.",
+      "dist_3": "Report minimal data.",
+      "dist_4": "Commercial messaging.",
+      "dist_5": "Ignore scope.",
+      "correct": [2]
+    },
+    "st4_2": {
+      "stem": "Select all factors in scoping.",
+      "dist_1": "Audience needs.",
+      "dist_2": "Clinical relevance.",
+      "dist_3": "Regulatory requirements.",
+      "dist_4": "Ignore guidelines.",
+      "dist_5": "Strategic objectives.",
+      "correct": [1,2,3,5]
+    },
+    "st4_3": {
+      "stem": "Why is proper scoping important?",
+      "dist_1": "Ensures relevance.",
+      "dist_2": "Supports compliance.",
+      "dist_3": "Improves outcomes.",
+      "dist_4": "All of the above.",
+      "dist_5": "Not important.",
+      "correct": [4]
+    },
+    // st5: Committee Management
+    "st5_1": {
+      "stem": "Key to effective committee management?",
+      "dist_1": "Regular meetings and diversity.",
+      "dist_2": "Infrequent meetings.",
+      "dist_3": "Ignore teams.",
+      "dist_4": "Only clinical team.",
+      "dist_5": "No meetings.",
+      "correct": [1]
+    },
+    "st5_2": {
+      "stem": "Select all best practices for committee management.",
+      "dist_1": "Diverse representation.",
+      "dist_2": "Regular updates.",
+      "dist_3": "Ignore feedback.",
+      "dist_4": "Clear communication.",
+      "dist_5": "Defined roles.",
+      "correct": [1,2,4,5]
+    },
+    "st5_3": {
+      "stem": "Why is committee management important?",
+      "dist_1": "Smooth execution.",
+      "dist_2": "Collaboration.",
+      "dist_3": "Decision-making.",
+      "dist_4": "All of the above.",
+      "dist_5": "Not important.",
+      "correct": [4]
+    },
+    // st6: Strategic Publishing
+    "st6_1": {
+      "stem": "Best approach to platform setup?",
+      "dist_1": "Basic info.",
+      "dist_2": "Standard fields and workflow.",
+      "dist_3": "Detailed record and adapt.",
+      "dist_4": "Use all features.",
+      "dist_5": "Ignore documentation.",
+      "correct": [4]
+    },
+    "st6_2": {
+      "stem": "Select all important steps in strategic publishing.",
+      "dist_1": "Structured review.",
+      "dist_2": "Version control.",
+      "dist_3": "Ignore compliance.",
+      "dist_4": "Cross-link projects.",
+      "dist_5": "Automate checks.",
+      "correct": [1,2,4,5]
+    },
+    "st6_3": {
+      "stem": "Why is strategic publishing important?",
+      "dist_1": "Ensures compliance.",
+      "dist_2": "Improves efficiency.",
+      "dist_3": "Supports best practices.",
+      "dist_4": "All of the above.",
+      "dist_5": "It is not important.",
+      "correct": [1,2,3,4]
+    },
+    // st7: Tactical Planning
+    "st7_1": {
+      "stem": "How should plain language summaries be integrated?",
+      "dist_1": "Scheduled after manuscript.",
+      "dist_2": "Separate deliverable.",
+      "dist_3": "Develop in parallel.",
+      "dist_4": "Fully integrated with advocates.",
+      "dist_5": "Ignore PLS.",
+      "correct": [4]
+    },
+    "st7_2": {
+      "stem": "Select all best practices for tactical planning.",
+      "dist_1": "Concurrent development.",
+      "dist_2": "Involve patient advocates.",
+      "dist_3": "Check journal requirements.",
+      "dist_4": "Ignore guidelines.",
+      "dist_5": "Customize approvals.",
+      "correct": [1,2,3,5]
+    },
+    "st7_3": {
+      "stem": "Why is tactical planning important?",
+      "dist_1": "Aligns with audience needs.",
+      "dist_2": "Improves communication.",
+      "dist_3": "Supports rapid publication.",
+      "dist_4": "All of the above.",
+      "dist_5": "It is not important.",
+      "correct": [1,2,3,4]
+    },
+    // st8: Strategic Adaptation
+    "st8_1": {
+      "stem": "How should evolving trends be monitored?",
+      "dist_1": "Quick review occasionally.",
+      "dist_2": "Regular review and meetings.",
+      "dist_3": "Ignore trends.",
+      "dist_4": "Lead working groups.",
+      "dist_5": "Wait for memos.",
+      "correct": [2,4]
+    },
+    "st8_2": {
+      "stem": "Select all best practices for adaptation.",
+      "dist_1": "Review industry trends.",
+      "dist_2": "Collaborate with peers.",
+      "dist_3": "Implement guidelines.",
+      "dist_4": "Ignore changes.",
+      "dist_5": "Document standards.",
+      "correct": [1,2,3,5]
+    },
+    "st8_3": {
+      "stem": "Why is strategic adaptation important?",
+      "dist_1": "Ensures relevance.",
+      "dist_2": "Supports innovation.",
+      "dist_3": "Improves outcomes.",
+      "dist_4": "All of the above.",
+      "dist_5": "It is not important.",
+      "correct": [1,2,3,4]
+    }
+  },
+  im: {
+    // ... (existing im questions)
+    // [existing content unchanged]
+    "im1_1": {
+      "stem": "What is the first step in engaging authors for a publication?",
+      "dist_1": "Send a generic email to all contributors.",
+      "dist_2": "Identify lead author based on expertise.",
+      "dist_3": "Assign authors randomly.",
+      "dist_4": "Ignore author selection.",
+      "dist_5": "Wait for volunteers.",
+      "correct": [2]
+    },
+    // ... rest of im questions ...
+  },
+  et: {
+    // ... (existing et questions)
+    // [existing content unchanged]
+    "et1_1": {
+      "stem": "What is the first step in maintaining compliance?",
+      "dist_1": "Review current guidelines.",
+      "dist_2": "Ignore updates.",
+      "dist_3": "Delegate responsibility.",
+      "dist_4": "Rely on past experience.",
+      "dist_5": "Wait for audits.",
+      "correct": [1]
+    },
+    // ... rest of et questions ...
+  }
+};
 
 // this is called when we want to debug and set random values for the initial assessment to save time.
 
@@ -479,6 +739,8 @@ function debugSkippAss() {
 function replaceNewlines(text) {
   return text.replace(/\n/g, '<br><br>');
 }
+
+// Runs during the inital assessment to populate the questions and choices from the assessment content object. A seperate function (handlechoice) acts as a traditional onclick event handler for the same quiz (albeit in the SL world).
 
 function loadquest() {
   var q_count = player.GetVar("skill_ass_q_count");
@@ -544,6 +806,143 @@ function handlechoice(value) {
   var newpercent = calculatePercentageScore(curscore, q_total);
   player.SetVar(ass_code + "_score_percent", newpercent);
 }
+
+
+function loadchallquest() {
+  var domain = player.GetVar("cur_coach");
+  var asked = player.GetVar("chall_questions_asked");
+  var askedArr = asked ? asked.split('|').filter(Boolean) : [];
+  var allQuestions = Object.entries(challenge_content[domain]);
+  var taskGroups = {};
+  // Group questions by task code
+  allQuestions.forEach(([key, q]) => {
+    var match = key.match(/^[a-z]+\d+/);
+    var task = match ? match[0] : null;
+    if (task) {
+      if (!taskGroups[task]) taskGroups[task] = [];
+      taskGroups[task].push([key, q]);
+    }
+  });
+  // Find candidate questions per skill (max 2)
+  var candidates = [];
+  Object.keys(taskGroups).forEach(task => {
+    var askedHere = askedArr.filter(code => code.startsWith(task)).length;
+    if (askedHere < 2) {
+      taskGroups[task].forEach(([key, q]) => {
+        if (!askedArr.includes(key)) candidates.push([key, q, task]);
+      });
+    }
+  });
+  if (candidates.length === 0) {
+    // End of challenge, nothing to serve
+    return;
+  }
+  // Pick a question at random
+  var idx = Math.floor(Math.random() * candidates.length);
+  var [qCode, qObj, taskCode] = candidates[idx];
+
+  // Prepare choices and their correctness
+  var choices = [qObj.dist_1, qObj.dist_2, qObj.dist_3, qObj.dist_4, qObj.dist_5];
+  var corrects = qObj.correct.map(function(c) { return c - 1; }); // zero-based
+  var indices = [0, 1, 2, 3, 4];
+  // Shuffle indices
+  for (let i = indices.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  // Prepare display choices and correctness
+  var displayChoices = [];
+  var choiceCorrectVals = [];
+  for (let i = 0; i < 5; i++) {
+    var origIdx = indices[i];
+    var isCorrect = corrects.includes(origIdx);
+    var txt = choices[origIdx];
+    if (window.debug) {
+      if (isCorrect) txt += " X";
+    }
+    displayChoices.push(txt);
+    choiceCorrectVals.push(isCorrect);
+  }
+  // Compose stem with instruction, question code for debug
+  var stemInstr = qObj.correct.length > 1 ? "<i>Select all that apply</i>" : "<i>Select one best answer</i>";
+  var fullStem = qObj.stem + "\n" + stemInstr;
+  if (window.debug) {
+    fullStem += " [" + qCode + "]";
+  }
+  // Convert newlines for Storyline
+  var stemForDisplay = replaceNewlines(fullStem);
+  player.SetVar("chall_stem", stemForDisplay);
+  for (let i = 0; i < 5; i++) {
+    player.SetVar("chall_ch_" + (i + 1), displayChoices[i]);
+    player.SetVar("chall_ch" + (i + 1) + "_val", choiceCorrectVals[i]);
+  }
+  player.SetVar("chall_current_qcode", qCode);
+  // Update asked list and progress
+  askedArr.push(qCode);
+  player.SetVar("chall_questions_asked", askedArr.join('|'));
+  player.SetVar("chall_q_count", askedArr.length);
+  // Figure out total (cap at 2 per skill/task)
+  var totalQ = 0;
+  Object.keys(taskGroups).forEach(function(task) {
+    totalQ += Math.min(2, taskGroups[task].length);
+  });
+  player.SetVar("chall_q_total", totalQ);
+}
+
+
+function submitchallanswer() {
+
+  var domain = player.GetVar("cur_coach");
+  var qCode = player.GetVar("chall_current_qcode");
+  if (!qCode) return;
+  var qObj = challenge_content[domain][qCode];
+
+// Get user choices: assume boolean vars chall_ans_1 ... chall_ans_5 (set by Storyline on submit)
+  var userSelections = [
+    !!player.GetVar("chall_ans_1"),
+    !!player.GetVar("chall_ans_2"),
+    !!player.GetVar("chall_ans_3"),
+    !!player.GetVar("chall_ans_4"),
+    !!player.GetVar("chall_ans_5")
+  ];
+  // Map to correct answers: chall_ch1_val...chall_ch5_val are booleans for each
+  var correctArr = [
+    !!player.GetVar("chall_ch1_val"),
+    !!player.GetVar("chall_ch2_val"),
+    !!player.GetVar("chall_ch3_val"),
+    !!player.GetVar("chall_ch4_val"),
+    !!player.GetVar("chall_ch5_val")
+  ];
+  var isAllCorrect = true;
+  for (var i = 0; i < 5; i++) {
+    if (userSelections[i] !== correctArr[i]) isAllCorrect = false;
+  }
+
+  // For lesson highlight logic:
+  var skillCode = qCode.match(/^[a-z]+\d+/)[0]; // e.g., 'st3'
+  // Retrieve or initialize per-skill tracking
+  var incorrectBySkill = player.GetVar("chall_incorrect_by_skill"); // ideally, a JSON string or pipe-delimited
+  var obj = incorrectBySkill ? JSON.parse(incorrectBySkill) : {};
+  obj[skillCode] = (obj[skillCode] || 0) + (!isAllCorrect ? 1 : 0);
+  if(debug) {console.log(JSON.stringify(obj))}
+  player.SetVar("chall_incorrect_by_skill", JSON.stringify(obj));
+
+  // Only if both questions in skill are missed, update highlight string
+  if (obj[skillCode] === 2) {
+    let l_data_entry = l_data.find(el => el.code === skillCode);
+    if (l_data_entry) {
+      var currHighlight = player.GetVar("chall_lessons_to_highlight") || "";
+      var highlightArr = currHighlight.split('|').filter(Boolean);
+      if (!highlightArr.includes(l_data_entry.objectID)) {
+        highlightArr.push(l_data_entry.objectID);
+        player.SetVar("chall_lessons_to_highlight", highlightArr.join('|'));
+      }
+    }
+  }
+
+  // ...Continue with any additional scoring or progress logic
+}
+
 
 // this lets us abstract the coaching messages and set up for randomization. A larger object of messages can be generated by AI as we build this out.
 function getCoachMessage(domain, type, lesson) {
