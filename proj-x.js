@@ -359,31 +359,36 @@ const l_data =[
    "code": "im1",
    "skill": "Outreach",
    "lesson": "Engaging Authors and Contributors for Publication",
-   "objectID": "6msSQzigFAI"
+   "objectID": "6msSQzigFAI",
+   "hlObjectID": "67UxtxkRAHx"
  },
  {
    "code": "im2",
    "skill": "Workflow Processing",
    "lesson": "Effective Writing, Review, and Approval Processes",
-   "objectID": "67lzdajo3SJ"
+   "objectID": "67lzdajo3SJ",
+   "hlObjectID": "5t6pgvRp08r"
  },
  {
    "code": "im3",
    "skill": "Publication Administration",
    "lesson": "Managing Administrative Aspects of Publication Plans",
-   "objectID": "5ZYCqbWNfyh"
+   "objectID": "5ZYCqbWNfyh",
+    "hlObjectID": "6ItlCHSfLcJ"
  },
  {
    "code": "im4",
    "skill": "Analytics",
    "lesson": "Tracking Metrics of Publications and Overall Plans",
-   "objectID": "6DOi669q06K"
+   "objectID": "6DOi669q06K",
+   "hlObjectID": "6ItlCHSfLcJ"
  },
  {
    "code": "im5",
    "skill": "Implementation Adaptation",
    "lesson": "Monitoring Evolving Trends in Implementation",
-   "objectID": "6RcQeijJmmu"
+   "objectID": "6hgTx1vy3kr",
+   "hlObjectID": "6jD9d0qTgK7"
  },
  {
    "code": "et1",
@@ -1111,7 +1116,7 @@ function submitchallanswer() {
       var currHighlight = player.GetVar(domain+"_chall_less_hls") || "";
       var highlightArr = currHighlight.split('|').filter(Boolean);
       if (!highlightArr.includes(l_data_entry.objectID)) {
-        highlightArr.push(l_data_entry.objectID);
+        highlightArr.push(l_data_entry.hlObjectID); 
         player.SetVar(domain+"_chall_less_hls", highlightArr.join('|'));
       }
     }
@@ -1602,6 +1607,15 @@ function orderDomainCards(domain) {
       player.object(lesson.objectID).y = yPositions[idx];
     }
   });
+
+// highlight any lessons that need remediation after challegne.
+var highlights = player.GetVar(domain+"_chall_less_hls");
+if (highlights.length > 0) {
+  highlights.forEach(function(id) {
+  player.object(id).state = "hl";
+});
+} 
+
 }
 
 
