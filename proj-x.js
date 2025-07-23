@@ -1609,7 +1609,8 @@ function orderDomainCards(domain) {
   });
 
 // highlight any lessons that need remediation after challegne.
-var highlights = player.GetVar(domain+"_chall_less_hls");
+var highlightstring = player.GetVar(domain+"_chall_less_hls");
+var highlights = highlightString ? highlightString.split('|').filter(Boolean) : [];
 if (highlights.length > 0) {
   highlights.forEach(function(id) {
   player.object(id).state = "hl";
