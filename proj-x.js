@@ -60,9 +60,9 @@ const coachPhrases = {
       },
       CH: {
         neverAccessed: [
-          "It’s just us here—time to focus on your strategic skills. This page is tailored to help you build a strong foundation, with lessons ordered to match your growth. As you work through them, I’ll be here to guide and adjust your path.",
-          "Welcome to your strategy hub. Each lesson is chosen to help you see the bigger picture. I’ll be tracking your progress and offering insights as you go.",
-          "We have the perfect opportunity to build your strategic mindset from the ground up. Let’s make each lesson count."
+          "It’s just us here—time to focus on your strategic skills. This page is tailored to help you build a strong foundation, with lessons ordered to match your growth. As you work through them, I’ll be here to guide and adjust your path. I've provided your initial skill rating that I obtained from the onboarding assessment you went through. As you complete lessons I will be able to give you a more refined, current rating.",
+          "Welcome to your strategy hub. Each lesson is chosen to help you see the bigger picture. I’ll be tracking your progress and offering insights as you go. I've provided your initial skill rating that I obtained from the onboarding assessment you went through. As you complete lessons I will be able to give you a more refined, current rating.",
+          "We have the perfect opportunity to build your strategic mindset from the ground up. Let’s make each lesson count. I've provided your initial skill rating that I obtained from the onboarding assessment you went through. As you complete lessons I will be able to give you a more refined, current rating."
         ],
         oneAccessed: [
           "Good work. As you progress with the lessons, keep in mind that your progress ring may sometimes move backward. This is perfectly normal—learning isn’t a straight line. As you approach expert level in each lesson, your ring will close and reflect your growth.",
@@ -971,6 +971,18 @@ function handlechoice(value) {
   var newpercent = calculatePercentageScore(curscore, q_total);
   player.SetVar(ass_code + "_score_percent", newpercent);
 }
+
+// we let people restart the skill assessment since they are short and storybased so we need to make srue to clean up interim progress. This could potentialky be used as part of a global reset.
+function reset_skill_ass(){
+ player.SetVar("skill_ass_q_total", 0);
+ player.SetVar("skill_ass_q_count", 1);
+player.SetVar("ass_stem", "");
+player.SetVar("cur_ass_task", "");
+var ass_code = player.GetVar("current_assessment");
+player.SetVar(ass_code + "_score_percent", 0);
+player.SetVar(ass_code + "_score", 0);
+}
+
 
 
 function loadchallquest() {
