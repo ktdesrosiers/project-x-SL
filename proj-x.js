@@ -1422,7 +1422,8 @@ function displaycoaching_progress(template){
 const ob_pos = [583,840,1100];
 const ov_pos = [458,842,1225];
 var positions = [];
-var etGroup,etRing,stGroup,stRing,impGroup,impRing;
+var etGroup,etRing,etButt,stGroup,stRing,stButt,impGroup,impRing,impButt;
+
 
 switch (template) {
   case "onboarding":
@@ -1442,6 +1443,9 @@ switch (template) {
   impRing = player.object('5zKYuNJf4mO');
   stGroup = player.object('5V3OXYlO9IH');
   stRing = player.object('5iIP4KefbB6');
+  impButt = player.object('5igE52k8POM');
+  etButt = player.object('5d1FCOPZSI7');
+  stButt = player.object('6pMcnfM2LuX');
   break;
   case "st":
     stRing = player.object('6JXefp8mhF3');
@@ -1462,11 +1466,15 @@ var im_score_raw = player.GetVar("im_score_percent");
 var et_score_raw = player.GetVar("et_score_percent");
 
 if (template == "overview" || template == "onboarding" ) {
-const init_order = [[st_score_raw,stGroup],[im_score_raw,impGroup],[et_score_raw,etGroup]]
+const init_order = [[st_score_raw,stGroup,stButt],[im_score_raw,impGroup,impButt],[et_score_raw,etGroup,etButt]]
 init_order.sort((a, b) => a[0] - b[0]);
 const adjustedorder = init_order.map(pair => pair[1]);
+const buttsequence = init_order.map(pair => pair[2]);
 positions.forEach((position,index)=>{
 adjustedorder[index].x = position;
+if (template == "overview" && index == 0) {
+  buttsequence[index].state = Normal;
+}
 });
 }
 
