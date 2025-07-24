@@ -1384,6 +1384,7 @@ var et_score_raw = player.GetVar("et_score_percent");
 
 if (template == "onboarding"){
   let average = st_score_raw + im_score_raw + et_score_raw / 3;
+  console.log(average);
   player.SetVar("onboarding_average", average.toFixed());
   if (average == 0) {
     player.SetVar("inital_overall_comp", proficiencyLabels[0]);
