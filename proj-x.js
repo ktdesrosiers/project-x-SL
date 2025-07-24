@@ -1178,97 +1178,6 @@ function getCoachMessage(domain, type, lesson) {
   return phrase.replace("{lesson}", lesson);
 }
 
-/* display the current top priority or alternate message where needed. The routine will grow but for now we are setting it up for the future.
-function coach(domain, displayVar, template) {
-  if (debug) {console.log("coach " + domain +" "+ displayVar +" "+ template)};
-  const coachData = coachPhrases[domain];
-  const messagesByTemplate = coachData.messages[template];
-
-  // Generate fresh lesson state for this domain
-  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
-  const lessons = domainLessons.map(item => ({
-    ...item,
-    cur_score: player.GetVar(item.code + "_cur_score"),
-    status: player.GetVar(item.code + "_status"),
-    lesson: item.lesson,
-    skill: item.skill
-  }));
-
-  if (debug) {console.log("set lessons to " + JSON.stringify(lessons))};
-
-  // Use the same sorting rules as orderDomainCards for consistency
-  lessons.sort((a, b) => {
-    const aComplete = ["Accessed", "Completed", "Not Started"].includes(a.status);
-    const bComplete = ["Accessed", "Completed", "Not Started"].includes(b.status);
-    if (!aComplete && bComplete) return -1;
-    if (aComplete && !bComplete) return 1;
-    if (!aComplete && !bComplete) {
-      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
-      return a.skill.localeCompare(b.skill);
-    }
-    const aNeedsBoost = (a.cur_score < 4 && aComplete);
-    const bNeedsBoost = (b.cur_score < 4 && bComplete);
-    if (aNeedsBoost && !bNeedsBoost) return -1;
-    if (!aNeedsBoost && bNeedsBoost) return 1;
-    if (aNeedsBoost && bNeedsBoost) {
-      if (a.cur_score !== b.cur_score) return a.cur_score - b.cur_score;
-      return a.skill.localeCompare(b.skill);
-    }
-    return a.skill.localeCompare(b.skill);
-  });
-
-  // Find most relevant lesson for display
-  const topLesson = lessons[0];
-  const lessonPlaceholder = (template === "CH" && topLesson) ? topLesson.lesson : (topLesson ? topLesson.skill : "the next lesson");
-
-  // Determine overall progress state for messaging selection
-const neverAccessed = lessons.every(s => s.status === "Not Started");
-const oneAccessed = lessons.filter(s => s.status === "Completed").length === 1;
-const allComplete = lessons.every(s => s.status === "Completed");
-const needsBoost = allComplete && lessons.some(s => s.cur_score < 3);
-const inProgress = lessons.some(s => s.status === "Accessed" || s.status === "Not Started");
-const challengeReady = lessons.every(s => s.status === "Completed" && s.cur_score > 2);
-
-   if (debug) {console.log("set state mess to " + neverAccessed + " " + oneAccessed + " " + allComplete + " " + needsBoost)};
-
-  let msgList = [];
-  if (template === "CH"){
-    if (neverAccessed) {
-        msgList = messagesByTemplate.neverAccessed;
-    } else if (oneAccessed) {
-        msgList = messagesByTemplate.oneAccessed;
-    } else if (needsBoost) {
-        msgList = messagesByTemplate.needsBoost;
-    } else if (challengeReady) {
-        msgList = messagesByTemplate.challengeReady;
-    } else if (inProgress) {
-        msgList = messagesByTemplate.inProgress;
-    } else {
-        msgList = messagesByTemplate.inProgress; // fallback to inProgress
-    }
-} else if (template === "CL") {
-    if (!allComplete && lessons.some(s => s.status !== "Expert")) {
-      if (lessons.some(s => s.status !== "Completed"))
-        msgList = messagesByTemplate.priority;
-      else
-        msgList = messagesByTemplate.needsBoost;
-    } else if (allComplete) {
-      msgList = messagesByTemplate.challengeReady;
-    }
-  }
-
-   if (debug) {console.log("set message list to " + JSON.stringify(msgList))};
-
-  const msg = msgList && msgList.length
-    ? msgList[Math.floor(Math.random() * msgList.length)].replace("{lesson}", lessonPlaceholder)
-    : "Keep going—I'm here to guide you as you progress!";
-if (typeof msg !== "string") {
-  console.log("Coach function: msg is not a string!", msg);
-}
-  player.SetVar(displayVar, msg);
-}
-
-*/
 
 function coach(domain, displayVar, template) {
   if (debug) {console.log("coach " + domain + " " + displayVar + " " + template);}
@@ -1465,6 +1374,31 @@ var st_score_raw = player.GetVar("st_score_percent");
 var im_score_raw = player.GetVar("im_score_percent");
 var et_score_raw = player.GetVar("et_score_percent");
 
+  const proficiencyLabels = {
+    0: "inexperienced",
+    1: "aware",
+    2: "emerging",
+    3: "proficient",
+    4: "expert"
+  };
+
+if (template == "onboarding"){
+  let average = st_score_raw + im_score_raw + et_score_raw / 3;
+  player.SetVar("onboarding_average", average.toFixed());
+  if (average == 0) {
+    player.SetVar("inital_overall_comp", proficiencyLabels[0]);
+  }
+  else if (average < 26) {
+    player.SetVar("inital_overall_comp", proficiencyLabels[1])
+  }
+  else if (average < 61) {
+    player.SetVar("inital_overall_comp", proficiencyLabels[2])
+  }
+  else if (average < 91) {
+    player.SetVar("inital_overall_comp", proficiencyLabels[3])
+  }
+  else {player.SetVar("inital_overall_comp", proficiencyLabels[4])}
+}
 if (template == "overview" || template == "onboarding" ) {
 const init_order = [[st_score_raw,stGroup,stButt],[im_score_raw,impGroup,impButt],[et_score_raw,etGroup,etButt]].filter(pair => pair[1] && pair[2]); // Remove undefineds in case objects do not exist
 init_order.sort((a, b) => a[0] - b[0]);
@@ -1637,6 +1571,20 @@ if (highlights.length > 0) {
 } 
 
 }
+
+function display_gm(goaltype) {
+  var today = new Date();
+  let targetDateStr = player.GetVar("dateSelected");
+  var targetDate = new Date(targetDateStr + 'T00:00:00');
+  let targetskill = player.GetVar("target_skill").toLowerCase();
+  // Ensure time is reset for today
+  today.setHours(0,0,0,0);
+  var deltaMs = targetDate - today;
+  var daysLeft = Math.ceil(deltaMs / (1000 * 60 * 60 * 24));
+  var goalmessage = `${daysLeft} days left to achieve your goal of reaching ${targetskill} by ${targetDateStr}.`;
+  player.SetVar("goalmessage", goalmessage);
+}
+
 // Checks the window, replaces and/or luanch ne lesson with wanrings if window arelady open or refocus. Checks highlights and removes if lesosn successufully opened.
 
 function launchlesson(code) {
@@ -1670,6 +1618,7 @@ function launchlesson(code) {
       player.SetVar(hlVarName, highlights.join('|'));
     }
   }
+
 
   // Manage single lesson window logic
   if (quizWindow && !quizWindow.closed && lastopened_lesson) {
