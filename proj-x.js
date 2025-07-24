@@ -1466,16 +1466,16 @@ var im_score_raw = player.GetVar("im_score_percent");
 var et_score_raw = player.GetVar("et_score_percent");
 
 if (template == "overview" || template == "onboarding" ) {
-const init_order = [[st_score_raw,stGroup,stButt],[im_score_raw,impGroup,impButt],[et_score_raw,etGroup,etButt]]
+const init_order = [[st_score_raw,stGroup,stButt],[im_score_raw,impGroup,impButt],[et_score_raw,etGroup,etButt]].filter(pair => pair[1] && pair[2]); // Remove undefineds in case objects do not exist
 init_order.sort((a, b) => a[0] - b[0]);
 const adjustedorder = init_order.map(pair => pair[1]);
 const buttsequence = init_order.map(pair => pair[2]);
-positions.forEach((position,index)=>{
-adjustedorder[index].x = position;
-if (template == "overview" && index == 0) {
-  buttsequence[index].state = Normal;
-}
-});
+  positions.forEach((position, index) => {
+    if (adjustedorder[index]) adjustedorder[index].x = position;
+    if (template == "overview" && index == 0 && buttsequence[index]) {
+      buttsequence[index].state = "Normal";
+    }
+  });
 }
 
 
