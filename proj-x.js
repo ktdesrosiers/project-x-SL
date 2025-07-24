@@ -1386,16 +1386,16 @@ if (template == "onboarding"){
   let average = (st_score_raw + im_score_raw + et_score_raw) / 3;
   console.log(average);
   player.SetVar("onboarding_average", average.toFixed());
-  if (average == 0) {
+  if (average < 21) {
     player.SetVar("inital_overall_comp", proficiencyLabels[0]);
   }
-  else if (average < 26) {
+  else if (average < 41) {
     player.SetVar("inital_overall_comp", proficiencyLabels[1])
   }
   else if (average < 61) {
     player.SetVar("inital_overall_comp", proficiencyLabels[2])
   }
-  else if (average < 91) {
+  else if (average < 81) {
     player.SetVar("inital_overall_comp", proficiencyLabels[3])
   }
   else {player.SetVar("inital_overall_comp", proficiencyLabels[4])}
@@ -1573,8 +1573,83 @@ if (highlights.length > 0) {
 
 }
 
-function display_gm(goaltype) {
+// this runs on load.
+function refreshWeeklyProgress() {
+
+  // Get today's date and compute ISO week number
   var today = new Date();
+  // ISO week calculation
+  var target = new Date(today.valueOf());
+  var dayNr  = (today.getDay() + 6) % 7;
+  target.setDate(target.getDate() - dayNr + 3);
+  var firstThursday = target.valueOf();
+  target.setMonth(0, 1);
+  if (target.getDay() !== 4) {
+    target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+  }
+  var weekNumber = 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 = ms per week
+
+  // Read existing variables
+  var current_week = player.GetVar("current_week") || 0;
+  var previous_week = player.GetVar("previous_week") || 0;
+
+  // Update week tracking variables
+  player.SetVar("previous_week", current_week);
+  player.SetVar("current_week", weekNumber);
+
+  // If new week detected, reset weekly time variables
+  if (weekNumber !== current_week) {
+    player.SetVar("current_weekly_time", 0);
+    player.SetVar("Project.ElapsedTime", 0);
+  }
+}
+
+function updateWeeklyTime() {
+
+  // Get current and last captured time (both in milliseconds)
+  var elapsed = player.GetVar("Project.ElapsedTime") || 0;
+  var last_captured = player.GetVar("last_captured_time") || 0;
+  var prev_weekly = player.GetVar("current_weekly_time") || 0;
+
+  // Calculate the difference since last capture
+  var increment = Math.max(0, elapsed - last_captured);
+
+  // Update the weekly total
+  var new_weekly_time = prev_weekly + increment;
+
+  // Set updated values back into Storyline
+  player.SetVar("current_weekly_time", new_weekly_time);
+  player.SetVar("last_captured_time", elapsed); // Prepare for next update
+}
+
+function display_gm() {
+  var goaltype = player.GetVar("goaltype");
+  var message = "";
+  var today = new Date();
+  if (goaltype === "maintain") {
+  var ms_this_week = player.GetVar("current_weekly_time") || 0;
+  var hours_this_week = ms_this_week / (1000 * 60 * 60);
+  var goal_hours = player.GetVar("study_hour_pref") || 2; // fallback to 2h if unset
+  var weekday = today.getDay(); // Sunday=0, Monday=1, ... Saturday=6
+  var days_left = (weekday === 0) ? 0 : 7 - weekday; // Week ends Sunday
+  var hoursDisplay = hours_this_week.toFixed(1);
+  var daysDisplay = days_left;
+  if (hours_this_week >= goal_hours) {
+  message = "Great work, you've reached your weekly goal of " + goal_hours + " hours!";
+} else {
+  // Under goal: adjust encouragement based on remaining days
+  if (days_left > 3) {
+    message = "With " + hoursDisplay + " hours so far this week, you are on target to reach your goal of " + goal_hours + " hours per week.";
+  } else if (days_left > 1) {
+    message = "Keep it up! You have " + daysDisplay + " days left this week to hit your goal of " + goal_hours + " hours. Current progress: " + hoursDisplay + " hours.";
+  } else if (days_left == 1) {
+    message = "Last push! Only 1 day left this week. You've logged " + hoursDisplay + " hours, aim for " + goal_hours + " hours!";
+  } else {
+    message = "The week is over. You completed " + hoursDisplay + " hours out of your " + goal_hours + "-hour goal. Ready to try for more next week?";
+  }
+}
+  }
+else {
   let targetDateStr = player.GetVar("dateSelected");
   var targetDate = new Date(targetDateStr + 'T00:00:00');
   let targetskill = player.GetVar("target_skill").toLowerCase();
@@ -1582,8 +1657,9 @@ function display_gm(goaltype) {
   today.setHours(0,0,0,0);
   var deltaMs = targetDate - today;
   var daysLeft = Math.ceil(deltaMs / (1000 * 60 * 60 * 24));
-  var goalmessage = `${daysLeft} days left to achieve your goal of reaching ${targetskill} by ${targetDateStr}.`;
-  player.SetVar("goalmessage", goalmessage);
+  message = `${daysLeft} days left to achieve your goal of reaching ${targetskill} by ${targetDateStr}.`;
+}
+  player.SetVar("goalmessage", message);
 }
 
 // Checks the window, replaces and/or luanch ne lesson with wanrings if window arelady open or refocus. Checks highlights and removes if lesosn successufully opened.
@@ -1738,3 +1814,5 @@ window.addEventListener('message', function(event) {
       coach(domain,domain+"_coach_message","CH");
     }
 }, false);
+
+refreshWeeklyProgress();
