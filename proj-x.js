@@ -1635,6 +1635,7 @@ if (highlights.length > 0) {
 // Checks the window, replaces and/or luanch ne lesson with wanrings if window arelady open or refocus. Checks highlights and removes if lesosn successufully opened.
 
 function launchlesson(code) {
+  const origCode = code;
   // Find the lesson data object and retrieve hlObjectID
   const lessonData = l_data.find(item => item.code === code);
   if (!lessonData) return;
@@ -1651,10 +1652,9 @@ function launchlesson(code) {
     test_return_lesson = code;
     code = testlesson;
     }
-  let lesson_url = code+'/index.html'
-  if (debug) {
-  lesson_url = 'https://ktdesrosiers.github.io/project-x-SL/sltest/'+code+'/index.html';
-  } 
+  let lesson_url = debug
+    ? 'https://ktdesrosiers.github.io/project-x-SL/sltest/' + code + '/index.html'
+    : code + '/index.html';
 
   // Function to clear highlight if needed
   function processHighlight() {
@@ -1680,7 +1680,7 @@ function launchlesson(code) {
       if (replace) {
         quizWindow.close();
         quizWindow = window.open(lesson_url, '_blank');
-        lastopened_lesson = code;
+        lastopened_lesson = origCode;
         processHighlight(); // Process highlight for the new lesson actually opened
       }
       return;
@@ -1688,7 +1688,7 @@ function launchlesson(code) {
   }
   // No open window, so directly open and handle highlight
   quizWindow = window.open(lesson_url, '_blank');
-  lastopened_lesson = code;
+  lastopened_lesson = origCode;
   processHighlight();
 }
 
