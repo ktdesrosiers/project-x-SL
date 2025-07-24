@@ -4,6 +4,8 @@
 // debug value switches the reletaive path of the storyline lesson so that we can test versus when its in a scorm package.
 
 var testlesson = "im1";
+var quizWindow = null;
+var lastopened_lesson = null;
 var test_return_lesson = "";
 var player = GetPlayer();
 // control debug mode by setting the default value of the debug var in SL.
@@ -304,7 +306,6 @@ const coachPhrases = {
     }
   }
 };
-
 
 const l_data =[
  {
@@ -1631,22 +1632,66 @@ if (highlights.length > 0) {
 } 
 
 }
+// Checks the window, replaces and/or luanch ne lesson with wanrings if window arelady open or refocus. Checks highlights and removes if lesosn successufully opened.
 
+function launchlesson(code) {
+  // Find the lesson data object and retrieve hlObjectID
+  const lessonData = l_data.find(item => item.code === code);
+  if (!lessonData) return;
+  const hlObjectID = lessonData.hlObjectID;
 
-// need to revisit this for final deployment structure.
+  // Determine domain prefix ("st", "im", "et")
+  const domain = code.slice(0, 2);
+  const hlVarName = domain + '_chall_less_hls';
+  let highlightString = player.GetVar(hlVarName) || '';
+  let highlights = highlightString.split('|').filter(Boolean);
 
-function launchlesson(lesson){
   // in debug mode we use the l1 lesson all the time. and set teh test_return_lesson to whatever the lesson was so we can then have a debug option in teh message handler.
   if (debug) {
-    test_return_lesson = lesson;
-    lesson = testlesson;
+    test_return_lesson = code;
+    code = testlesson;
     }
-  let lesson_url = lesson+'/index.html'
+  let lesson_url = code+'/index.html'
   if (debug) {
-  lesson_url = 'https://ktdesrosiers.github.io/project-x-SL/sltest/'+lesson+'/index.html';
+  lesson_url = 'https://ktdesrosiers.github.io/project-x-SL/sltest/'+code+'/index.html';
   } 
-const quizWindow = window.open(lesson_url, '_blank');
+
+  // Function to clear highlight if needed
+  function processHighlight() {
+    if (highlights.includes(hlObjectID)) {
+      player.object(hlObjectID).state = "Normal"; 
+      // Remove from highlights list and update Storyline variable
+      highlights = highlights.filter(id => id !== hlObjectID);
+      player.SetVar(hlVarName, highlights.join('|'));
+    }
+  }
+
+  // Manage single lesson window logic
+  if (quizWindow && !quizWindow.closed && lastopened_lesson) {
+    if (code === lastopened_lesson) {
+      const goBack = window.confirm("This lesson is already open. Do you want to return to the lesson?");
+      if (goBack) {
+        quizWindow.focus();
+        processHighlight(); // Highlight only if actually focusing/opening
+      }
+      return;
+    } else {
+      const replace = window.confirm("An existing lesson is already open. Do you want to replace it with this new lesson? You may lose progress in the currently open lesson.");
+      if (replace) {
+        quizWindow.close();
+        quizWindow = window.open(lessonURL, '_blank');
+        lastopened_lesson = code;
+        processHighlight(); // Process highlight for the new lesson actually opened
+      }
+      return;
+    }
+  }
+  // No open window, so directly open and handle highlight
+  quizWindow = window.open(lessonURL, '_blank');
+  lastopened_lesson = code;
+  processHighlight();
 }
+
 
 function updateDomainScore(domain) {
   if (debug) {console.log("updatedomainscore" + domain)};
