@@ -1686,6 +1686,8 @@ function launchlesson(code) {
         quizWindow.close();
         quizWindow = window.open(lesson_url, '_blank');
         lastopened_lesson = origCode;
+        // we set the status to accessed by setting a score of 999 so we can track that the lesson was opened.
+        player.SetVar(origCode + "_cur_score",999);
         processHighlight(); // Process highlight for the new lesson actually opened
       }
       return;
@@ -1694,6 +1696,7 @@ function launchlesson(code) {
   // No open window, so directly open and handle highlight
   quizWindow = window.open(lesson_url, '_blank');
   lastopened_lesson = origCode;
+  player.SetVar(origCode + "_cur_score",999);
   processHighlight();
 }
 
