@@ -311,49 +311,57 @@ const l_data =[
    "code": "st1",
    "skill": "Market Research",
    "lesson": "Researching Disease and Therapeutic Landscapes",
-   "objectID": "6ZCtsQibvDg"
+   "objectID": "6ZCtsQibvDg",
+   "hlObjectID": "62MFQaRQhV1"
  },
  {
    "code": "st2",
    "skill": "Data Analysis",
    "lesson": "Identifying Data for Publication",
-   "objectID": "5YuEw96YjJL"
+   "objectID": "5YuEw96YjJL",
+   "hlObjectID": "6TBUqyigcQn"
  },
  {
    "code": "st3",
    "skill": "Needs Assessment",
    "lesson": "Assessing Audience Information and Educational Needs",
-   "objectID": "62KvqIVJbsP"
+   "objectID": "62KvqIVJbsP",
+   "hlObjectID": "6XlnEoQox0w"
  },
  {
    "code": "st4",
    "skill": "Scoping",
    "lesson": "Defining Publication Plan Scope",
-   "objectID": "5xigDPxXlmr"
+   "objectID": "5xigDPxXlmr",
+   "hlObjectID": "6b8353XYWXB"
  },
  {
    "code": "st5",
    "skill": "Committee Management",
    "lesson": "Managing Steering Committees",
-   "objectID": "5cnEMoni6c9"
+   "objectID": "5cnEMoni6c9",
+   "hlObjectID": "5pytQt5NdDx"
  },
  {
    "code": "st6",
    "skill": "Strategic Publishing",
    "lesson": "Applying to Scientific Communcations Platforms",
-   "objectID": "5z97JS9ULpA"
+   "objectID": "5z97JS9ULpA",
+   "hlObjectID": "6oM4kNHvVUC"
  },
  {
    "code": "st7",
    "skill": "Tactical Planning",
    "lesson": "Developing Tactical Publication Plans",
-    "objectID": "5vxstZX3Vcg"
+    "objectID": "5vxstZX3Vcg",
+   "hlObjectID": "6bHcIqexPqj"
  },
  {
    "code": "st8",
    "skill": "Strategic Adaptation",
    "lesson": "Monitoring Evolving Trends in Publication Planning",
-   "objectID": "5YqH7FqNrnV"
+   "objectID": "5YqH7FqNrnV",
+   "hlObjectID": "6OM1QCPwFEq"
  },
  {
    "code": "im1",
@@ -394,31 +402,36 @@ const l_data =[
    "code": "et1",
    "skill": "Compliance",
    "lesson": "Maintaining Knowledge of Standards, Guidelines, and Position Statements",
-   "objectID": "6jex6g1PTmX"
+   "objectID": "6jex6g1PTmX",
+   "hlObjectID": "6QlCWA6S2ue"
  },
  {
    "code": "et2",
    "skill": "Standards Application",
    "lesson": "Applying Standards of Ethical Conduct ",
-    "objectID": "6iaVmSo8VbE"
+    "objectID": "6iaVmSo8VbE",
+   "hlObjectID": "5uOOKdCanL1"
  },
  {
    "code": "et3",
    "skill": "Disclosure Processing",
    "lesson": "Ensuring Proper Disclosures",
-    "objectID": "6KBnjuS2HZy"
+    "objectID": "6KBnjuS2HZy",
+   "hlObjectID": "6DR9aOFiE7X"
  },
  {
    "code": "et4",
    "skill": "Recognition",
    "lesson": "Acknowledging Contributors",
-"objectID": "5ZRhA48No0K"
+"objectID": "5ZRhA48No0K",
+   "hlObjectID": "6981QdvLoeo"
  },
  {
    "code": "et5",
    "skill": "Adaptive Ethics",
    "lesson": "Monitoring Ethical Trends",
-    "objectID": "5VpotCFBsI8"
+    "objectID": "5VpotCFBsI8",
+   "hlObjectID": "6ppaePGoRWd"
  }
 ];
 
