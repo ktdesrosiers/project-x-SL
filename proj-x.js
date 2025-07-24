@@ -1623,7 +1623,7 @@ function orderDomainCards(domain) {
   });
 
 // highlight any lessons that need remediation after challegne.
-var highlightstring = player.GetVar(domain+"_chall_less_hls");
+var highlightString = player.GetVar(domain+"_chall_less_hls");
 var highlights = highlightString ? highlightString.split('|').filter(Boolean) : [];
 if (highlights.length > 0) {
   highlights.forEach(function(id) {
@@ -1679,7 +1679,7 @@ function launchlesson(code) {
       const replace = window.confirm("An existing lesson is already open. Do you want to replace it with this new lesson? You may lose progress in the currently open lesson.");
       if (replace) {
         quizWindow.close();
-        quizWindow = window.open(lessonURL, '_blank');
+        quizWindow = window.open(lesson_url, '_blank');
         lastopened_lesson = code;
         processHighlight(); // Process highlight for the new lesson actually opened
       }
@@ -1687,7 +1687,7 @@ function launchlesson(code) {
     }
   }
   // No open window, so directly open and handle highlight
-  quizWindow = window.open(lessonURL, '_blank');
+  quizWindow = window.open(lesson_url, '_blank');
   lastopened_lesson = code;
   processHighlight();
 }
