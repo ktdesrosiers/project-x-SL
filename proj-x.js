@@ -11,6 +11,10 @@ var player = GetPlayer();
 // control debug mode by setting the default value of the debug var in SL.
 const debug = player.GetVar("debug");
 
+function updatedebug(){
+  debug = player.GetVar("debug");
+}
+
 // not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
 const yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
 
@@ -312,127 +316,145 @@ const l_data =[
    "code": "st1",
    "skill": "Market Research",
    "lesson": "Researching Disease and Therapeutic Landscapes",
-   "objectID": "6ZCtsQibvDg",
-   "hlObjectID": "62MFQaRQhV1"
+   "objectID": "5Xfr0u6ac9n",
+   "hlObjectID": "62MFQaRQhV1",
+   "cardInd" : "6j16ba00Hd0"
  },
  {
    "code": "st2",
    "skill": "Data Analysis",
    "lesson": "Identifying Data for Publication",
-   "objectID": "5YuEw96YjJL",
-   "hlObjectID": "6TBUqyigcQn"
+   "objectID": "5tro7uRGENk",
+   "hlObjectID": "6TBUqyigcQn",
+   "cardInd" : "6PU9gW9SYWW"
  },
  {
    "code": "st3",
    "skill": "Needs Assessment",
    "lesson": "Assessing Audience Information and Educational Needs",
-   "objectID": "62KvqIVJbsP",
-   "hlObjectID": "6XlnEoQox0w"
+   "objectID": "5yggEyjTvly",
+   "hlObjectID": "6XlnEoQox0w",
+   "cardInd" : "6nD1ND9eZZ0"
  },
  {
    "code": "st4",
    "skill": "Scoping",
    "lesson": "Defining Publication Plan Scope",
-   "objectID": "5xigDPxXlmr",
-   "hlObjectID": "6b8353XYWXB"
+   "objectID": "5iOdoeCamuU",
+   "hlObjectID": "6b8353XYWXB",
+   "cardInd" : "6TncZWftcNJ"
  },
  {
    "code": "st5",
    "skill": "Committee Management",
    "lesson": "Managing Steering Committees",
-   "objectID": "5cnEMoni6c9",
-   "hlObjectID": "5pytQt5NdDx"
+   "objectID": "6aL6g5id3eY",
+   "hlObjectID": "5pytQt5NdDx",
+   "cardInd" : "5XFfOiSAoAO"
  },
  {
    "code": "st6",
    "skill": "Strategic Publishing",
    "lesson": "Applying to Scientific Communcations Platforms",
-   "objectID": "5z97JS9ULpA",
-   "hlObjectID": "6oM4kNHvVUC"
+   "objectID": "6oM4kNHvVUC",
+   "hlObjectID": "6oM4kNHvVUC",
+   "cardInd" : "69lTjvRtU8Y"
  },
  {
    "code": "st7",
    "skill": "Tactical Planning",
    "lesson": "Developing Tactical Publication Plans",
-    "objectID": "5vxstZX3Vcg",
-   "hlObjectID": "6bHcIqexPqj"
+    "objectID": "6heSqZYIlWz",
+   "hlObjectID": "6bHcIqexPqj",
+   "cardInd" : "6H161GQSfoi"
  },
  {
    "code": "st8",
    "skill": "Strategic Adaptation",
    "lesson": "Monitoring Evolving Trends in Publication Planning",
-   "objectID": "5YqH7FqNrnV",
-   "hlObjectID": "6OM1QCPwFEq"
+   "objectID": "69WEQwvzumS",
+   "hlObjectID": "6OM1QCPwFEq",
+   "cardInd" : "5pTPxdPirM3"
  },
  {
    "code": "im1",
    "skill": "Outreach",
    "lesson": "Engaging Authors and Contributors for Publication",
-   "objectID": "6msSQzigFAI",
-   "hlObjectID": "67UxtxkRAHx"
+   "objectID": "5uRufo5tDLB",
+   "hlObjectID": "67UxtxkRAHx",
+   "cardInd" : "5tcgWgHQwS4"
  },
  {
    "code": "im2",
    "skill": "Workflow Processing",
    "lesson": "Effective Writing, Review, and Approval Processes",
    "objectID": "67lzdajo3SJ",
-   "hlObjectID": "5t6pgvRp08r"
+   "hlObjectID": "5c1qTHuRISB",
+   "cardInd" : "5dDBYWQjUJX"
  },
  {
    "code": "im3",
    "skill": "Publication Administration",
    "lesson": "Managing Administrative Aspects of Publication Plans",
-   "objectID": "5ZYCqbWNfyh",
-    "hlObjectID": "6ItlCHSfLcJ"
+   "objectID": "5a3vYnkd8YL",
+    "hlObjectID": "6ItlCHSfLcJ",
+   "cardInd" : "5zkdXELVsGw"
  },
  {
    "code": "im4",
    "skill": "Analytics",
    "lesson": "Tracking Metrics of Publications and Overall Plans",
-   "objectID": "6DOi669q06K",
-   "hlObjectID": "6hgTx1vy3kr"
+   "objectID": "5kaiZkUx6ra",
+   "hlObjectID": "6hgTx1vy3kr",
+   "cardInd" : "5q2lvy0tp6S"
  },
  {
    "code": "im5",
    "skill": "Implementation Adaptation",
    "lesson": "Monitoring Evolving Trends in Implementation",
-   "objectID": "6RcQeijJmmu",
-   "hlObjectID": "6jD9d0qTgK7"
+   "objectID": "5f078pwxKWm",
+   "hlObjectID": "6jD9d0qTgK7",
+   "cardInd" : "6PQs5TIJp0c"
  },
  {
    "code": "et1",
    "skill": "Compliance",
    "lesson": "Maintaining Knowledge of Standards, Guidelines, and Position Statements",
-   "objectID": "6jex6g1PTmX",
-   "hlObjectID": "6QlCWA6S2ue"
+   "objectID": "6kBVWZKu6jh",
+   "hlObjectID": "6QlCWA6S2ue",
+   "cardInd" : "5aVulo5Q9WA"
  },
  {
    "code": "et2",
    "skill": "Standards Application",
    "lesson": "Applying Standards of Ethical Conduct ",
-    "objectID": "6iaVmSo8VbE",
-   "hlObjectID": "5uOOKdCanL1"
+    "objectID": "6WGOgUgzUEi",
+   "hlObjectID": "5uOOKdCanL1",
+   "cardInd" : "5tOQF17tDZT"
  },
  {
    "code": "et3",
    "skill": "Disclosure Processing",
    "lesson": "Ensuring Proper Disclosures",
-    "objectID": "6KBnjuS2HZy",
-   "hlObjectID": "6DR9aOFiE7X"
+    "objectID": "69fUygQjl0l",
+   "hlObjectID": "6DR9aOFiE7X",
+   "cardInd" : "6pweGXUR4rE"
  },
  {
    "code": "et4",
    "skill": "Recognition",
    "lesson": "Acknowledging Contributors",
-"objectID": "5ZRhA48No0K",
-   "hlObjectID": "6981QdvLoeo"
+"objectID": "6ZMNeLg5Uya",
+   "hlObjectID": "6981QdvLoeo",
+   "cardInd" : "6dCrIE8MwWd"
  },
  {
    "code": "et5",
    "skill": "Adaptive Ethics",
    "lesson": "Monitoring Ethical Trends",
-    "objectID": "5VpotCFBsI8",
-   "hlObjectID": "6ppaePGoRWd"
+    "objectID": "5rZ59wFggTZ",
+   "hlObjectID": "6ppaePGoRWd",
+   "cardInd" : "5hL6YnE53ZO"
  }
 ];
 
