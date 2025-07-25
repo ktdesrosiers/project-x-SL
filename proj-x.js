@@ -1422,16 +1422,23 @@ if (template == "onboarding"){
   }
   else {player.SetVar("inital_overall_comp", proficiencyLabels[4])}
 }
-if (template == "overview" || template == "onboarding" ) {
+if (template == "overview") {
 const init_order = [[st_score_raw,stGroup,stButt],[im_score_raw,impGroup,impButt],[et_score_raw,etGroup,etButt]].filter(pair => pair[1] && pair[2]); // Remove undefineds in case objects do not exist
 init_order.sort((a, b) => a[0] - b[0]);
 const adjustedorder = init_order.map(pair => pair[1]);
 const buttsequence = init_order.map(pair => pair[2]);
   positions.forEach((position, index) => {
     if (adjustedorder[index]) adjustedorder[index].x = position;
-    if (template == "overview" && index == 0 && buttsequence[index]) {
+    if (index == 0 && buttsequence[index]) {
       buttsequence[index].state = "Normal";
     }
+  });
+} else {
+const init_order = [[st_score_raw,stGroup],[im_score_raw,impGroup],[et_score_raw,etGroup]].filter(pair => pair[1]); // Remove undefineds in case objects do not exist
+init_order.sort((a, b) => a[0] - b[0]);
+const adjustedorder = init_order.map(pair => pair[1]);
+  positions.forEach((position, index) => {
+    if (adjustedorder[index]) adjustedorder[index].x = position;
   });
 }
 
