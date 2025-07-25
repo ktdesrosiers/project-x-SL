@@ -9,7 +9,7 @@ var lastopened_lesson = null;
 var test_return_lesson = "";
 var player = GetPlayer();
 // control debug mode by setting the default value of the debug var in SL.
-const debug = player.GetVar("debug");
+var debug = player.GetVar("debug");
 
 function updatedebug(){
   debug = player.GetVar("debug");
@@ -388,8 +388,8 @@ const l_data =[
    "code": "im2",
    "skill": "Workflow Processing",
    "lesson": "Effective Writing, Review, and Approval Processes",
-   "objectID": "67lzdajo3SJ",
-   "hlObjectID": "5c1qTHuRISB",
+   "objectID": "5c1qTHuRISB",
+   "hlObjectID": "5t6pgvRp08r",
    "cardInd" : "5dDBYWQjUJX"
  },
  {
