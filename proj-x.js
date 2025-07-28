@@ -1632,7 +1632,7 @@ function refreshWeeklyProgress() {
   // If new week detected, reset weekly time variables
   if (weekNumber !== current_week) {
     player.SetVar("current_weekly_time", 0);
-    player.SetVar("Project.ElapsedTime", 0);
+    player.SetVar("last_captured_time", 0);
   }
 }
 
@@ -1728,7 +1728,6 @@ function launchlesson(code) {
     }
   }
 
-
   // Manage single lesson window logic
   if (quizWindow && !quizWindow.closed && lastopened_lesson) {
     if (code === lastopened_lesson) {
@@ -1755,6 +1754,8 @@ function launchlesson(code) {
   quizWindow = window.open(lesson_url, '_blank');
   lastopened_lesson = origCode;
   player.SetVar(origCode + "_cur_score",999);
+  orderDomainCards(lesson_holder.slice(0,2));
+  coach(domain,domain+"_coach_message","CH");
   processHighlight();
 }
 
