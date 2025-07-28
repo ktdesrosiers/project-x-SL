@@ -1510,12 +1510,12 @@ function getRotationAngle(sc, cur_sc) {
   const key = sc + ',' + cur_sc;
   // Define all mappings as an object
   const angleMap = {
-    '3,1': 45, '4,1': 45, '4,2': 45,
-    '2,1': 15, '3,2': 15, '4,3': 15,
+    '3,1': 315, '4,1': 315, '4,2': 315,
+    '2,1': 345, '3,2': 345, '4,3': 345,
     '1,1': 0, '2,2': 0, '3,3': 0, '4,4': 0,
-    '0,1': -15, '1,2': -15, '2,3': -15, '3,4': -15,
-    '0,2': -30, '1,3': -30, '2,4': -30,
-    '0,3': -45, '0,4': -45, '1,4': -45
+    '0,1': 15, '1,2': 15, '2,3': 15, '3,4': 15,
+    '0,2': 30, '1,3': 30, '2,4': 30,
+    '0,3': 45, '0,4': 45, '1,4': 45
   };
   // Default to 0 if not matched
   return angleMap.hasOwnProperty(key) ? angleMap[key] : 0;
@@ -1612,7 +1612,7 @@ function orderDomainCards(domain) {
     }
     if (lesson.status == "Completed") {
       player.object(lesson.cardInd).state = 'hl';
-      var angle = getRotationAngle(lesson.sc, lesson.current_score);
+      var angle = getRotationAngle(lesson.initial_score, lesson.current_score);
       player.object(lesson.cardInd).rotation = angle;
     }
   });
