@@ -1274,6 +1274,8 @@ function coach(domain, displayVar, template) {
       state = "challengePerfect";
     }
   }
+
+
   // Fallback to lesson progress logic for other templates or no challenge taken
   if (!state) {
     if (neverAccessed) {
@@ -1291,6 +1293,8 @@ function coach(domain, displayVar, template) {
       state = "inProgress";
     }
   }
+
+ if (debug) {console.log("set state to " + state);}
 
   // Lookup and randomly pick from message list for this state
   let msgList = messagesByTemplate[state] || messagesByTemplate.inProgress;
