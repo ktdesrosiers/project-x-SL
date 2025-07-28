@@ -1611,7 +1611,7 @@ function orderDomainCards(domain) {
       player.object(lesson.objectID).y = yPositions[idx];
     }
     if (lesson.status == "Completed") {
-      player.object(lesson.cardInd).state = 'hl';
+      player.object(lesson.cardInd).state = 'growth';
       var angle = getRotationAngle(lesson.initial_score, lesson.current_score);
       player.object(lesson.cardInd).rotation = angle;
     }
