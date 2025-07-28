@@ -1486,6 +1486,7 @@ function activatedp() {
     if (dateInput) {
         // Initialize Flatpickr on the input field
         flatpickr(dateInput, {
+            minDate: new Date().fp_incr(14), // 14 days from now
             onChange: (selectedDates, dateStr) => {
                 dateInput.value = dateStr; // Set the selected date in the input field
                 player.setVar('dateSelected', dateStr);
@@ -1497,10 +1498,6 @@ function activatedp() {
                 }, 100);
             }
         });
-    
-    dateInput.config = {
-      minDate: new Date().fp_incr(14) // 14 days from now
-    }
       }
 }
 
