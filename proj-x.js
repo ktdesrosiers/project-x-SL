@@ -1613,7 +1613,7 @@ function orderDomainCards(domain) {
     if (lesson.status == "Completed") {
       player.object(lesson.cardIND).state = 'hl';
       var angle = getRotationAngle(lesson.sc, lesson.current_score);
-      player.object(lesson.cardIND).rotation = angle;
+      player.object(lesson.cardInd).rotation = angle;
     }
   });
 
