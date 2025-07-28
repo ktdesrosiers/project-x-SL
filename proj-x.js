@@ -1479,7 +1479,7 @@ switch (template) {
 
 }
 
-// The date picker is an external .js library. 
+// The date picker is an external .js library. It needs to be initialized.
 
 function activatedp() {
      const dateInput = document.querySelector('.acc-textinput');
@@ -1497,7 +1497,11 @@ function activatedp() {
                 }, 100);
             }
         });
+    
+    dateInput.config = {
+      minDate: new Date().fp_incr(14) // 14 days from now
     }
+      }
 }
 
 // this is the function that orders and updates the cards in each coaching area.
