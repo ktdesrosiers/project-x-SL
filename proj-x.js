@@ -16,7 +16,7 @@ function updatedebug(){
 }
 
 // not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
-const yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
+var yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
 
 const coachPhrases = {
   st: {
@@ -356,7 +356,7 @@ const l_data =[
    "code": "st6",
    "skill": "Strategic Publishing",
    "lesson": "Applying to Scientific Communcations Platforms",
-   "objectID": "6oM4kNHvVUC",
+   "objectID": "5y7u4HBIbe1",
    "hlObjectID": "6oM4kNHvVUC",
    "cardInd" : "69lTjvRtU8Y"
  },
