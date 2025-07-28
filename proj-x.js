@@ -1279,7 +1279,7 @@ function coach(domain, displayVar, template) {
   // Fallback to lesson progress logic for other templates or no challenge taken
   if (!state) {
     if (neverAccessed) {
-      state = "neverAccessed";
+      state = "priority";
     } else if (oneAccessed) {
       state = "oneAccessed";
     } else if (needsBoost) {
