@@ -1777,10 +1777,12 @@ function launchlesson(code) {
   quizWindow = window.open(lesson_url, '_blank');
   lastopened_lesson = origCode;
   player.SetVar(origCode + "_cur_score",999);
+  /*
   updateDomainScore(domain);
   displaycoaching_progress(domain)
   orderDomainCards(domain);
   coach(domain,domain+"_coach_message","CH");
+  */
   processHighlight();
 }
 
