@@ -1859,6 +1859,7 @@ window.addEventListener('message', function(event) {
       // in debug mode we use the lesson cdoe that was passed to the lauch function as a retrun value so we can map scores to a bunch of lessons and test things.
       if (debug) { 
         lesson_holder = test_return_lesson;
+        console.log('lesson_holder is ' + lesson_holder);
       } else {lesson_holder = event.data.lesson;}
       player.SetVar(lesson_holder + "_cur_score", coercedScore);
 
@@ -1867,8 +1868,8 @@ window.addEventListener('message', function(event) {
       updateDomainScore(domain);
 
       // Now update the display with latest calculations
-      displaycoaching_progress(domain)
-      orderDomainCards(lesson_holder.slice(0,2));
+      displaycoaching_progress(domain);
+      orderDomainCards(domain);
       coach(domain,domain+"_coach_message","CH");
     }
 }, false);
