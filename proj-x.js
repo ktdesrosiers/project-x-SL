@@ -1316,7 +1316,7 @@ function displayresults() {
   .map(item => {
     var varName =  item.code + "_sc";
     var score = Number(player.GetVar(varName));
-    if (isNaaN(score)) score = 0;
+    if (isNaN(score)) score = 0;
     return { ...item, score: score };
   });
 
