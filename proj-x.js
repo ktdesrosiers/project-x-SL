@@ -1315,7 +1315,7 @@ function displayresults() {
   .filter(item => item.code.startsWith(ass_code))
   .map(item => {
     var varName =  item.code + "_sc";
-    var score = NUmber(player.GetVar(varName));
+    var score = Number(player.GetVar(varName));
     if (isNaaN(score)) score = 0;
     return { ...item, score: score };
   });
@@ -1671,7 +1671,7 @@ function display_gm() {
 } else {
   // Under goal: adjust encouragement based on remaining days
   if (days_left > 3) {
-    message = "With " + hoursDisplay + " hours so far this week, you are on target to reach your goal of " + goal_hours + " hours per week.";
+    message = "With " + hoursDisplay + " hours so far this week, you are on target to reach your goal of " + goal_hours + " hours per week!";
   } else if (days_left > 1) {
     message = "Keep it up! You have " + daysDisplay + " days left this week to hit your goal of " + goal_hours + " hours. Current progress: " + hoursDisplay + " hours.";
   } else if (days_left == 1) {
