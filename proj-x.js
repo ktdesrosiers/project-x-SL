@@ -1176,7 +1176,7 @@ function resetChallenge(type) {
   player.SetVar("chall_questions_asked", "");
   player.SetVar("chall_q_count", 1);
   player.SetVar("chall_current_qcode", "");
-  player.SetVar("chall_incorrect_qcodes", "");
+  //player.SetVar("chall_incorrect_qcodes", "");
   // Wipe per-choice variables
   for (var i = 1; i <= 5; i++) {
     player.SetVar("chall_ch_" + i, "");
@@ -1503,6 +1503,24 @@ function activatedp() {
       }
 }
 
+// for rotating the little card icons.
+
+function getRotationAngle(sc, cur_sc) {
+  // Use string keys for easy matching
+  const key = sc + ',' + cur_sc;
+  // Define all mappings as an object
+  const angleMap = {
+    '3,1': 45, '4,1': 45, '4,2': 45,
+    '2,1': 15, '3,2': 15, '4,3': 15,
+    '1,1': 0, '2,2': 0, '3,3': 0, '4,4': 0,
+    '0,1': -15, '1,2': -15, '2,3': -15, '3,4': -15,
+    '0,2': -30, '1,3': -30, '2,4': -30,
+    '0,3': -45, '0,4': -45, '1,4': -45
+  };
+  // Default to 0 if not matched
+  return angleMap.hasOwnProperty(key) ? angleMap[key] : 0;
+}
+
 // this is the function that orders and updates the cards in each coaching area.
 
 function orderDomainCards(domain) {
@@ -1591,6 +1609,11 @@ function orderDomainCards(domain) {
   lessons.forEach((lesson, idx) => {
     if (lesson.objectID && yPositions[idx] !== undefined) {
       player.object(lesson.objectID).y = yPositions[idx];
+    }
+    if (lesson.status == "Completed") {
+      player.object(lesson.cardIND).state = 'hl';
+      var angle = getRotationAngle(lesson.sc, lesson.current_score);
+      player.object(lesson.cardIND).rotation = angle;
     }
   });
 
@@ -1754,7 +1777,7 @@ function launchlesson(code) {
   quizWindow = window.open(lesson_url, '_blank');
   lastopened_lesson = origCode;
   player.SetVar(origCode + "_cur_score",999);
-  orderDomainCards(lesson_holder.slice(0,2));
+  orderDomainCards(domain);
   coach(domain,domain+"_coach_message","CH");
   processHighlight();
 }
