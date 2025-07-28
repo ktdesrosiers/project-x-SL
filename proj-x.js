@@ -1311,10 +1311,12 @@ function displayresults() {
   if (debug) {console.log("dispalyresults")};
   player.SetVar("skill_ass_q_count", 1);
   var ass_code = player.GetVar("current_assessment");
-  const scored_data = l_data.map(item => {
-    var varName = ass_code + item.code.slice(2) + "_sc";
-    var score = player.GetVar(varName);
-    if (typeof score !== "number") score = 0;
+  const scored_data = l_data
+  .filter(item => item.code.startsWith(ass_code))
+  .map(item => {
+    var varName =  item.code + "_sc";
+    var score = NUmber(player.GetVar(varName));
+    if (isNaaN(score)) score = 0;
     return { ...item, score: score };
   });
 
