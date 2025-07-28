@@ -1205,7 +1205,6 @@ function coach(domain, displayVar, template) {
   if (debug) {console.log("coach " + domain + " " + displayVar + " " + template);}
   const coachData = coachPhrases[domain];
   const messagesByTemplate = coachData.messages[template];
-  const player = GetPlayer();
 
   // Support domain-specific lesson highlights and scores
   const scoreVar = domain + "_challenge_score";
@@ -1348,7 +1347,6 @@ function displayresults() {
   player.SetVar("prior_skills", displayString);
 }
 
-
 // used to display coaches and their rings in appropriate left to right order based on user progress.
 function displaycoaching_progress(template){
   if (debug) {console.log("dispaly_coachingprogress" + template)};
@@ -1356,7 +1354,6 @@ const ob_pos = [583,840,1100];
 const ov_pos = [458,842,1225];
 var positions = [];
 var etGroup,etRing,etButt,stGroup,stRing,stButt,impGroup,impRing,impButt;
-
 
 switch (template) {
   case "onboarding":
