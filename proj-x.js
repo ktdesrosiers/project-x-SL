@@ -2173,7 +2173,7 @@ window.addEventListener('message', function(event) {
       // Now update the display with latest calculations
       displaycoaching_progress(domain);
       orderDomainCards(domain);
-      coach(domain,domain+"_coach_message","CH");
+      coach("CH");
     }
 }, false);
 
