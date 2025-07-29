@@ -14,306 +14,8 @@ var debug = player.GetVar("debug");
 function updatedebug(){
   debug = player.GetVar("debug");
 }
-
 // not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
 var yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
-
-/*
-
-const coachPhrases = {
-  st: {
-    name: "Maia",
-    persona: "Strategic, supportive, a touch mysterious",
-    messages: {
-      CL: {
-        priority: [
-          "Let’s see how you approach \"{lesson}\"—sometimes the first step is the most revealing.",
-          "\"{lesson}\" is a good place to start—let’s look at it together.",
-          "Curiosity is your best asset. \"{lesson}\" will set the tone for your journey.",
-          "Every strategist starts somewhere. \"{lesson}\" is your opening move."
-        ],
-        needsBoost: [
-          "If \"{lesson}\" needs another look, I’m here to help you find a new angle.",
-          "Let’s take another look at \"{lesson}\" when you’re ready. Strategy sometimes means revisiting old ground.",
-          "A second glance at \"{lesson}\" could reveal something new. I’m here to guide you.",
-          "Progress isn’t always linear—let’s revisit \"{lesson}\" together."
-        ],
-        challengeReady: [
-          "You’re making progress. When you’re ready, we can explore a more strategic challenge together.",
-          "Nice progress so far. Let me know if you’d like to move on to the next step.",
-          "Ready for a challenge? I have something special lined up for you.",
-          "Your preparation shows. Let’s see how you handle the next level."
-        ],
-        // New states for challenge results on CL
-        challengeZero: [
-          "You attempted the challenge, but didn’t get anything right. Let's regroup and go again soon.",
-          "We all start somewhere—even a strategist can miss every question the first time! Try the challenge again, and I’ll help you climb from here.",
-          "No correct answers, but that means there’s nowhere to go but up. Let's analyze your answers and try again."
-        ],
-        challengeNeedsHighlight: [
-          "Doing well, but a few lessons need your strategic attention. I’ve highlighted them for you—let’s work on those together.",
-          "Some lessons stand out for a review. Focus there and you’ll see your strategy sharpen.",
-          "You’re making good progress. The highlighted lessons are your best next steps."
-        ],
-        challengeLessThan100: [
-          "Great progress—no major gaps. Keep putting theory into practice and you’ll master this soon.",
-          "Solid showing! No key lessons flagged, but more practice will turn you into a top strategist.",
-          "You’re on the right path—review, retry, and you’ll ace it."
-        ],
-        challengePerfect: [
-          "Perfect score! You’re doing extremely well—let’s continue exploring together whenever you like.",
-          "You’ve set the strategic standard! I’m excited to keep learning with you—challenge me to keep sharp.",
-          "Excellent achievement—full marks! Now’s your chance to explore new skills."
-        ]
-      },
-      CH: {
-        neverAccessed: [
-          "It’s just us here—time to focus on your strategic skills. This page is tailored to help you build a strong foundation, with lessons ordered to match your growth. As you work through them, I’ll be here to guide and adjust your path. I've provided your initial skill rating that I obtained from the onboarding assessment you went through. As you complete lessons I will be able to give you a more refined, current rating.",
-          "Welcome to your strategy hub. Each lesson is chosen to help you see the bigger picture. I’ll be tracking your progress and offering insights as you go. I've provided your initial skill rating that I obtained from the onboarding assessment you went through. As you complete lessons I will be able to give you a more refined, current rating.",
-          "We have the perfect opportunity to build your strategic mindset from the ground up. Let’s make each lesson count. I've provided your initial skill rating that I obtained from the onboarding assessment you went through. As you complete lessons I will be able to give you a more refined, current rating."
-        ],
-        oneAccessed: [
-          "Good work. As you progress with the lessons, keep in mind that your progress ring may sometimes move backward. This is perfectly normal—learning isn’t a straight line. As you approach expert level in each lesson, your ring will close and reflect your growth.",
-          "You’ve made a strong start. Remember, progress can ebb and flow—what matters is your commitment to growth.",
-          "First steps are always the most important. Stay curious and keep moving forward."
-        ],
-        inProgress: [
-          "Your strategic journey continues. The next lesson, \"{lesson}\", will help you see the bigger picture and anticipate challenges. Strategy is about asking the right questions—let’s keep sharpening that skill together.",
-          "Focus on \"{lesson}\" next. Every lesson adds a new layer to your strategic thinking.",
-          "Let’s tackle \"{lesson}\"—sometimes the best insights come from unexpected places.",
-          "Keep your mind open as you approach \"{lesson}\". Strategy rewards those who look beyond the obvious."
-        ],
-        needsBoost: [
-          "You’re progressing well, but \"{lesson}\" might benefit from another look. Sometimes, revisiting a topic reveals new insights. I’m here to help you connect the dots.",
-          "A little more time with \"{lesson}\" could make all the difference. Let’s see what you discover.",
-          "Don’t hesitate to revisit \"{lesson}\"—even experts review the basics.",
-          "Mastery is built on repetition. Give \"{lesson}\" another go when you’re ready."
-        ],
-        challengeReady: [
-          "Congratulations, you’ve reached the strategic challenge. This adaptive quiz draws from a wide range of scenarios, so each attempt will be unique. Use it to test your thinking, and remember: strategy is about learning from every outcome. Take the challenge regularly to keep your skills sharp.",
-          "You’re ready for the next level. The challenge will stretch your abilities and offer new perspectives each time.",
-          "The strategic challenge is designed to keep you on your toes. Try it often—each attempt brings new insights.",
-          "Now’s your chance to put your strategy skills to the test. The challenge adapts, so every round is a fresh opportunity."
-        ],
-        // New states for challenge results on CH
-        challengeZero: [
-          "It was great that you took the challenge, but I have to tell you some bad news: none correct. Can you try again?",
-          "First attempt didn’t land, but strategic minds always rise again. Ready for round two?",
-          "No points this time—analyze, adapt, and let’s try the challenge again!"
-        ],
-        challengeNeedsHighlight: [
-          "Nice attempt! I’ve highlighted lessons worth a deeper dive based on your results. Ready to tackle them and try again?",
-          "Good work, strategist. Let’s review the highlighted lessons and build your mastery.",
-          "Progress made, but a few lessons deserve another go. See your highlights and take the challenge again."
-        ],
-        challengeLessThan100: [
-          "Great work! A few soft spots, but nothing major. Keep sharpening your skills and try again any time.",
-          "You’re close—refine your approach and you’ll master this challenge soon.",
-          "Impressive progress! Retake the challenge whenever you want to aim for perfection."
-        ],
-        challengePerfect: [
-          "Perfect! You aced the strategic challenge. Shift your focus to new territory and keep growing.",
-          "You’ve reached the summit! Take on new skills or mentor others while you maintain your edge.",
-          "Excellent—flawless results! Let’s keep building your strategic power."
-        ]
-      }
-    }
-  },
-  im: {
-    name: "Pat",
-    persona: "Straightforward, experienced, quietly encouraging",
-    messages: {
-      CL: {
-        priority: [
-          "\"{lesson}\" is next on the plan. Let’s take it step by step.",
-          "Let’s get started with \"{lesson}\"—steady progress is what counts.",
-          "Every good plan starts with a first action. \"{lesson}\" is yours.",
-          "Ready to roll up your sleeves? \"{lesson}\" is waiting."
-        ],
-        needsBoost: [
-          "If \"{lesson}\" feels tough, that’s normal. We’ll work through it, one piece at a time.",
-          "Let’s give \"{lesson}\" another try when you’re set. Every bit of practice helps.",
-          "No shame in a second attempt at \"{lesson}\"—that’s how we get better.",
-          "Persistence pays off. Let’s revisit \"{lesson}\" together."
-        ],
-        challengeReady: [
-          "Solid start. If you’re ready, let’s see how you handle the next task.",
-          "Good work so far. We can move ahead whenever you feel prepared.",
-          "You’ve built a strong foundation. Time to put it to the test.",
-          "Ready for a challenge? Let’s see your skills in action."
-        ],
-        challengeZero: [
-          "You finished the challenge, but didn’t hit any answers. That's just a starting point—try one more time.",
-          "No correct answers this time, but things will click with another attempt.",
-          "Zero for now, but no worries. Let’s give it another go together."
-        ],
-        challengeNeedsHighlight: [
-          "Not bad—some lessons flagged for another look. Practice will bring results!",
-          "A few bumps in the road—focus on the highlighted lessons to improve.",
-          "Some areas could use a second pass. Tackle the highlighted lessons, then retake the challenge!"
-        ],
-        challengeLessThan100: [
-          "I like your progress—keep it up and retake the challenge to hone your approach!",
-          "Good effort—no big gaps. Practice and persistence make perfect.",
-          "Solid results. More attempts will build your confidence even further."
-        ],
-        challengePerfect: [
-          "Impressive! You’ve set the standard. Keep exploring, I’ll be here every step.",
-          "Perfect run! Take the momentum into other skills.",
-          "Excellent—a flawless challenge. Help others, or stretch yourself with a new area."
-        ]
-      },
-      CH: {
-        neverAccessed: [
-          "I’ve got you all to myself now. Let’s dive into developing your implementation skills. I’ve set this page up to provide lessons prioritized to your development needs. As you engage with the lessons, I’ll update your progress and keep you on track.",
-          "Welcome! This is our space for building real-world project skills. Each lesson has a purpose—let’s get started at your own pace.",
-          "I set this page up to match the way you learn best. As you engage, I’ll update your progress so you always know where you stand."
-        ],
-        oneAccessed: [
-          "Good work making a start! As you move through more lessons, remember that your progress ring may move back or forth—this is normal. Stick with it, and progress will follow.",
-          "Solid first steps. Some fluctuation in your ring is expected early on—learning isn’t linear, so keep at it.",
-          "You’ve tackled your first lesson. Progress rings shift over time, and that’s perfectly fine. Let’s see what else you can do."
-        ],
-        inProgress: [
-          "You’re making steady progress. Next up: \"{lesson}\". A strong plan is the backbone of every project—take your time and review when needed.",
-          "\"{lesson}\" is now in focus. Remember, learning is as much about reflection as action. If you hit a snag, I’m just a click away.",
-          "Keep an eye on \"{lesson}\"—focusing here will pay off across the rest of your work.",
-          "Every lesson, like \"{lesson}\", is a building block. Let’s keep stacking them up."
-        ],
-        needsBoost: [
-          "Take a moment with \"{lesson}\"—sometimes a little more practice gives that edge. No need to rush to the finish.",
-          "\"{lesson}\" could use a bit more attention. Diligence here will make things easier down the road.",
-          "Some lessons, like \"{lesson}\", are worth a second pass. Mastery comes from repetition.",
-          "Let’s circle back to \"{lesson}\"—steady effort leads to real results."
-        ],
-        challengeReady: [
-          "You’re ready for the implementation challenge! Every attempt brings fresh scenarios and questions. Try it several times to strengthen your skills.",
-          "Excellent work—now’s the time to take on the challenge. Its adaptive questions make each round unique. Regular attempts build your mastery.",
-          "You’ve made it! The challenge quiz is designed to keep surprising you, so give it a go whenever you want to test yourself.",
-          "The challenge is your chance to put everything into practice. Each try is a new opportunity to improve."
-        ],
-        challengeZero: [
-          "Tough break! No correct answers this time, but it’s just the start. Try again—I know you can do it.",
-          "Zero this time, but persistence will win out. Give it another go, and let’s get those points up!",
-          "No luck this round—take a breath and try the challenge again!"
-        ],
-        challengeNeedsHighlight: [
-          "You did well—check out the lessons I’ve highlighted for a bit more work. Practice makes perfect!",
-          "Good effort, but some lessons need another look. See the highlights and return to the challenge soon.",
-          "I’ve flagged some lessons for you to focus on—let’s make the next attempt your best."
-        ],
-        challengeLessThan100: [
-          "You’re on the right track—no lessons need extra attention, just a bit more polish next time.",
-          "Just a small gap to close. Try again to reach the top!",
-          "Very solid work! You’re closing in on perfection—keep it going."
-        ],
-        challengePerfect: [
-          "Outstanding! 100% correct—you’re implementation royalty. Keep your momentum going in other areas.",
-          "Perfect result! Take a moment to appreciate your hard work.",
-          "Excellent—flawless execution. You can help others, or raise the bar higher for yourself!"
-        ]
-      }
-    }
-  },
-  et: {
-    name: "Thomas",
-    persona: "Calm, wise, quietly authoritative",
-    messages: {
-      CL: {
-        priority: [
-          "\"{lesson}\" is a good place to begin—let’s see how you reason through it.",
-          "Let’s start with \"{lesson}\" and explore your approach.",
-          "Every ethical journey starts with a single step. \"{lesson}\" is yours.",
-          "Let’s see what you make of \"{lesson}\"—I’ll be here to guide you."
-        ],
-        needsBoost: [
-          "If \"{lesson}\" needs another review, I’m here to help clarify any details.",
-          "Let’s revisit \"{lesson}\" together if you think it would help sharpen your understanding.",
-          "Sometimes a second look at \"{lesson}\" brings clarity. I’m happy to help.",
-          "Ethics is about reflection. Let’s take another look at \"{lesson}\"."
-        ],
-        challengeReady: [
-          "You’ve shown good judgment so far. Ready to test your skills further?",
-          "Nice work so far. Let me know if you’d like to try the next challenge.",
-          "You’re ready for the ethics challenge. Let’s see how you apply your knowledge.",
-          "The next challenge awaits—let’s see your ethical reasoning in action."
-        ],
-        challengeZero: [
-          "Challenge was completed but zero correct. This is an invitation to try again. You can do it.",
-          "Zero correct answers isn’t the end—just a step in the ethical journey. Try once more, and I’ll help you along.",
-          "It happens—no correct responses. Take time to review and attempt the challenge again."
-        ],
-        challengeNeedsHighlight: [
-          "Progress noted—let’s focus on highlighted lessons to strengthen your foundation.",
-          "Highlighted lessons need additional focus—work there, and you’ll see improvement.",
-          "You’re doing well, but some concepts need reinforcing. Check the highlights."
-        ],
-        challengeLessThan100: [
-          "Solid progress overall—nothing flagged this time. Keep developing your expertise.",
-          "You’re gaining ground—review, retry, and you’ll soon be at the top.",
-          "Good progress—one or two points away from mastery!"
-        ],
-        challengePerfect: [
-          "Excellent achievement—100% complete. Let’s push your ethical thinking even further as you see fit.",
-          "You’ve done outstanding work—now keep asking tough questions!",
-          "Perfect score—inspiring. Continue, and keep setting the bar high."
-        ]
-      },
-      CH: {
-        neverAccessed: [
-          "Welcome to your ethics journey. I’m here to help you navigate the complexities of ethical publishing. The lessons ahead are set up to build your understanding step by step, and I’ll be tracking your progress to offer guidance along the way.",
-          "This is your space to explore the foundations of ethical practice. Each lesson is a step toward greater clarity and confidence.",
-          "We’ll start from the beginning and build your ethical skills together. I’ll be here to support you at every turn."
-        ],
-        oneAccessed: [
-          "Good work. As you progress with the lessons, keep in mind that your progress ring may sometimes move backward. This is perfectly normal—learning isn’t a straight line. As you approach expert level in each lesson, your ring will close and reflect your growth.",
-          "You’ve made a promising start. Remember, ethical understanding deepens with each lesson—don’t worry if progress isn’t always forward.",
-          "First lessons are just the beginning. Stay thoughtful and keep building your knowledge."
-        ],
-        inProgress: [
-          "Ethics is a journey, not a destination. Your next focus, \"{lesson}\", will deepen your understanding of best practices. If something feels unclear, remember that asking questions is a sign of wisdom, not weakness.",
-          "Let’s turn our attention to \"{lesson}\". Every lesson adds to your ability to make sound decisions.",
-          "Focus on \"{lesson}\"—it’s an important part of your ethical toolkit.",
-          "Each lesson, like \"{lesson}\", brings you closer to mastering the nuances of ethical publishing."
-        ],
-        needsBoost: [
-          "Almost there! \"{lesson}\" is worth a second review to ensure you’re confident in your understanding. Ethics often requires a second look—let’s make sure you’re ready for any challenge.",
-          "A bit more time with \"{lesson}\" will serve you well. Ethics rewards careful thought.",
-          "Let’s revisit \"{lesson}\"—sometimes the best answers come after a pause.",
-          "Don’t hesitate to review \"{lesson}\" again. True understanding comes with reflection."
-        ],
-        challengeReady: [
-          "You’re prepared for the ethics challenge. The questions will change each time, giving you a chance to deepen your understanding with every attempt. Take the challenge regularly to keep your ethical skills sharp and ready for real-world situations.",
-          "The ethics challenge is designed to stretch your thinking. Each attempt brings new scenarios—try it often to keep your skills sharp.",
-          "Ready for the next step? The challenge adapts to your progress, so every round is a new opportunity.",
-          "Now’s your chance to put your ethical reasoning to the test. The challenge will keep you learning with every try."
-        ],
-        challengeZero: [
-          "Not every challenge goes well. Zero correct, but every attempt builds wisdom. Ready to try again with me?",
-          "You gave it a try, but no correct answers yet. Persevere, and you'll soon see results.",
-          "No points this round, but that’s where learning begins. Let’s try again and dig deeper."
-        ],
-        challengeNeedsHighlight: [
-          "Some lessons are highlighted for further review—let’s focus there. You’re making progress, keep it up.",
-          "A few areas need deeper exploration. Let’s commit time to the highlighted lessons.",
-          "Consider the highlighted lessons for a stronger ethical core—another challenge run will show your growth."
-        ],
-        challengeLessThan100: [
-          "Excellent showing. No lessons flagged for review—just a few details to polish. Come back and test your ethical mettle anytime.",
-          "No major gaps—just a few things left to perfect. I’m always here to discuss and review.",
-          "Great job overall—just a little more work to achieve a perfect result."
-        ],
-        challengePerfect: [
-          "Flawless completion. Ethics are clearly your strong suit—keep challenging yourself as you progress in new ways.",
-          "No mistakes—exemplary work! Seek new challenges to continue your growth.",
-          "Couldn’t ask for better—your ethical guidance is top notch. Keep going strong."
-        ]
-      }
-    }
-  }
-};
-
-*/
 
 const coachPhrases = {
   st: {
@@ -353,10 +55,10 @@ const coachPhrases = {
       },
       CH: {
         challengeReady: [
-          "Your preparation shines. Ready for a challenge? Take my challenge and I'll highlight lessons you may want to revist.",
-          "All pieces are in place—want to test your mettle? Take my challenge and I'll highlight lessons you may want to revist.",
-          "Let's see your strategy in action—step into the challenge when you wish. Take my challenge and I'll highlight lessons you may want to revist.",
-          "You've built momentum. Take on the next challenge if you're feeling bold. Take my challenge and I'll highlight lessons you may want to revist."
+          "Congratulations, you’ve reached the strategic challenge. This adaptive quiz draws from a wide range of scenarios, so each attempt will be unique. Use it to test your thinking, and remember: strategy is about learning from every outcome. Take the challenge regularly to keep your skills sharp.",
+          "You’re ready for the next level. The challenge will stretch your abilities and offer new perspectives each time.",
+          "The strategic challenge is designed to keep you on your toes. Try it often—each attempt brings new insights.",
+          "Now’s your chance to put your strategy skills to the test. The challenge adapts, so every round is a fresh opportunity."
         ],
         neverAccessed: [
           "This is our secret strategy room. Let's lay the foundation, brick by brick.",
@@ -429,10 +131,10 @@ const coachPhrases = {
       },
       CH: {
         challengeReady: [
-          "You’ve done the prep. Ready for the implementation challenge? Engaging with it will give me a chance to highlight any lessons I feel you might want to review.",
-          "Great work—I've lined up a challenge to test your plan. Engaging with it will give me a chance to highlight any lessons I feel you might want to review.",
-          "When you’re ready for more, the challenge is a click away. Engaging with it will give me a chance to highlight any lessons I feel you might want to review.",
-          "Solid work—let's see you in action on the challenge. Engaging with it will give me a chance to highlight any lessons I feel you might want to review."
+          "You’re ready for the implementation challenge! Every attempt brings fresh scenarios and questions. Try it several times to strengthen your skills.",
+          "Excellent work—now’s the time to take on the challenge. Its adaptive questions make each round unique. Regular attempts build your mastery.",
+          "You’ve made it! The challenge quiz is designed to keep surprising you, so give it a go whenever you want to test yourself.",
+          "The challenge is your chance to put everything into practice. Each try is a new opportunity to improve."
         ],
         neverAccessed: [
           "Let’s get into the nuts and bolts—our first project starts with \"{lesson}\".",
@@ -446,8 +148,8 @@ const coachPhrases = {
         ],
         challengeNeedsHighlight: [
           "Some lessons flagged—let’s focus there for next time.",
-          "Let’s reinforce what’s been highlighted. Practice makes progress.",
-          "A few loose ends—nothing some review can’t fix."
+          "Good work on the challenge. Let’s reinforce what’s been highlighted. Practice makes progress.",
+          "A few loose ends—nothing some review can’t fix.I've highlighted a few lessons you might want to revisit based on the challenge."
         ],
         challengeLessThan100: [
           "You’re nearly there—just a bit more polishing.",
@@ -505,10 +207,10 @@ const coachPhrases = {
       },
       CH: {
           challengeReady: [
-          "You’ve built a good foundation. Try the challenge when ready. Taking it will allow me to indicate areas you may want to revisit.",
-          "Time to test your ethical judgment in the challenge.  Taking it will allow me to indicate areas you may want to revisit.",
-          "The challenge is designed to stretch your thinking. Accept it when you feel ready. Taking it will allow me to indicate areas you may want to revisit.",
-          "Ready for the ethics challenge? Put your knowledge on trial!  Taking it will allow me to indicate areas you may want to revisit."
+          "You’re prepared for the ethics challenge. The questions will change each time, giving you a chance to deepen your understanding with every attempt. Take the challenge regularly to keep your ethical skills sharp and ready for real-world situations.",
+          "The ethics challenge is designed to stretch your thinking. Each attempt brings new scenarios—try it often to keep your skills sharp.",
+          "Ready for the next step? The challenge adapts to your progress, so every round is a new opportunity.",
+          "Now’s your chance to put your ethical reasoning to the test. The challenge will keep you learning with every try."
         ],
         neverAccessed: [
           "Ethics can seem daunting. Let's take on \"{lesson}\" together.",
@@ -545,7 +247,6 @@ const coachPhrases = {
     }
   }
 };
-
 
 const l_data =[
  {
@@ -1497,7 +1198,7 @@ function sortDomainLessons(lessons) {
 function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
   // Get the challenge score and normalize it
   const challengeScoreRaw = player.GetVar(domain + "_challenge_score");
-  const challengeScore = Number(challengeScoreRaw);
+  const challengeScore = Math.trunc(Number(challengeScoreRaw));
 
   // "Challenge taken" means: a numeric value 0–100 (not 999)
   const challengeTaken = (
@@ -1515,6 +1216,11 @@ function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
 );
     }
 
+  // Get highlights from storyline variable, which uses '|' as a separator
+  const highlightString = player.GetVar(domain + "_chall_less_hls");
+  const highlights = highlightString ? highlightString.split('|').filter(Boolean) : [];
+  const hasHighlights = highlights.length > 0;
+
   const allCompleted = lessons.every(l => l.status === "Completed");
   const neverAccessed = lessons.every(l => l.status === "Not Started");
   const needsBoost = allCompleted && lessons.some(l => l.current_score < 3);
@@ -1528,23 +1234,20 @@ function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
     if (inProgress) return "inProgress";
   }
 
-  if (template === "CH") {
-    if (challengeEnabled && !challengeTaken) return "challengeReady"; // CH now shows "challenge ready"
+ if (template === "CH") {
+    if (challengeEnabled && !challengeTaken) return "challengeReady";
     if (challengeScore === 0) return "challengeZero";
-    if (challengeScore < 100) {
-      // Needs highlight if any lesson not Proficient
-      const needsHighlight = lessons.some(l => l.current_score < 3);
-      return needsHighlight ? "challengeNeedsHighlight" : "challengeLessThan100";
-    }
     if (challengeScore === 100) return "challengePerfect";
+    if (challengeTaken) {
+      if (hasHighlights) return "challengeNeedsHighlight";
+      return "challengeLessThan100";
+    }
     return "inProgress";
   }
 
   // Fallback
   return "inProgress";
 }
-
-
 
 // Message resolution, supporting lesson-specific messages and fallback to generic state
 function getCoachMessage(domain, template, state, lessons, lessonCode) {
