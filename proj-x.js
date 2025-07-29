@@ -1848,8 +1848,12 @@ function orderDomainCards(domain) {
     player.SetVar(code + "_skill", skill);
 
     // Set initial competency display
+    if (debug){
+      player.SetVar(code + "_initial_comp", proficiencyLabels[sc]+" "+sc || "No Experience");
+    }
+    else{
     player.SetVar(code + "_initial_comp", proficiencyLabels[sc] || "No Experience");
-
+  }
     // Set current competency display and status
     let cur_comp, status;
     if (cur_score === 0) {
