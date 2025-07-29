@@ -1444,14 +1444,6 @@ function coach(template) {
     const challengeEnabled = player.GetVar(domain + "_chall_enabled");
 
     const lessonCode = sortedLessons[0]?.code || null;
-    if (debug) {
-      console.log(
-  '[CH Coach] challengeEnabled=', challengeEnabled,
-  'challengeScore=', challengeScore,
-  'challengeTaken=', challengeTaken,
-  lessons.map(l => `${l.code}:${l.status}:${l.current_score}`)
-);
-    }
     const msgState = getStateForLessonsCL(domain, sortedLessons, template, challengeEnabled);
     const msg = getCoachMessage(domain, template, msgState, sortedLessons, lessonCode);
     const displayVar = template === "CH" ? domain + "_coach_message" : domain + "_key_prior";
@@ -1495,6 +1487,15 @@ function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
     !isNaN(challengeScore) && 
     challengeScore !== 999
   );
+
+    if (debug) {
+      console.log(
+  '[CH Coach] challengeEnabled=', challengeEnabled,
+  'challengeScore=', challengeScore,
+  'challengeTaken=', challengeTaken,
+  lessons.map(l => `${l.code}:${l.status}:${l.current_score}`)
+);
+    }
 
   const allCompleted = lessons.every(l => l.status === "Completed");
   const neverAccessed = lessons.every(l => l.status === "Not Started");
