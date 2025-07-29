@@ -1423,14 +1423,55 @@ function getCoachMessage(domain, type, lesson) {
 function coach(template) {
   const domains = template === "CL" ? ["im", "st", "et"] : [player.GetVar("cur_coach")];
   domains.forEach(domain => {
-    const lessons = getSortedDomainLessons(domain); // Now matches display order exactly!
-    const lessonCode = lessons[0]?.code || null;
-    const state = getStateForLessonsCL(domain, lessons, template);
-    const msg = getCoachMessage(domain, template, state, lessons, lessonCode);
+    const lessons = l_data.filter(item => item.code.startsWith(domain)).map(item => {
+      const code = item.code;
+      return {
+        ...item,
+        sc: player.GetVar(code + "_sc"),
+        cur_score: player.GetVar(code + "_cur_score"),
+        status: player.GetVar(code + "_status"),
+        initial_score: player.GetVar(code + "_sc"),
+        current_score: player.GetVar(code + "_cur_score"),
+        lesson: item.lesson,
+        skill: item.skill
+      };
+    });
+    const sortedLessons = sortDomainLessons(lessons);
+    const nextLesson = sortedLessons[0]; // <-- This is now always "top of screen"
+    const lessonCode = nextLesson?.code || null;
+    const state = getStateForLessonsCL(domain, sortedLessons, template);
+    const msg = getCoachMessage(domain, template, state, sortedLessons, lessonCode);
     const displayVar = template === "CH" ? domain + "_coach_message" : domain + "_key_prior";
     player.SetVar(displayVar, msg);
   });
 }
+
+
+function sortDomainLessons(lessons) {
+  const statusOrder = { "Not Started": 0, "Accessed": 1, "Completed": 2 };
+  return lessons.slice().sort((a, b) => {
+    // 1. Status: Not Started < Accessed < Completed
+    if (statusOrder[a.status] !== statusOrder[b.status]) {
+      return statusOrder[a.status] - statusOrder[b.status];
+    }
+    // 2. Both incomplete (not "Completed"): initial_score, then lesson title
+    if (a.status !== "Completed" && b.status !== "Completed") {
+      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
+      return a.lesson.localeCompare(b.lesson);
+    }
+    // 3. Both completed, needs boost (cur_score < 3)
+    const aNeedsBoost = a.current_score < 3;
+    const bNeedsBoost = b.current_score < 3;
+    if (aNeedsBoost !== bNeedsBoost) return aNeedsBoost ? -1 : 1;
+    if (aNeedsBoost && bNeedsBoost) {
+      if (a.current_score !== b.current_score) return a.current_score - b.current_score;
+      return a.lesson.localeCompare(b.lesson);
+    }
+    // 4. Otherwise, alphabetical by lesson title
+    return a.lesson.localeCompare(b.lesson);
+  });
+}
+
 
 // Helper to retrieve all domain lessons including status and comp
 function getSortedDomainLessons(domain) {
@@ -1766,9 +1807,6 @@ function orderDomainCards(domain) {
     4: "Expert"
   };
 
-  // Explicit order for lesson status
-  const statusOrder = { "Not Started": 0, "Accessed": 1, "Completed": 2 };
-
   // Retrieve and prepare lesson info
   const domainLessons = l_data.filter(item => item.code.startsWith(domain));
   const lessons = domainLessons.map(item => {
@@ -1818,31 +1856,10 @@ function orderDomainCards(domain) {
     };
   });
 
-  // Sorting: maintainable, explicit priorities
-  lessons.sort((a, b) => {
-    // 1. Status order ("Not Started" < "Accessed" < "Completed")
-    if (statusOrder[a.status] !== statusOrder[b.status]) {
-      return statusOrder[a.status] - statusOrder[b.status];
-    }
-    // 2. If both incomplete (not "Completed"), order by initial_score, then lesson title
-    if (a.status !== "Completed" && b.status !== "Completed") {
-      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
-      return a.lesson.localeCompare(b.lesson);
-    }
-    // 3. If both completed, "needs boost" (score < 3), order by current_score, then lesson
-    const aNeedsBoost = a.current_score < 3;
-    const bNeedsBoost = b.current_score < 3;
-    if (aNeedsBoost !== bNeedsBoost) return aNeedsBoost ? -1 : 1;
-    if (aNeedsBoost && bNeedsBoost) {
-      if (a.current_score !== b.current_score) return a.current_score - b.current_score;
-      return a.lesson.localeCompare(b.lesson);
-    }
-    // 4. Otherwise, alphabetical by lesson title
-    return a.lesson.localeCompare(b.lesson);
-  });
+  const sortedLessons = sortDomainLessons(lessons);
 
   // Move cards visually based on yPositions and update display states
-  lessons.forEach((lesson, idx) => {
+  sortedLessons.forEach((lesson, idx) => {
     if (lesson.objectID && yPositions[idx] !== undefined) {
       player.object(lesson.objectID).y = yPositions[idx];
     }
