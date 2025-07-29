@@ -1419,10 +1419,11 @@ function getCoachMessage(domain, type, lesson) {
 }
 */
 
-
 function coach(template) {
+  // Handle all three coaches for CL, or just the current coach for CH
   const domains = template === "CL" ? ["im", "st", "et"] : [player.GetVar("cur_coach")];
   domains.forEach(domain => {
+    // Prepare lesson list just like in ordering, with status/score
     const lessons = l_data.filter(item => item.code.startsWith(domain)).map(item => {
       const code = item.code;
       return {
@@ -1436,15 +1437,47 @@ function coach(template) {
         skill: item.skill
       };
     });
+    // Re-use centralized lesson ordering!
     const sortedLessons = sortDomainLessons(lessons);
-    const nextLesson = sortedLessons[0]; // <-- This is now always "top of screen"
-    const lessonCode = nextLesson?.code || null;
-    const state = getStateForLessonsCL(domain, sortedLessons, template);
-    const msg = getCoachMessage(domain, template, state, sortedLessons, lessonCode);
+
+    // Check if challenge is enabled
+    const challengeEnabled = player.GetVar(domain + "_chall_enabled");
+
+    const lessonCode = sortedLessons[0]?.code || null;
+    const msgState = getStateForLessonsCL(domain, sortedLessons, template, challengeEnabled);
+    const msg = getCoachMessage(domain, template, msgState, sortedLessons, lessonCode);
     const displayVar = template === "CH" ? domain + "_coach_message" : domain + "_key_prior";
     player.SetVar(displayVar, msg);
   });
 }
+
+// Update your state selection to factor in challengeEnabled:
+function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
+  const challengeScore = player.GetVar(domain + "_challenge_score");
+  const challengeTaken = typeof challengeScore !== "undefined" && challengeScore !== null;
+  const allCompleted = lessons.every(l => l.status === "Completed");
+  const neverAccessed = lessons.every(l => l.status === "Not Started");
+  const inProgress = lessons.some(l => l.status === "Accessed" || l.status === "Not Started");
+  const needsBoost = allCompleted && lessons.some(l => l.current_score < 3);
+  // Use challengeEnabled for message selection
+  if (template === "CL") {
+    if (challengeEnabled && challengeTaken) return "postChallenge";
+    if (neverAccessed) return "priority";
+    if (needsBoost) return "needsBoost";
+    if (challengeEnabled && !challengeTaken) return "challengeReady";
+    if (inProgress) return "inProgress";
+  }
+  // ...retain similar CH logic as before
+  if (template === "CH") {
+    if (!challengeTaken) return "neverAccessed";
+    if (challengeScore === 0) return "challengeZero";
+    if (challengeScore < 100) return lessons.some(l => l.current_score < 3) ? "challengeNeedsHighlight" : "challengeLessThan100";
+    if (challengeScore === 100) return "challengePerfect";
+    return "inProgress";
+  }
+  return "inProgress";
+}
+
 
 
 function sortDomainLessons(lessons) {
@@ -1471,6 +1504,7 @@ function sortDomainLessons(lessons) {
     return a.lesson.localeCompare(b.lesson);
   });
 }
+
 
 
 // Helper to retrieve all domain lessons including status and comp
@@ -1807,9 +1841,8 @@ function orderDomainCards(domain) {
     4: "Expert"
   };
 
-  // Retrieve and prepare lesson info
-  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
-  const lessons = domainLessons.map(item => {
+  // Prepare lesson objects with fresh status/scores from Storyline
+  const domainLessons = l_data.filter(item => item.code.startsWith(domain)).map(item => {
     const code = item.code;
     const sc = player.GetVar(code + "_sc");
     const cur_score = player.GetVar(code + "_cur_score");
@@ -1821,7 +1854,7 @@ function orderDomainCards(domain) {
 
     // Set initial competency display
     if (debug) {
-      player.SetVar(code + "_initial_comp", proficiencyLabels[sc] + " " + sc || "No Experience");
+      player.SetVar(code + "_initial_comp", (proficiencyLabels[sc] ? proficiencyLabels[sc] : "No Experience") + " " + sc);
     } else {
       player.SetVar(code + "_initial_comp", proficiencyLabels[sc] || "No Experience");
     }
@@ -1856,21 +1889,28 @@ function orderDomainCards(domain) {
     };
   });
 
-  const sortedLessons = sortDomainLessons(lessons);
+  // Sort lessons using the shared function
+  const sortedLessons = sortDomainLessons(domainLessons);
 
-  // Move cards visually based on yPositions and update display states
+  // Set the challenge enabled flag based on all lessons being Completed and Proficient+
+  const challengeReady = sortedLessons.every(
+    lesson => lesson.status === "Completed" && lesson.current_score >= 3
+  );
+  player.SetVar(domain + "_chall_enabled", challengeReady);
+
+  // Move cards visually and set states/rotations as needed
   sortedLessons.forEach((lesson, idx) => {
-    if (lesson.objectID && yPositions[idx] !== undefined) {
+    if (lesson.objectID && typeof yPositions !== 'undefined' && yPositions[idx] !== undefined) {
       player.object(lesson.objectID).y = yPositions[idx];
     }
-    if (lesson.status == "Completed") {
+    if (lesson.status === "Completed") {
       player.object(lesson.cardInd).state = 'growth';
       var angle = getRotationAngle(lesson.initial_score, lesson.current_score);
       player.object(lesson.cardInd).rotation = angle;
     }
   });
 
-  // Highlight remediation lessons, if needed
+  // Highlight lessons that need remediation (after challenge)
   var highlightString = player.GetVar(domain + "_chall_less_hls");
   var highlights = highlightString ? highlightString.split('|').filter(Boolean) : [];
   if (highlights.length > 0) {
@@ -1879,6 +1919,7 @@ function orderDomainCards(domain) {
     });
   }
 }
+
 
 
 // this runs on load.
