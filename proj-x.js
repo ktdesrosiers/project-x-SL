@@ -1421,11 +1421,9 @@ function getCoachMessage(domain, type, lesson) {
 
 
 function coach(template) {
-  // For CL, all 3 coaches display at once; for CH, only current coach
   const domains = template === "CL" ? ["im", "st", "et"] : [player.GetVar("cur_coach")];
-
   domains.forEach(domain => {
-    const lessons = getDomainLessons(domain);
+    const lessons = getSortedDomainLessons(domain); // Now matches display order exactly!
     const lessonCode = lessons[0]?.code || null;
     const state = getStateForLessonsCL(domain, lessons, template);
     const msg = getCoachMessage(domain, template, state, lessons, lessonCode);
@@ -1435,13 +1433,56 @@ function coach(template) {
 }
 
 // Helper to retrieve all domain lessons including status and comp
-function getDomainLessons(domain) {
-  return l_data.filter(item => item.code.startsWith(domain)).map(item => ({
-    ...item,
-    status: player.GetVar(item.code + "_status"),
-    comp: player.GetVar(item.code + "_cur_comp")
-  }));
+function getSortedDomainLessons(domain) {
+  // Build lessons array just like in orderDomainCards
+  const proficiencyLabels = {
+    0: "No Experience",
+    1: "Awareness",
+    2: "Emergent",
+    3: "Proficient",
+    4: "Expert"
+  };
+  const statusOrder = { "Not Started": 0, "Accessed": 1, "Completed": 2 };
+
+  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
+  const lessons = domainLessons.map(item => {
+    const code = item.code;
+    return {
+      ...item,
+      sc: player.GetVar(code + "_sc"),
+      cur_score: player.GetVar(code + "_cur_score"),
+      status: player.GetVar(code + "_status"),
+      initial_score: player.GetVar(code + "_sc"),
+      current_score: player.GetVar(code + "_cur_score"),
+      lesson: item.lesson,
+      skill: item.skill
+    };
+  });
+
+  lessons.sort((a, b) => {
+    // 1. Status order
+    if (statusOrder[a.status] !== statusOrder[b.status]) {
+      return statusOrder[a.status] - statusOrder[b.status];
+    }
+    // 2. Both incomplete (not "Completed")
+    if (a.status !== "Completed" && b.status !== "Completed") {
+      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
+      return a.lesson.localeCompare(b.lesson);
+    }
+    // 3. Both completed, "needs boost" (score < 3)
+    const aNeedsBoost = a.current_score < 3;
+    const bNeedsBoost = b.current_score < 3;
+    if (aNeedsBoost !== bNeedsBoost) return aNeedsBoost ? -1 : 1;
+    if (aNeedsBoost && bNeedsBoost) {
+      if (a.current_score !== b.current_score) return a.current_score - b.current_score;
+      return a.lesson.localeCompare(b.lesson);
+    }
+    // 4. Otherwise, alphabetical by lesson title
+    return a.lesson.localeCompare(b.lesson);
+  });
+  return lessons;
 }
+
 
 // Lesson state determination logic for CL and CH
 function getStateForLessonsCL(domain, lessons, template) {
@@ -1498,116 +1539,6 @@ function randomPick(arr) {
 }
 
 
-
-
-/*
-function coach(domain, displayVar, template) {
-  if (debug) {console.log("coach " + domain + " " + displayVar + " " + template);}
-  const coachData = coachPhrases[domain];
-  const messagesByTemplate = coachData.messages[template];
-
-  // Support domain-specific lesson highlights and scores
-  const scoreVar = domain + "_challenge_score";
-  const highlightVar = domain + "_chall_less_hls";
-  const score = player.GetVar(scoreVar);
-  const highlights = (player.GetVar(highlightVar) || "").split('|').filter(Boolean);
-
-  // Lessons data
-  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
-  const lessons = domainLessons.map(item => ({
-    ...item,
-    cur_score: player.GetVar(item.code + "_cur_score"),
-    status: player.GetVar(item.code + "_status"),
-    lesson: item.lesson,
-    skill: item.skill
-  }));
-
-  if (debug) {console.log("set lessons to " + JSON.stringify(lessons));}
-
-  // Sorting rules as before
-  lessons.sort((a, b) => {
-    const aComplete = ["Accessed", "Completed", "Not Started"].includes(a.status);
-    const bComplete = ["Accessed", "Completed", "Not Started"].includes(b.status);
-    if (!aComplete && bComplete) return -1;
-    if (aComplete && !bComplete) return 1;
-    if (!aComplete && !bComplete) {
-      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
-      return a.skill.localeCompare(b.skill);
-    }
-    const aNeedsBoost = (a.cur_score < 4 && aComplete);
-    const bNeedsBoost = (b.cur_score < 4 && bComplete);
-    if (aNeedsBoost && !bNeedsBoost) return -1;
-    if (!aNeedsBoost && bNeedsBoost) return 1;
-    if (aNeedsBoost && bNeedsBoost) {
-      if (a.cur_score !== b.cur_score) return a.cur_score - b.cur_score;
-      return a.skill.localeCompare(b.skill);
-    }
-    return a.skill.localeCompare(b.skill);
-  });
-
-  // Top lesson/skill for interpolation
-  const topLesson = lessons[0];
-  const lessonPlaceholder = (template === "CH" && topLesson) ? topLesson.lesson : (topLesson ? topLesson.skill : "the next lesson");
-
-  // Determine overall progress state for messaging selection
-  const neverAccessed = lessons.every(s => s.status === "Not Started");
-  const oneAccessed = lessons.filter(s => s.status === "Completed").length === 1;
-  const allComplete = lessons.every(s => s.status === "Completed");
-  const needsBoost = allComplete && lessons.some(s => s.cur_score < 3);
-  const inProgress = lessons.some(s => s.status === "Accessed" || s.status === "Not Started");
-  const challengeReady = lessons.every(s => s.status === "Completed" && s.cur_score > 2);
-
-  if (debug) {console.log("set state mess to " + neverAccessed + " " + oneAccessed + " " + allComplete + " " + needsBoost);}
-
-  // NEW: Incorporate challenge-specific states if score is set
-  let state;
-  if (template === "CH" || template === "CL") {
-    if (template === "CH" ? (score === 999 || typeof score === "undefined" || score === null) : false) {
-      state = "neverAccessed";
-    } else if (score === 0) {
-      state = "challengeZero";
-    } else if (score < 100 && highlights.length > 0) {
-      state = "challengeNeedsHighlight";
-    } else if (score < 100) {
-      state = "challengeLessThan100";
-    } else if (score === 100) {
-      state = "challengePerfect";
-    }
-  }
-
-
-  // Fallback to lesson progress logic for other templates or no challenge taken
-  if (!state) {
-    if (neverAccessed) {
-      state = "priority";
-    } else if (oneAccessed) {
-      state = "oneAccessed";
-    } else if (needsBoost) {
-      state = "needsBoost";
-    } else if (challengeReady) {
-      state = "challengeReady";
-      player.SetVar(domain+"_chall_enabled", true); // Set a flag for challenge readiness
-    } else if (inProgress) {
-      state = "inProgress";
-    } else {
-      state = "inProgress";
-    }
-  }
-
- if (debug) {console.log("set state to " + state);}
-
-  // Lookup and randomly pick from message list for this state
-  let msgList = messagesByTemplate[state] || messagesByTemplate.inProgress;
-  if (debug) {console.log("set message list to " + JSON.stringify(msgList));}
-  const msg = msgList && msgList.length
-    ? msgList[Math.floor(Math.random() * msgList.length)].replace("{lesson}", lessonPlaceholder)
-    : "Keep going—I'm here to guide you as you progress!";
-  if (typeof msg !== "string") {
-    console.log("Coach function: msg is not a string!", msg);
-  }
-  player.SetVar(displayVar, msg);
-}
-*/
 
 // Lists current priority focus areas during onboarding only.
 function displayresults() {
