@@ -1444,16 +1444,20 @@ function coach(template) {
     const challengeEnabled = player.GetVar(domain + "_chall_enabled");
 
     const lessonCode = sortedLessons[0]?.code || null;
+    if (debug) {
+      console.log(
+  '[CH Coach] challengeEnabled=', challengeEnabled,
+  'challengeScore=', challengeScore,
+  'challengeTaken=', challengeTaken,
+  lessons.map(l => `${l.code}:${l.status}:${l.current_score}`)
+);
+    }
     const msgState = getStateForLessonsCL(domain, sortedLessons, template, challengeEnabled);
     const msg = getCoachMessage(domain, template, msgState, sortedLessons, lessonCode);
     const displayVar = template === "CH" ? domain + "_coach_message" : domain + "_key_prior";
     player.SetVar(displayVar, msg);
   });
 }
-
-
-
-
 
 function sortDomainLessons(lessons) {
   const statusOrder = { "Not Started": 0, "Accessed": 1, "Completed": 2 };
