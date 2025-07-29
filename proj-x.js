@@ -1515,6 +1515,7 @@ function getStateForLessonsCL(domain, lessons, template) {
   const inProgress = lessons.some(l => l.status === "Accessed" || l.status === "Not Started");
   const needsBoost = allCompleted && lessons.some(l => l.comp !== "Expert");
   const challengeReady = allCompleted && lessons.every(l => l.comp === "Expert");
+  const challengeEnabled = player.GetVar(domain + "_chall_enabled");
   // For CL: unique post-challenge message
   if (template === "CL") {
     if (challengeReady && challengeTaken) return "postChallenge";
