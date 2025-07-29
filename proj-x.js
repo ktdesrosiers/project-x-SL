@@ -1451,32 +1451,7 @@ function coach(template) {
   });
 }
 
-// Update your state selection to factor in challengeEnabled:
-function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
-  const challengeScore = player.GetVar(domain + "_challenge_score");
-  const challengeTaken = typeof challengeScore !== "undefined" && challengeScore !== null;
-  const allCompleted = lessons.every(l => l.status === "Completed");
-  const neverAccessed = lessons.every(l => l.status === "Not Started");
-  const inProgress = lessons.some(l => l.status === "Accessed" || l.status === "Not Started");
-  const needsBoost = allCompleted && lessons.some(l => l.current_score < 3);
-  // Use challengeEnabled for message selection
-  if (template === "CL") {
-    if (challengeEnabled && challengeTaken) return "postChallenge";
-    if (neverAccessed) return "priority";
-    if (needsBoost) return "needsBoost";
-    if (challengeEnabled && !challengeTaken) return "challengeReady";
-    if (inProgress) return "inProgress";
-  }
-  // ...retain similar CH logic as before
-  if (template === "CH") {
-    if (!challengeTaken) return "neverAccessed";
-    if (challengeScore === 0) return "challengeZero";
-    if (challengeScore < 100) return lessons.some(l => l.current_score < 3) ? "challengeNeedsHighlight" : "challengeLessThan100";
-    if (challengeScore === 100) return "challengePerfect";
-    return "inProgress";
-  }
-  return "inProgress";
-}
+
 
 
 
@@ -1505,14 +1480,17 @@ function sortDomainLessons(lessons) {
   });
 }
 
-
-// Lesson state determination logic for CL and CH
 function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
+  // Get the challenge score and normalize it
   const challengeScoreRaw = player.GetVar(domain + "_challenge_score");
   const challengeScore = Number(challengeScoreRaw);
 
-  // Challenge hasn't been taken if score is 999 or undefined
-  const challengeTaken = (typeof challengeScore === "number" && !isNaN(challengeScore) && challengeScore !== 999);
+  // "Challenge taken" means: a numeric value 0–100 (not 999)
+  const challengeTaken = (
+    typeof challengeScore === "number" && 
+    !isNaN(challengeScore) && 
+    challengeScore !== 999
+  );
 
   const allCompleted = lessons.every(l => l.status === "Completed");
   const neverAccessed = lessons.every(l => l.status === "Not Started");
@@ -1520,21 +1498,29 @@ function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
   const inProgress = lessons.some(l => l.status === "Accessed" || l.status === "Not Started");
 
   if (template === "CL") {
-    if (challengeEnabled && challengeTaken) return "postChallenge";
+    if (challengeEnabled && challengeTaken) return "postChallenge"; // Challenge finished
     if (neverAccessed) return "priority";
     if (needsBoost) return "needsBoost";
-    if (challengeEnabled && !challengeTaken) return "challengeReady";
+    if (challengeEnabled && !challengeTaken) return "challengeReady"; // Eligible, not yet done
     if (inProgress) return "inProgress";
   }
+
   if (template === "CH") {
-    if (!challengeTaken) return "challengeReady";
+    if (challengeEnabled && !challengeTaken) return "challengeReady"; // CH now shows "challenge ready"
     if (challengeScore === 0) return "challengeZero";
-    if (challengeScore < 100) return lessons.some(l => l.current_score < 3) ? "challengeNeedsHighlight" : "challengeLessThan100";
+    if (challengeScore < 100) {
+      // Needs highlight if any lesson not Proficient
+      const needsHighlight = lessons.some(l => l.current_score < 3);
+      return needsHighlight ? "challengeNeedsHighlight" : "challengeLessThan100";
+    }
     if (challengeScore === 100) return "challengePerfect";
     return "inProgress";
   }
+
+  // Fallback
   return "inProgress";
 }
+
 
 
 // Message resolution, supporting lesson-specific messages and fallback to generic state
