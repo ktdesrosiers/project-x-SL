@@ -1825,7 +1825,8 @@ function getRotationAngle(sc, cur_sc) {
 // this is the function that orders and updates the cards in each coaching area.
 
 function orderDomainCards(domain) {
-    if (debug) {console.log("orderDomainCards" + domain)};
+  if (debug) { console.log("orderDomainCards" + domain); }
+
   const proficiencyLabels = {
     0: "No Experience",
     1: "Awareness",
@@ -1834,9 +1835,11 @@ function orderDomainCards(domain) {
     4: "Expert"
   };
 
-  // Retrieve all lessons for the selected domain
-  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
+  // Explicit order for lesson status
+  const statusOrder = { "Not Started": 0, "Accessed": 1, "Completed": 2 };
 
+  // Retrieve and prepare lesson info
+  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
   const lessons = domainLessons.map(item => {
     const code = item.code;
     const sc = player.GetVar(code + "_sc");
@@ -1848,12 +1851,12 @@ function orderDomainCards(domain) {
     player.SetVar(code + "_skill", skill);
 
     // Set initial competency display
-    if (debug){
-      player.SetVar(code + "_initial_comp", proficiencyLabels[sc]+" "+sc || "No Experience");
+    if (debug) {
+      player.SetVar(code + "_initial_comp", proficiencyLabels[sc] + " " + sc || "No Experience");
+    } else {
+      player.SetVar(code + "_initial_comp", proficiencyLabels[sc] || "No Experience");
     }
-    else{
-    player.SetVar(code + "_initial_comp", proficiencyLabels[sc] || "No Experience");
-  }
+
     // Set current competency display and status
     let cur_comp, status;
     if (cur_score === 0) {
@@ -1884,33 +1887,30 @@ function orderDomainCards(domain) {
     };
   });
 
-  // Sort lessons to determine display order/priorities
+  // Sorting: maintainable, explicit priorities
   lessons.sort((a, b) => {
-    // 1. Put incomplete first (not a proficiency status)
-    const aComplete = ["Accessed", "Completed", "Not Started"].includes(a.status);
-    const bComplete = ["Accessed", "Completed", "Not Started"].includes(b.status);
-    if (!aComplete && bComplete) return -1;
-    if (aComplete && !bComplete) return 1;
-
-    // 2. Among incomplete, by initial_score, then skill
-    if (!aComplete && !bComplete) {
-      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
-      return a.skill.localeCompare(b.skill);
+    // 1. Status order ("Not Started" < "Accessed" < "Completed")
+    if (statusOrder[a.status] !== statusOrder[b.status]) {
+      return statusOrder[a.status] - statusOrder[b.status];
     }
-    // 3. Among complete, those needing a boost (score < 4), order by current_score then skill
-    const aNeedsBoost = (a.current_score < 3);
-    const bNeedsBoost = (b.current_score < 3);
-    if (aNeedsBoost && !bNeedsBoost) return -1;
-    if (!aNeedsBoost && bNeedsBoost) return 1;
+    // 2. If both incomplete (not "Completed"), order by initial_score, then lesson title
+    if (a.status !== "Completed" && b.status !== "Completed") {
+      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
+      return a.lesson.localeCompare(b.lesson);
+    }
+    // 3. If both completed, "needs boost" (score < 3), order by current_score, then lesson
+    const aNeedsBoost = a.current_score < 3;
+    const bNeedsBoost = b.current_score < 3;
+    if (aNeedsBoost !== bNeedsBoost) return aNeedsBoost ? -1 : 1;
     if (aNeedsBoost && bNeedsBoost) {
       if (a.current_score !== b.current_score) return a.current_score - b.current_score;
-      return a.skill.localeCompare(b.skill);
+      return a.lesson.localeCompare(b.lesson);
     }
-    // 4. Otherwise, alphabetical
-    return a.skill.localeCompare(b.skill);
+    // 4. Otherwise, alphabetical by lesson title
+    return a.lesson.localeCompare(b.lesson);
   });
 
-  // Move cards to their new Y positions if needed (Storyline specific)
+  // Move cards visually based on yPositions and update display states
   lessons.forEach((lesson, idx) => {
     if (lesson.objectID && yPositions[idx] !== undefined) {
       player.object(lesson.objectID).y = yPositions[idx];
@@ -1922,16 +1922,16 @@ function orderDomainCards(domain) {
     }
   });
 
-// highlight any lessons that need remediation after challegne.
-var highlightString = player.GetVar(domain+"_chall_less_hls");
-var highlights = highlightString ? highlightString.split('|').filter(Boolean) : [];
-if (highlights.length > 0) {
-  highlights.forEach(function(id) {
-  player.object(id).state = "hl";
-});
-} 
-
+  // Highlight remediation lessons, if needed
+  var highlightString = player.GetVar(domain + "_chall_less_hls");
+  var highlights = highlightString ? highlightString.split('|').filter(Boolean) : [];
+  if (highlights.length > 0) {
+    highlights.forEach(function (id) {
+      player.object(id).state = "hl";
+    });
+  }
 }
+
 
 // this runs on load.
 function refreshWeeklyProgress() {
