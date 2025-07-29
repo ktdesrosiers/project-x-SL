@@ -1507,34 +1507,35 @@ function sortDomainLessons(lessons) {
 
 
 // Lesson state determination logic for CL and CH
-function getStateForLessonsCL(domain, lessons, template) {
-  const challengeScore = player.GetVar(domain + "_challenge_score");
-  const challengeTaken = typeof challengeScore !== "undefined" && challengeScore !== null;
+function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
+  const challengeScoreRaw = player.GetVar(domain + "_challenge_score");
+  const challengeScore = Number(challengeScoreRaw);
+
+  // Challenge hasn't been taken if score is 999 or undefined
+  const challengeTaken = (typeof challengeScore === "number" && !isNaN(challengeScore) && challengeScore !== 999);
+
   const allCompleted = lessons.every(l => l.status === "Completed");
   const neverAccessed = lessons.every(l => l.status === "Not Started");
+  const needsBoost = allCompleted && lessons.some(l => l.current_score < 3);
   const inProgress = lessons.some(l => l.status === "Accessed" || l.status === "Not Started");
-  const needsBoost = allCompleted && lessons.some(l => l.comp !== "Expert");
-  const challengeReady = allCompleted && lessons.every(l => l.comp === "Expert");
-  const challengeEnabled = player.GetVar(domain + "_chall_enabled");
-  // For CL: unique post-challenge message
+
   if (template === "CL") {
-    if (challengeReady && challengeTaken) return "postChallenge";
+    if (challengeEnabled && challengeTaken) return "postChallenge";
     if (neverAccessed) return "priority";
     if (needsBoost) return "needsBoost";
-    if (challengeReady && !challengeTaken) return "challengeReady";
+    if (challengeEnabled && !challengeTaken) return "challengeReady";
     if (inProgress) return "inProgress";
   }
-  // For CH: use granular logic based on challenge outcome
   if (template === "CH") {
-    if (!challengeTaken) return "neverAccessed";
-    if (challengeEnabled && !challengeTaken) return "challengeReady";
+    if (!challengeTaken) return "challengeReady";
     if (challengeScore === 0) return "challengeZero";
-    if (challengeScore < 100) return lessons.some(l => l.comp !== "Expert") ? "challengeNeedsHighlight" : "challengeLessThan100";
+    if (challengeScore < 100) return lessons.some(l => l.current_score < 3) ? "challengeNeedsHighlight" : "challengeLessThan100";
     if (challengeScore === 100) return "challengePerfect";
     return "inProgress";
   }
   return "inProgress";
 }
+
 
 // Message resolution, supporting lesson-specific messages and fallback to generic state
 function getCoachMessage(domain, template, state, lessons, lessonCode) {
