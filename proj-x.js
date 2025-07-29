@@ -1506,59 +1506,6 @@ function sortDomainLessons(lessons) {
 }
 
 
-
-// Helper to retrieve all domain lessons including status and comp
-function getSortedDomainLessons(domain) {
-  // Build lessons array just like in orderDomainCards
-  const proficiencyLabels = {
-    0: "No Experience",
-    1: "Awareness",
-    2: "Emergent",
-    3: "Proficient",
-    4: "Expert"
-  };
-  const statusOrder = { "Not Started": 0, "Accessed": 1, "Completed": 2 };
-
-  const domainLessons = l_data.filter(item => item.code.startsWith(domain));
-  const lessons = domainLessons.map(item => {
-    const code = item.code;
-    return {
-      ...item,
-      sc: player.GetVar(code + "_sc"),
-      cur_score: player.GetVar(code + "_cur_score"),
-      status: player.GetVar(code + "_status"),
-      initial_score: player.GetVar(code + "_sc"),
-      current_score: player.GetVar(code + "_cur_score"),
-      lesson: item.lesson,
-      skill: item.skill
-    };
-  });
-
-  lessons.sort((a, b) => {
-    // 1. Status order
-    if (statusOrder[a.status] !== statusOrder[b.status]) {
-      return statusOrder[a.status] - statusOrder[b.status];
-    }
-    // 2. Both incomplete (not "Completed")
-    if (a.status !== "Completed" && b.status !== "Completed") {
-      if (a.initial_score !== b.initial_score) return a.initial_score - b.initial_score;
-      return a.lesson.localeCompare(b.lesson);
-    }
-    // 3. Both completed, "needs boost" (score < 3)
-    const aNeedsBoost = a.current_score < 3;
-    const bNeedsBoost = b.current_score < 3;
-    if (aNeedsBoost !== bNeedsBoost) return aNeedsBoost ? -1 : 1;
-    if (aNeedsBoost && bNeedsBoost) {
-      if (a.current_score !== b.current_score) return a.current_score - b.current_score;
-      return a.lesson.localeCompare(b.lesson);
-    }
-    // 4. Otherwise, alphabetical by lesson title
-    return a.lesson.localeCompare(b.lesson);
-  });
-  return lessons;
-}
-
-
 // Lesson state determination logic for CL and CH
 function getStateForLessonsCL(domain, lessons, template) {
   const challengeScore = player.GetVar(domain + "_challenge_score");
@@ -1579,6 +1526,7 @@ function getStateForLessonsCL(domain, lessons, template) {
   // For CH: use granular logic based on challenge outcome
   if (template === "CH") {
     if (!challengeTaken) return "neverAccessed";
+    if (challengeEnabled && !challengeTaken) return "challengeReady";
     if (challengeScore === 0) return "challengeZero";
     if (challengeScore < 100) return lessons.some(l => l.comp !== "Expert") ? "challengeNeedsHighlight" : "challengeLessThan100";
     if (challengeScore === 100) return "challengePerfect";
@@ -1896,6 +1844,17 @@ function orderDomainCards(domain) {
   const challengeReady = sortedLessons.every(
     lesson => lesson.status === "Completed" && lesson.current_score >= 3
   );
+
+  if (debug){
+    console.log('Lesson challengeReady check:', sortedLessons.map(
+  lesson => ({
+    code: lesson.code,
+    status: lesson.status,
+    current_score: lesson.current_score,
+    type: typeof lesson.current_score
+  })
+));
+  }
   player.SetVar(domain + "_chall_enabled", challengeReady);
 
   // Move cards visually and set states/rotations as needed
@@ -2162,7 +2121,6 @@ window.addEventListener('message', function(event) {
             // Call the new update function here!
       const domain = lesson_holder.slice(0,2);
       updateDomainScore(domain);
-
       // Now update the display with latest calculations
       displaycoaching_progress(domain);
       orderDomainCards(domain);
