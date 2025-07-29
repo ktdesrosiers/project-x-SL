@@ -18,6 +18,8 @@ function updatedebug(){
 // not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
 var yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
 
+/*
+
 const coachPhrases = {
   st: {
     name: "Maia",
@@ -310,6 +312,222 @@ const coachPhrases = {
     }
   }
 };
+
+*/
+
+const coachPhrases = {
+  st: {
+    name: "Maia",
+    persona: "Strategic, supportive, a touch mysterious",
+    messages: {
+      CL: {
+        priority: [
+          "Let's set your foundation—\"{lesson}\" is where the story begins.",
+          "\"{lesson}\" beckons. Sometimes the first step holds the biggest secret.",
+          "Curiosity is your best asset. Dive into \"{lesson}\" and see what you uncover.",
+          "Every strategist starts somewhere. \"{lesson}\" is your opening move."
+        ],
+        needsBoost: [
+          "If \"{lesson}\" is eluding you, let's circle back together.",
+          "Don't let \"{lesson}\" slip through the cracks—a second glance can be revealing.",
+          "Progress isn't always straight. Let me help you untangle \"{lesson}\".",
+          "\"{lesson}\" just needs your unique touch—I'll nudge you in the right direction."
+        ],
+        challengeReady: [
+          "Your preparation shines. Ready for a challenge?",
+          "All pieces are in place—want to test your mettle?",
+          "Let's see your strategy in action—step into the challenge when you wish.",
+          "You've built momentum. Take on the next challenge if you're feeling bold."
+        ],
+        postChallenge: [
+          "Great progress, strategist. Come back and spar with me anytime you need a refresh.",
+          "You've conquered the challenge. I'll eagerly await our next session.",
+          "Well played—keep me on speed dial! When you're ready for more, I'll be here."
+        ],
+        inProgress: [
+          "\"{lesson}\" is next. Sometimes the unexpected reveals the best opportunities.",
+          "Keep your mind sharp—\"{lesson}\" will refine your playbook.",
+          "Let \"{lesson}\" surprise you. Strategy is about seeing beyond the obvious.",
+          "\"{lesson}\" is waiting—show me how you navigate it."
+        ]
+      },
+      CH: {
+        neverAccessed: [
+          "This is our secret strategy room. Let's lay the foundation, brick by brick.",
+          "Welcome, strategist. The path is new—let's map it out together.",
+          "Every legend has beginnings. Today, \"{lesson}\" sets yours in motion."
+        ],
+        challengeZero: [
+          "Not a single move landed—true strategists always bounce back. Ready for another round?",
+          "My plan didn't include a clean sweep... but that's how legends start. Try again!",
+          "Zero this time, but zero is just the beginning. Shall we regroup and attack from another angle?"
+        ],
+        challengeNeedsHighlight: [
+          "I’ve highlighted lessons that deserve your attention. Let’s tackle them side by side.",
+          "These lessons shine as opportunities. Focus there for your next breakthrough.",
+          "Your instincts are good—now polish those highlighted skills and you'll see big results."
+        ],
+        challengeLessThan100: [
+          "Solid execution! Let's revisit a few tactics together next time.",
+          "You’re so close. A little more refinement and you’ll master every scenario.",
+          "Nearly perfect. In strategy, the smallest moves make the biggest difference."
+        ],
+        challengePerfect: [
+          "A flawless display! Strategy mastered. Shall we set our sights higher?",
+          "Perfect score! Take a victory lap—I'll plot new challenges for you soon.",
+          "The summit—magnificently done. Stay ready; you never know when a rival will appear."
+        ],
+        inProgress: [
+          "Strategy in motion—\"{lesson}\" is your next puzzle.",
+          "Let’s dig into \"{lesson}\"—I sense secrets waiting for a clever mind.",
+          "\"{lesson}\" might surprise you. Show me what you’ve got.",
+          "Every move shapes your legacy—time for \"{lesson}\"."
+        ]
+      }
+    }
+  },
+  im: {
+    name: "Pat",
+    persona: "Straightforward, experienced, quietly encouraging",
+    messages: {
+      CL: {
+        priority: [
+          "\"{lesson}\" is your next action step. Let’s get to it.",
+          "First step: \"{lesson}\". Start strong, finish stronger.",
+          "Ready to roll up your sleeves? \"{lesson}\" is waiting.",
+          "A solid plan starts with \"{lesson}\"—let’s do this right."
+        ],
+        needsBoost: [
+          "\"{lesson}\" could use a second look—nothing wrong with reiterating.",
+          "Sometimes you need to circle back—let's work on \"{lesson}\" together.",
+          "Persistence pays off. A bit more work on \"{lesson}\" and you’ll get it.",
+          "\"{lesson}\" isn't out of reach. Let's break it down and try again."
+        ],
+        challengeReady: [
+          "You’ve done the prep. Ready for the implementation challenge?",
+          "Great work—I've lined up a challenge to test your plan.",
+          "When you’re ready for more, the challenge is a click away.",
+          "Solid work—let's see you in action on the challenge."
+        ],
+        postChallenge: [
+          "Great progress—come back any time you want to strengthen your skills.",
+          "You’ve tackled the challenge. Let’s keep refining your approach together.",
+          "The hard part's done! If you need a tune up, you know where to find me."
+        ],
+        inProgress: [
+          "\"{lesson}\" is on deck. Let’s take it piece by piece.",
+          "Next up: \"{lesson}\". Let’s keep things moving.",
+          "Step by step—focus on \"{lesson}\" and you’ll see progress.",
+          "Steady now—every lesson, like \"{lesson}\", counts."
+        ]
+      },
+      CH: {
+        neverAccessed: [
+          "Let’s get into the nuts and bolts—our first project starts with \"{lesson}\".",
+          "Implementation is where things get real. Let's start at the top with \"{lesson}\".",
+          "Every job starts somewhere—today, it’s \"{lesson}\"."
+        ],
+        challengeZero: [
+          "No points—no problem. Let's regroup and try again. You’ll get this.",
+          "Implementation sometimes means finding what doesn’t work. Let's go once more.",
+          "Didn’t land this time, but we’ll build up from here."
+        ],
+        challengeNeedsHighlight: [
+          "Some lessons flagged—let’s focus there for next time.",
+          "Let’s reinforce what’s been highlighted. Practice makes progress.",
+          "A few loose ends—nothing some review can’t fix."
+        ],
+        challengeLessThan100: [
+          "You’re nearly there—just a bit more polishing.",
+          "A solid showing. Go through the flagged sections, then try again.",
+          "Almost perfect. A few small tweaks and you'll have it."
+        ],
+        challengePerfect: [
+          "Outstanding work! 100%—that’s the benchmark.",
+          "A perfect run. Keep practicing and you’ll make it routine.",
+          "That hit the mark! Ready for more when you are."
+        ],
+        inProgress: [
+          "\"{lesson}\" next. Let’s keep the progress coming.",
+          "\"{lesson}\" is up—let’s see what you can do.",
+          "Step forward with \"{lesson}\"—no shortcuts here!",
+          "Keep plugging away—\"{lesson}\" is our focus."
+        ]
+      }
+    }
+  },
+  et: {
+    name: "Thomas",
+    persona: "Calm, wise, quietly authoritative",
+    messages: {
+      CL: {
+        priority: [
+          "Let's start at the roots—\"{lesson}\" is foundational.",
+          "\"{lesson}\" will test your reasoning. Ready to proceed?",
+          "Every ethical path starts with a simple step. \"{lesson}\" it is.",
+          "\"{lesson}\"—take your time. Integrity pays off in the long run."
+        ],
+        needsBoost: [
+          "Another look at \"{lesson}\" might bring clarity. Ethics rewards reflection.",
+          "Revisit \"{lesson}\". The wise never shy away from a review.",
+          "Review is part of mastery—\"{lesson}\" deserves it.",
+          "\"{lesson}\" isn’t as simple as it looks—let’s consider it together."
+        ],
+        challengeReady: [
+          "You’ve built a good foundation. Try the challenge when ready.",
+          "Time to test your ethical judgment in the challenge.",
+          "The challenge is designed to stretch your thinking. Accept it when you feel ready.",
+          "Ready for the ethics challenge? Put your knowledge on trial!"
+        ],
+        postChallenge: [
+          "Well done. When the need arises again, you know who to ask.",
+          "You completed the ethics challenge. Reflect, rest, and return when you're ready.",
+          "Strong progress. If you need to revisit, I'll be here."
+        ],
+        inProgress: [
+          "\"{lesson}\" is the next milestone. Ready to tackle it?",
+          "Let’s break down \"{lesson}\"—no need to rush.",
+          "Ethics is a journey, not a sprint. Next stop: \"{lesson}\".",
+          "Build your confidence—work through \"{lesson}\" with care."
+        ]
+      },
+      CH: {
+        neverAccessed: [
+          "Ethics can seem daunting. Let's take on \"{lesson}\" together.",
+          "Step into the world of ethics through \"{lesson}\".",
+          "Let's explore the basics—\"{lesson}\" is our place to start."
+        ],
+        challengeZero: [
+          "Zero right answers is a start. There's nowhere to go but up!",
+          "No points—every master began as a novice. Try the challenge again.",
+          "Missing answers doesn't mean missing potential. Take a breath and try once more."
+        ],
+        challengeNeedsHighlight: [
+          "Some lessons flagged for deeper thought. Let’s address them together.",
+          "Highlighted lessons are your opportunity. Ethics takes patience.",
+          "A few concerns surfaced—focus on those lessons for growth."
+        ],
+        challengeLessThan100: [
+          "Solid. Just a bit more polish and you’ll have mastery.",
+          "A few fine points remain—review, and try again soon.",
+          "Great judgment—just a small step from perfect."
+        ],
+        challengePerfect: [
+          "Exemplary! 100%. The legal world would be proud.",
+          "That’s flawless reasoning—a new bar has been set.",
+          "Perfect. Your integrity is shining bright."
+        ],
+        inProgress: [
+          "Stay the course—\"{lesson}\" is our focus.",
+          "\"{lesson}\" is both challenge and opportunity. Take it slow.",
+          "Take the time to understand \"{lesson}\"—true wisdom grows here.",
+          "Concentration brings clarity—\"{lesson}\" will reward it."
+        ]
+      }
+    }
+  }
+};
+
 
 const l_data =[
  {
@@ -1191,7 +1409,7 @@ player.SetVar(domain+"_chall_less_hls", "");
 }
 
 }
-// this lets us abstract the coaching messages and set up for randomization. A larger object of messages can be generated by AI as we build this out.
+/*this lets us abstract the coaching messages and set up for randomization. A larger object of messages can be generated by AI as we build this out.
 function getCoachMessage(domain, type, lesson) {
   const coach = coachPhrases[domain];
   const phrases = coach.messages[type];
@@ -1199,8 +1417,90 @@ function getCoachMessage(domain, type, lesson) {
   const phrase = phrases[Math.floor(Math.random() * phrases.length)];
   return phrase.replace("{lesson}", lesson);
 }
+*/
 
 
+function coach(template) {
+  // For CL, all 3 coaches display at once; for CH, only current coach
+  const domains = template === "CL" ? ["im", "st", "et"] : [player.GetVar("cur_coach")];
+
+  domains.forEach(domain => {
+    const lessons = getDomainLessons(domain);
+    const lessonCode = lessons[0]?.code || null;
+    const state = getStateForLessonsCL(domain, lessons, template);
+    const msg = getCoachMessage(domain, template, state, lessons, lessonCode);
+    const displayVar = template === "CH" ? domain + "_coach_message" : domain + "_key_prior";
+    player.SetVar(displayVar, msg);
+  });
+}
+
+// Helper to retrieve all domain lessons including status and comp
+function getDomainLessons(domain) {
+  return l_data.filter(item => item.code.startsWith(domain)).map(item => ({
+    ...item,
+    status: player.GetVar(item.code + "_status"),
+    comp: player.GetVar(item.code + "_cur_comp")
+  }));
+}
+
+// Lesson state determination logic for CL and CH
+function getStateForLessonsCL(domain, lessons, template) {
+  const challengeScore = player.GetVar(domain + "_challenge_score");
+  const challengeTaken = typeof challengeScore !== "undefined" && challengeScore !== null;
+  const allCompleted = lessons.every(l => l.status === "Completed");
+  const neverAccessed = lessons.every(l => l.status === "Not Started");
+  const inProgress = lessons.some(l => l.status === "Accessed" || l.status === "Not Started");
+  const needsBoost = allCompleted && lessons.some(l => l.comp !== "Expert");
+  const challengeReady = allCompleted && lessons.every(l => l.comp === "Expert");
+  // For CL: unique post-challenge message
+  if (template === "CL") {
+    if (challengeReady && challengeTaken) return "postChallenge";
+    if (neverAccessed) return "priority";
+    if (needsBoost) return "needsBoost";
+    if (challengeReady && !challengeTaken) return "challengeReady";
+    if (inProgress) return "inProgress";
+  }
+  // For CH: use granular logic based on challenge outcome
+  if (template === "CH") {
+    if (!challengeTaken) return "neverAccessed";
+    if (challengeScore === 0) return "challengeZero";
+    if (challengeScore < 100) return lessons.some(l => l.comp !== "Expert") ? "challengeNeedsHighlight" : "challengeLessThan100";
+    if (challengeScore === 100) return "challengePerfect";
+    return "inProgress";
+  }
+  return "inProgress";
+}
+
+// Message resolution, supporting lesson-specific messages and fallback to generic state
+function getCoachMessage(domain, template, state, lessons, lessonCode) {
+  const phrases = coachPhrases[domain].messages[template];
+  // Prefer lesson-specific message if provided
+  if (phrases[state] && phrases[state][lessonCode]) {
+    return randomPick(phrases[state][lessonCode]);
+  }
+  // Fallback to generic state messages array if available
+  if (Array.isArray(phrases[state])) {
+    const lessonName = lessons[0]?.lesson || lessons[0]?.skill || "the next lesson";
+    return randomPick(phrases[state]).replace("{lesson}", lessonName);
+  }
+  // Fallback to inProgress message
+  if (Array.isArray(phrases.inProgress)) {
+    const lessonName = lessons[0]?.lesson || lessons[0]?.skill || "the next lesson";
+    return randomPick(phrases.inProgress).replace("{lesson}", lessonName);
+  }
+  // Otherwise, always return something
+  return "Keep going—I'm here to guide you as you progress!";
+}
+
+// Helper, random message from array:
+function randomPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+
+
+
+/*
 function coach(domain, displayVar, template) {
   if (debug) {console.log("coach " + domain + " " + displayVar + " " + template);}
   const coachData = coachPhrases[domain];
@@ -1307,7 +1607,7 @@ function coach(domain, displayVar, template) {
   }
   player.SetVar(displayVar, msg);
 }
-
+*/
 
 // Lists current priority focus areas during onboarding only.
 function displayresults() {
