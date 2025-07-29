@@ -352,6 +352,12 @@ const coachPhrases = {
         ]
       },
       CH: {
+        challengeReady: [
+          "Your preparation shines. Ready for a challenge? Take my challenge and I'll highlight lessons you may want to revist.",
+          "All pieces are in place—want to test your mettle? Take my challenge and I'll highlight lessons you may want to revist.",
+          "Let's see your strategy in action—step into the challenge when you wish. Take my challenge and I'll highlight lessons you may want to revist.",
+          "You've built momentum. Take on the next challenge if you're feeling bold. Take my challenge and I'll highlight lessons you may want to revist."
+        ],
         neverAccessed: [
           "This is our secret strategy room. Let's lay the foundation, brick by brick.",
           "Welcome, strategist. The path is new—let's map it out together.",
@@ -422,6 +428,12 @@ const coachPhrases = {
         ]
       },
       CH: {
+        challengeReady: [
+          "You’ve done the prep. Ready for the implementation challenge? Engaging with it will give me a chance to highlight any lessons I feel you might want to review.",
+          "Great work—I've lined up a challenge to test your plan. Engaging with it will give me a chance to highlight any lessons I feel you might want to review.",
+          "When you’re ready for more, the challenge is a click away. Engaging with it will give me a chance to highlight any lessons I feel you might want to review.",
+          "Solid work—let's see you in action on the challenge. Engaging with it will give me a chance to highlight any lessons I feel you might want to review."
+        ],
         neverAccessed: [
           "Let’s get into the nuts and bolts—our first project starts with \"{lesson}\".",
           "Implementation is where things get real. Let's start at the top with \"{lesson}\".",
@@ -492,6 +504,12 @@ const coachPhrases = {
         ]
       },
       CH: {
+          challengeReady: [
+          "You’ve built a good foundation. Try the challenge when ready. Taking it will allow me to indicate areas you may want to revisit.",
+          "Time to test your ethical judgment in the challenge.  Taking it will allow me to indicate areas you may want to revisit.",
+          "The challenge is designed to stretch your thinking. Accept it when you feel ready. Taking it will allow me to indicate areas you may want to revisit.",
+          "Ready for the ethics challenge? Put your knowledge on trial!  Taking it will allow me to indicate areas you may want to revisit."
+        ],
         neverAccessed: [
           "Ethics can seem daunting. Let's take on \"{lesson}\" together.",
           "Step into the world of ethics through \"{lesson}\".",
