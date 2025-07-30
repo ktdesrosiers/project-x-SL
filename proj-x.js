@@ -1737,7 +1737,7 @@ function launchlesson(code) {
       // Now update the display with latest calculations
       displaycoaching_progress(domain);
       orderDomainCards(domain);
-      coach("CH");
+      //coach("CH");
         processHighlight(); // Process highlight for the new lesson actually opened
       }
       return;
@@ -1751,8 +1751,8 @@ function launchlesson(code) {
       // Now update the display with latest calculations
       displaycoaching_progress(domain);
       orderDomainCards(domain);
-      coach("CH");
-  processHighlight();
+      //coach("CH");
+      processHighlight();
 }
 
 // This lets us update the scores so taht if we update the rings everything is in good shape.
