@@ -1,14 +1,15 @@
 /* This code is intended to run from a Articulate Storyline SCORM conformant learning object. The ultimate SCORM protocol is not important however, using xAPI would be optimal and allow for more nuanced learning analytics. specifci xAPI calls are not on the RM for this inital release so tracking will be limited tot he clients (ISMPP) deplyment environment. This js file is loaded as an external script when the learning object initiates and can either be distributed with the SCORM or xAPI package (more restrictive environments) or remain hosted (less restrictive environments). Embedding this file into the deployable package limits versioning and updates. Assume this hosted file is the most current unless the dev environment is pointing to a local file. A versioning method has not been implemented for the Storyline Development environment given it's not a robust environment that would make sourvce and versioning meaningful. That being said source control will be come an issue if there are several distributables released for mroe restrictive environments. */
 
-/* Storyline creates HTML5 content that uses a proprietary run time player. Keep this in mind when reviewing some of the odd methods in the code below. The player limits true DOM manipulation and handles data persistence across multiple user sessions as part of the SCORM / xAPI interface. Keeping storyline variables up to date rather than session or cookie based data has limitations but allows for simple variable reinstatement. THe core content data is placed at the top of this file. THis could be stored as JSON or retried via an API in the future, again the constraint is that the client has a less restrictive enviornment. More restrictive environments would obviously require appropriate data sharing agreements, whitelisting etc.. if the application were to ever utilize fully dynamic content generation. */
-// debug value switches the reletaive path of the storyline lesson so that we can test versus when its in a scorm package.
+/* Storyline creates HTML5 content that uses a proprietary run-time player. Keep this in mind when reviewing some of the odd methods in the code below. The player limits true DOM manipulation and handles data persistence across multiple user sessions as part of the SCORM / xAPI interface. Keeping storyline variables up to date rather than session, server or cookie based data has limitations but allows for simple variable reinstatement. The core content data is placed at the top of this file. This could be stored as external JSON or retried via an API in the future, again the constraint is that the client has a less restrictive enviornment. More restrictive environments would obviously require appropriate data sharing agreements, whitelisting etc.. if the application were to ever utilize fully dynamic content generation. */
 
 var testlesson = "im1";
 var quizWindow = null;
 var lastopened_lesson = null;
 var test_return_lesson = "";
 var player = GetPlayer();
-// control debug mode by setting the default value of the debug var in SL.
+
+/* control debug mode by setting the default value of the debug var in SL to either True or False. Some UI for Debug is presented on the initial page with the logo. You can access this via a square (gray) in the upper right of the UI when the initial logo page appears. THe debug mode enables extra logging in the console, adds lesson codes and what the correct choices is in the coach challenge and manages the launch of the external lesson window so that a single Rise test lesson is used as a proxy for all lessons. When the debug is off, and no actual Rise lessons exsist, the  */
+
 var debug = player.GetVar("debug");
 
 function updatedebug(){
@@ -16,6 +17,8 @@ function updatedebug(){
 }
 // not the best name for now but these are the vertical stops we use to order coach cards and are referred to in a function function below.
 var yPositions = [114, 233, 352, 471, 590, 709, 828, 947];
+
+// This object incldues all the coaching phrases that are delivered on teh initial onboarding page (all three coaches) and the individual coach pages per domain. THe messaeges are delivered via the coach function, which prioritizes the message based on user progress.
 
 const coachPhrases = {
   st: {
@@ -248,6 +251,8 @@ const coachPhrases = {
   }
 };
 
+// This is the main lesson object. The applicaiton uses this to count lessons calculate scoring etc.. You can add and remove form thsi but need to account for items to be removed or added in the Storyline interface. THe object IDs are not traditional ID values but instead pointers that can be used witha  specific SL funciton that provides limited object manipulation. Note that if you delete or replace or ungroup and then regroup an element in stroyline that relies on these object IDs this table will need to be updated. For each lesson objectID is the grouped lesson card. hlObjectID is the highlight state for when the learner completes the challenge and we want to highlight a lesson for remediation. CardInd is the icon we show as the user progresses. THis acs as a visual summary of their growth for a given skill/lesson.
+
 const l_data =[
  {
    "code": "st1",
@@ -356,7 +361,7 @@ const l_data =[
  {
    "code": "et1",
    "skill": "Compliance",
-   "lesson": "Maintaining Knowledge of Standards, Guidelines, and Position Statements",
+   "lesson": "Maintaining Knowledge of Standards, Guidelines,\nand Position Statements",
    "objectID": "6kBVWZKu6jh",
    "hlObjectID": "6QlCWA6S2ue",
    "cardInd" : "5aVulo5Q9WA"
@@ -364,7 +369,7 @@ const l_data =[
  {
    "code": "et2",
    "skill": "Standards Application",
-   "lesson": "Applying Standards of Ethical Conduct ",
+   "lesson": "Applying Standards of Ethical Conduct",
     "objectID": "6WGOgUgzUEi",
    "hlObjectID": "5uOOKdCanL1",
    "cardInd" : "5tOQF17tDZT"
@@ -395,7 +400,8 @@ const l_data =[
  }
 ];
 
-// This object is set up to allow for a flexible number of questions per domain but is tied to the number of skills in a domain so it needs to match. If a skill is removed from the learning experience it will need to be removed from this assessment as well as the l_data above to make sure that domain totals, scoring, prioritization of lessons and coach prompts are aligned.
+// This object contains all the assessment data. In an ideal world it woudl be sucked in from a CMS. For thsi project you can ask AI to create a document version by pasting this code into a prompt. THen once the document has been edited or modified you can ask AI to recreate this object. 
+
 const ass_content = {
   "st_q1": {
     "stem": "You are an editor working at Dynamica Health Communications and have been given the opportunity to strategize a new publication about \"HY-P832,\" a drug aimed at treating chronic migraines. Your journey begins in the bustling office of Dynamica, where you're tasked with developing a comprehensive publication plan.\nIt's Monday morning, and you're in the conference room with your team. Your manager, Alex, outlines the importance of understanding the disease landscape.\nAlex asks, \"How do you plan to gather insights on chronic migraines?\"\nChoose a single response to Alex.",
@@ -543,7 +549,7 @@ const ass_content = {
   }
 };
 
-// this object is set up to allow for a flexible number of skills per domain but at least one question per skill. If a skill area is removed form the _data table the assocaited questiosn need to be removed here. THe challenge assessment randomizes and draws from a pool but uses at least 1 question for each skill.
+// This is a test object for the challenge content. It can be maintained via AI as per the above object. THe amount of content here is unlimited but must be keyed to each lesson code appropriately or it will not be used. Review the challenge functions for a better understadning of how this data is utilized and relates to challenge scoring.
 
 const challenge_content = {
   st: {
@@ -843,8 +849,7 @@ const challenge_content = {
   }
 };
 
-
-// this is called when we want to debug and set random values for the initial assessment to save time.
+// this is called when we want to debug and set random values for the initial assessment to save time. I trust it mostly but we still shoudl do some non randomization testing.
 
 function debugSkippAss() {
   // Group lessons by domain prefix (e.g., 'im', 'st', 'et')
@@ -878,7 +883,7 @@ function debugSkippAss() {
 }
 
 
-// this helper function accounts for poor text handling abilities in storyline and replacees newline with <br><br>
+// this helper function accounts for poor text handling abilities in storyline and replacees newline with <br><br>. This is to improve the display of paragraph breaks in dynamic string based variable text display in SL.
 function replaceNewlines(text) {
   return text.replace(/\n/g, '<br><br>');
 }
@@ -928,7 +933,7 @@ function loadquest() {
 to the SL variable related to the initial user score for the task (e.g im1_sc) then addes the value related to the choice
 to the numeric SL variable related to the initial score for the domain (e.g. st_score).
 Finally the routine determines a percentage score of the domain based on the number of assessment questions for the domain and 
-assignes it to the SL variable that holds the percent score for the domin (e.g. et_score_percent). */
+assignes it to the SL variable that holds the percent score for the domain (e.g. et_score_percent). */
 
 function handlechoice(value) {
   var current_task = player.GetVar("cur_ass_task");
@@ -950,7 +955,7 @@ function handlechoice(value) {
   player.SetVar(ass_code + "_score_percent", newpercent);
 }
 
-// we let people restart the skill assessment since they are short and storybased so we need to make srue to clean up interim progress. This could potentialky be used as part of a global reset.
+// We let people restart the skill assessment since they are short and storybased so we need to make sure to clean up interim progress. This could potentially be used as part of a global reset in the settings.
 function reset_skill_ass(){
  player.SetVar("skill_ass_q_total", 0);
  player.SetVar("skill_ass_q_count", 1);
@@ -961,7 +966,7 @@ player.SetVar(ass_code + "_score_percent", 0);
 player.SetVar(ass_code + "_score", 0);
 }
 
-
+/* This is similar to the skill assessment but for the challegne engine. The challenge engine allows for single answer or multiple choice style questions and adjusts the prompt for the user on the fly depending on the number of correct chocies in the data table. It is designed to draw 2 questions per lesson code from a larger set for the specific domain that is being challenged. The number of questions that can be added to the data is only limited by data retreival sizing but lets just say a lot of questions can be generated. Becasue we are not using session variables we keep track of which questions have been asked for a given doamin and question. Right now it scores each lesson based on the results of only 2 questions per lesson and then uses a given lesson score to update the highlights to show the user where htey should focus within the lessons. Given thsi complexity a debug mode allows the quesiton engine to display the assocaited lesson code and the corect answers for each question that is asked so you can use a pencil and paper to test. */
 
 function loadchallquest() {
   var domain = player.GetVar("cur_coach");
@@ -1044,6 +1049,7 @@ function loadchallquest() {
   player.SetVar("chall_q_total", totalQ);
 }
 
+// THis processes the users selection for a question.
 
 function submitchallanswer() {
 
@@ -1107,6 +1113,8 @@ function submitchallanswer() {
   }
 }
 
+// The user can leave mid-challenge so this funciton resets the currently active challenge.
+
 function resetChallenge(type) {
   var domain = player.GetVar("cur_coach");
   // Core variables to wipe out
@@ -1128,14 +1136,7 @@ player.SetVar(domain+"_chall_less_hls", "");
 }
 
 }
-/*this lets us abstract the coaching messages and set up for randomization. A larger object of messages can be generated by AI as we build this out.
-function getCoachMessage(domain, type, lesson) {
-  const coach = coachPhrases[domain];
-  const phrases = coach.messages[type];
-  // Pick a random phrase for variety
-  const phrase = phrases[Math.floor(Math.random() * phrases.length)];
-  return phrase.replace("{lesson}", lesson);
-}
+/* This funciton drives the coach messages (in text) within teh interface and uses some sub routines to keep things in check and easier to maintain.
 */
 
 function coach(template) {
@@ -1170,6 +1171,8 @@ function coach(template) {
   });
 }
 
+// This subroutine sorts the lesosn data and MOSTLY keeps the logic in check across the domain card ordering routine and the coach routione. If you decide to chang ehte progression logic this is where it happens.
+
 function sortDomainLessons(lessons) {
   const statusOrder = { "Not Started": 0, "Accessed": 1, "Completed": 2 };
   return lessons.slice().sort((a, b) => {
@@ -1194,6 +1197,8 @@ function sortDomainLessons(lessons) {
     return a.lesson.localeCompare(b.lesson);
   });
 }
+
+// Based on lesson prioritization adn some other factors the coach provides context specific prompts in two locaitons "templates" within the course.
 
 function getStateForLessonsCL(domain, lessons, template, challengeEnabled) {
   // Get the challenge score and normalize it
@@ -1270,14 +1275,12 @@ function getCoachMessage(domain, template, state, lessons, lessonCode) {
   return "Keep going—I'm here to guide you as you progress!";
 }
 
-// Helper, random message from array:
+// Helper, random message from array to keep thigns fresh instead of replating the same five messages all the time.
 function randomPick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-
-
-// Lists current priority focus areas during onboarding only.
+// Lists current priority focus areas during onboarding only. THis is used when the coach gives you some initial feedback after your self-assessment.
 function displayresults() {
   if (debug) {console.log("dispalyresults")};
   player.SetVar("skill_ass_q_count", 1);
@@ -1294,9 +1297,7 @@ function displayresults() {
   // Filter: only skills in the current assessment and score = 0
   const domain_skills = scored_data.filter(item => item.code.startsWith(ass_code));
   const all_zeros = domain_skills.every(item => item.score === 0);
-
   let displayString = "";
-
   if (all_zeros) {
     // Case: all scores are zero
     displayString = "You've assessed yourself at a foundational level so we will prioritize all the skills equally.";
@@ -1315,11 +1316,10 @@ function displayresults() {
       displayString = "You've assessed yourself at an expert level so the skills will be prioritized equally. You should be able to quickly check your expertise.";
     }
   }
-
   player.SetVar("prior_skills", displayString);
 }
 
-// used to display coaches and their rings in appropriate left to right order based on user progress.
+// used to display coaches and their rings in appropriate left to right order based on user progress and update the rings on each coaching page. THe object IDs are generated by SL so if you change a ring or delete or whatever you need to recreate the same state names and get a new object ID.
 function displaycoaching_progress(template){
   if (debug) {console.log("dispaly_coachingprogress" + template)};
 const ob_pos = [583,840,1100];
@@ -1413,8 +1413,7 @@ const adjustedorder = init_order.map(pair => pair[1]);
   });
 }
 
-
-// we may extract this later but it basically rounds user progress percentile score to the nearest tenth. Ideally in a HTML/CSS envionment the rings would be svg and the fill could be animated and controlled differetnly so this is not a long term solution. Other data visualization libraries could be integrated as well to replace or improve the rings.
+// we may extract this later but it basically rounds user progress percentile score to the nearest tenth. Ideally in a HTML/CSS envionment the rings would be svg and the fill could be animated and controlled differently so this is not a long term solution. Other data visualization libraries could be integrated as well to replace or improve the rings.
 function rounder(number) {
   // Divide by 10 to get the "tens" unit
   let tensUnit = number / 10;
@@ -1428,7 +1427,6 @@ function rounder(number) {
 let st_tenth = rounder(st_score_raw);
 let im_tenth = rounder(im_score_raw);
 let et_tenth = rounder(et_score_raw);
-
 
 switch (template) {
   case "im":
@@ -1450,7 +1448,7 @@ switch (template) {
 
 }
 
-// The date picker is an external .js library. It needs to be initialized.
+// The date picker is an external .js library. It needs to be initialized. I;ve set it to require at elast 14 days for people to expect to reach some sort of level. This could be made more specific to look at initial assessment versus goal and then suggest a reasonable timeframe based on teh amount of content. 
 
 function activatedp() {
      const dateInput = document.querySelector('.acc-textinput');
@@ -1472,7 +1470,7 @@ function activatedp() {
       }
 }
 
-// for rotating the little card icons.
+// for rotating the little card icons in the individual coaching pages.
 
 function getRotationAngle(sc, cur_sc) {
   // Use string keys for easy matching
@@ -1490,7 +1488,7 @@ function getRotationAngle(sc, cur_sc) {
   return angleMap.hasOwnProperty(key) ? angleMap[key] : 0;
 }
 
-// this is the function that orders and updates the cards in each coaching area.
+// this is the function that orders and updates the cards in each coaching area. This needs to be called before calling the coach function.
 
 function orderDomainCards(domain) {
   if (debug) { console.log("orderDomainCards" + domain); }
@@ -1515,11 +1513,9 @@ function orderDomainCards(domain) {
     player.SetVar(code + "_skill", skill);
 
     // Set initial competency display
-    if (debug) {
-      player.SetVar(code + "_initial_comp", (proficiencyLabels[sc] ? proficiencyLabels[sc] : "No Experience") + " " + sc);
-    } else {
-      player.SetVar(code + "_initial_comp", proficiencyLabels[sc] || "No Experience");
-    }
+   
+    player.SetVar(code + "_initial_comp", proficiencyLabels[sc] || "No Experience");
+    
 
     // Set current competency display and status
     let cur_comp, status;
@@ -1551,7 +1547,7 @@ function orderDomainCards(domain) {
     };
   });
 
-  // Sort lessons using the shared function
+  // Sort lessons using the shared function. The shared funciton is used by both the card sorter and the coach to priortize the UX.
   const sortedLessons = sortDomainLessons(domainLessons);
 
   // Set the challenge enabled flag based on all lessons being Completed and Proficient+
@@ -1594,8 +1590,7 @@ function orderDomainCards(domain) {
 }
 
 
-
-// this runs on load.
+// this runs on load and is a bit of a WIP. IT is intended to update the progress message related to weekly time for the user. I had not been tested very thoroughly.
 function refreshWeeklyProgress() {
 
   // Get today's date and compute ISO week number
@@ -1626,6 +1621,8 @@ function refreshWeeklyProgress() {
   }
 }
 
+// This is inteded to create a persitent SL value for the amount of time spent in a given week. It has not been thoroughly tested.
+
 function updateWeeklyTime() {
 
   // Get current and last captured time (both in milliseconds)
@@ -1643,6 +1640,8 @@ function updateWeeklyTime() {
   player.SetVar("current_weekly_time", new_weekly_time);
   player.SetVar("last_captured_time", elapsed); // Prepare for next update
 }
+
+// This updates the goal message on the coach landing page.
 
 function display_gm() {
   var goaltype = player.GetVar("goaltype");
@@ -1684,7 +1683,7 @@ else {
   player.SetVar("goalmessage", message);
 }
 
-// Checks the window, replaces and/or luanch ne lesson with wanrings if window arelady open or refocus. Checks highlights and removes if lesosn successufully opened.
+// Checks the window, replaces and/or launch a Rise lesson with wanrings if window already open or refocus. Checks highlights and removes if lesson successufully opened.
 
 function launchlesson(code) {
   const origCode = code;
@@ -1717,7 +1716,6 @@ function launchlesson(code) {
       player.SetVar(hlVarName, highlights.join('|'));
     }
   }
-
   // Manage single lesson window logic
   if (quizWindow && !quizWindow.closed && lastopened_lesson) {
     if (code === lastopened_lesson) {
@@ -1735,6 +1733,11 @@ function launchlesson(code) {
         lastopened_lesson = origCode;
         // we set the status to accessed by setting a score of 999 so we can track that the lesson was opened.
         player.SetVar(origCode + "_cur_score",999);
+              updateDomainScore(domain);
+      // Now update the display with latest calculations
+      displaycoaching_progress(domain);
+      orderDomainCards(domain);
+      coach("CH");
         processHighlight(); // Process highlight for the new lesson actually opened
       }
       return;
@@ -1744,16 +1747,15 @@ function launchlesson(code) {
   quizWindow = window.open(lesson_url, '_blank');
   lastopened_lesson = origCode;
   player.SetVar(origCode + "_cur_score",999);
-  /*
-  updateDomainScore(domain);
-  displaycoaching_progress(domain)
-  orderDomainCards(domain);
-  coach(domain,domain+"_coach_message","CH");
-  */
+       updateDomainScore(domain);
+      // Now update the display with latest calculations
+      displaycoaching_progress(domain);
+      orderDomainCards(domain);
+      coach("CH");
   processHighlight();
 }
 
-
+// This lets us update the scores so taht if we update the rings everything is in good shape.
 function updateDomainScore(domain) {
   if (debug) {console.log("updatedomainscore" + domain)};
   // Define variable name endings
@@ -1787,6 +1789,8 @@ function updateDomainScore(domain) {
 
   player.SetVar(domain + '_score_percent', percent);
 }
+
+//THe Rise assessment can return a score from 0-100. We somewhat artificailly adjust this to being a competency rating.
 
 function coerceScoreToRange(score) {
   if (score <= 25) {
