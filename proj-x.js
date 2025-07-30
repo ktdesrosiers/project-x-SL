@@ -1735,8 +1735,8 @@ function launchlesson(code) {
         player.SetVar(origCode + "_cur_score",999);
               updateDomainScore(domain);
       // Now update the display with latest calculations
-      displaycoaching_progress(domain);
-      orderDomainCards(domain);
+      //displaycoaching_progress(domain);
+      //orderDomainCards(domain);
       //coach("CH");
         processHighlight(); // Process highlight for the new lesson actually opened
       }
@@ -1749,8 +1749,8 @@ function launchlesson(code) {
   player.SetVar(origCode + "_cur_score",999);
        updateDomainScore(domain);
       // Now update the display with latest calculations
-      displaycoaching_progress(domain);
-      orderDomainCards(domain);
+      //displaycoaching_progress(domain);
+      //orderDomainCards(domain);
       //coach("CH");
       processHighlight();
 }
