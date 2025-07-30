@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fun Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #fff;
+      font-family: 'Open Sans', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #212529;
+    }
+    .container {
+      max-width: 480px;
+      margin: 3em auto;
+      padding: 1.5em 1em;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1.5px 4px rgba(0,0,0,0.08);
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 1.5em;
+      font-weight: 600;
+      text-align: center;
+    }
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0 0 1em 0;
+    }
+    legend {
+      position: absolute;
+      width: 1px; height: 1px; 
+      margin: -1px; padding: 0; overflow: hidden; 
+      clip: rect(0 0 0 0); border: 0;
+    }
+    .answers label {
+      display: flex;
+      align-items: center;
+      padding: 1em;
+      margin-bottom: 1em;
+      background: #f8f9fa;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 1px solid transparent;
+    }
+    .answers input[type="radio"] {
+      margin-right: 1em;
+      accent-color: #087ea4;
+      width: 1.2em; height: 1.2em;
+    }
+    .answers label:hover,
+    .answers input[type="radio"]:focus + label {
+      background: #e5f5fb;
+      border: 1px solid #087ea4;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 0.9em 0;
+      font-size: 1em;
+      background: #087ea4;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(8,126,164,.10);
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 1em;
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover,
+    button[type="submit"]:active {
+      background: #065a7b;
+    }
+    .result-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2em 1em;
+      border-radius: 12px;
+      background: #f0f9f6;
+    }
+    .result-panel strong {
+      color: #087ea4;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 2em 0.5em;
+        padding: 1em 0.5em;
+      }
+      .question {
+        font-size: 1em;
+      }
+      .answers label {
+        font-size: 0.95em;
+        padding: 0.7em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="quizContainer">
+    <form id="quizForm" class="answers">
+      <div class="question">
+        This is a placeholder for a test question.
+      </div>
+      <fieldset>
+        <legend>Select the final lesson score:</legend>
+        <label><input type="radio" name="score" value="25">25 (Emergent)</label>
+        <label><input type="radio" name="score" value="50">50 (Awareness)</label>
+        <label><input type="radio" name="score" value="70">70 (Proficient)</label>
+        <label><input type="radio" name="score" value="100">100 (Expert)</label>
+      </fieldset>
+      <button type="submit" id="submitBtn">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('quizForm');
+    const quizContainer = document.getElementById('quizContainer');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const score = document.querySelector('input[name="score"]:checked');
+      if (!score) {
+        alert('Please select an answer!');
+        return;
+      }
+      // Send the score to the parent window (Storyline)
+      if (window.parent) {
+        window.parent.postMessage({
+          type: 'quizResult',
+          lesson: 'im1',
+          score: score.value
+        }, '*');
+      }
+      // Replace question with result panel
+      quizContainer.innerHTML = `
+        <div class="result-panel" aria-live="polite">
+          <h2>Lesson Complete</h2>
+          <p>
+            The postMessage function has been called and is sending data with a score of: <strong>${score.value}%</strong> and the lesson code.<br><br>
+            In the full application, this panel represents the final feedback page—we would tell the learner to close the current window to return to the course.
+          </p>
+        </div>
+      `;
+    });
+  </script>
+
+                                    <script>
+                                        var injectMightyInteractiveJavascript = (options) => {
+    var _a;
+    options.document = (_a = options.document) !== null && _a !== void 0 ? _a : window.document;
+    const { key, document, postIsReadyMessage } = options;
+    if (document.getElementById('mighty-interactive-core-js')) {
+        return;
+    }
+    const script = document.createElement('script');
+    script.id = 'mighty-interactive-core-js';
+    // Once legacy blocks are removed, we can remove the following legacy messages:
+    //      MIGHTY_INTERACTIVE_LOAD
+    //  MIGHTY_INTERACTIVE
+    script.innerHTML = `
+        window.parent.postMessage({ type: 'MIGHTY_INTERACTIVE_LOAD', data: {key: '${key}'} }, '*');
+        window.parent.postMessage({type: 'MIGHTY_INTERACTIVE_LOADED'}, '*');
+
+        function postMightyInteractiveHeightReport(){
+            const height = document.documentElement.offsetHeight;
+
+            window.parent.postMessage(
+                {
+                    type: 'MIGHTY_INTERACTIVE_HEIGHT_REPORT',
+                    data: {
+                        height: height,
+                    },
+                },
+                '*'
+            );
+
+            window.parent.postMessage(
+                {
+                    type: 'MIGHTY_INTERACTIVE',
+                    data: {
+                        key: '${key}',
+                        height: height,
+                    },
+                },
+                '*'
+            );            
+        }
+
+        function initResizeObserver() {
+            postMightyInteractiveHeightReport();
+
+            new ResizeObserver(() => {
+                postMightyInteractiveHeightReport();
+            }).observe(document.documentElement);
+        }
+        if (document.readyState === 'complete') {
+            initResizeObserver();
+        } else {
+            document.onreadystatechange = () => {
+                if (document.readyState === 'complete') {
+                    initResizeObserver();
+                }
+            };
+        }
+
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'MIGHTY_INTERACTIVE_SCREENCAP') {
+                const html = event.data.data.html;
+                const domParser = new window.DOMParser();
+                const snapshot = domParser.parseFromString(html, 'text/html');
+                document.replaceChild(snapshot.documentElement, document.documentElement);
+            }
+        });
+    `;
+    if (postIsReadyMessage) {
+        script.innerHTML += `
+            window.parent.postMessage({type: 'MIGHTY_INTERACTIVE_READY'}, '*');
+        `;
+    }
+    document.body.appendChild(script);
+};
+
+                                        injectMightyInteractiveJavascript({
+                                            key: '147d0311-a3c9-4b77-9c36-0d8c695c321c',
+                                            postIsReadyMessage: true
+                                        })
+                                    </script>
+                                    <script>
+                                        
+                                    </script>
+                                    <style>
+                                        
+                                    </style>
+                                    </body>
+</html>

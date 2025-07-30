@@ -2,7 +2,7 @@
 
 /* Storyline creates HTML5 content that uses a proprietary run-time player. Keep this in mind when reviewing some of the odd methods in the code below. The player limits true DOM manipulation and handles data persistence across multiple user sessions as part of the SCORM / xAPI interface. Keeping storyline variables up to date rather than session, server or cookie based data has limitations but allows for simple variable reinstatement. The core content data is placed at the top of this file. This could be stored as external JSON or retried via an API in the future, again the constraint is that the client has a less restrictive enviornment. More restrictive environments would obviously require appropriate data sharing agreements, whitelisting etc.. if the application were to ever utilize fully dynamic content generation. */
 
-var testlesson = "im1";
+var testlesson = "TL";
 var quizWindow = null;
 var lastopened_lesson = null;
 var test_return_lesson = "";
